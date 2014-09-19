@@ -11,16 +11,11 @@ public class AWK {
   public static void main(String args []) throws ParseException  {
     new AWK(System.in);
     System.out.println("Reading from standard input...");
-    // int v = SENTENCE.Parse();  
-    // if( v == 1 ){
-    // 	System.out.println("OK");
-    // }  
-    //int v = SENTENCE.Parse2();
-    int comment = AWK.Comment();  
-    //System.out.println(v); 
-
+    
+    int comment = AWK.Begin();  
   }
 }
+
 PARSER_END(AWK)
 
 SKIP :
@@ -29,33 +24,31 @@ SKIP :
 TOKEN :
 {
     < BEGIN: "BEGIN" >
-  | < ESCOPO:["{"] (~["}"])* ["}"]>
+  | < ESCOPOFUNCAO: ["{"] (~["}"])* >
 }
 
 TOKEN :
 {
   <COMMENT: ["#"](~["\n"])+>
 }
+
 TOKEN :
 {   
-	< END:";" >
+	< END:"}" >
 }
-int Parse():    {}
+
+int Begin():    {}
 {    
-  <BEGIN> <ESCOPO> <END> {return 1;}
+  <BEGIN> <ESCOPOFUNCAO> [Middle()] <END> {return 1;}
+}
+
+void Middle(): {}
+{
+  <ESCOPOFUNCAO>
 }
 
 int Comment(): {}
 {
-  <COMMEsndjsndjsndksNT> {return 1;}
+  <COMMENT> {return 1;}
 }
 
-int Parse2():		{int v,t;}
-{   
-	t=Primary(){v=t;} "+" t=Primary(){v+=t;}{return v;}
-}
-
-int Primary():		{Token t;}
-{   
-	t = <INT>  {return Integer.parseInt(t.image);}
-}
