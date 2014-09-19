@@ -1,0 +1,60 @@
+options
+{
+  JDK_VERSION = "1.5";
+  static = true; 
+  //LOOKAHEAD = 2;
+}
+
+PARSER_BEGIN(SENTENCE)
+
+public class SENTENCE {
+  public static void main(String args []) throws ParseException  {
+    new SENTENCE(System.in);
+    System.out.println("Reading from standard input...");
+    // int v = SENTENCE.Parse();  
+    // if( v == 1 ){
+    // 	System.out.println("OK");
+    // }  
+    //int v = SENTENCE.Parse2();
+    int comment = SENTENCE.Comment();  
+    //System.out.println(v); 
+
+  }
+}
+PARSER_END(SENTENCE)
+
+SKIP :
+{ " " | "\r" | "\t" | "\n" }
+TOKEN :
+{   
+	<P:"Program"> 
+	| <ID:["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
+	| <INT:(["0"-"9"])+>
+}
+TOKEN :
+{
+  <COMMENT: ["#"](~["\n"])+>
+}
+TOKEN :
+{   
+	< END:";" >
+}
+int Parse():		{}
+{   
+	<P><ID><END>  {return 1;}
+}
+
+int Comment(): {}
+{
+  <COMMENT> {return 1;}
+}
+
+int Parse2():		{int v,t;}
+{   
+	t=Primary(){v=t;} "+" t=Primary(){v+=t;}{return v;}
+}
+
+int Primary():		{Token t;}
+{   
+	t = <INT>  {return Integer.parseInt(t.image);}
+}
