@@ -25,12 +25,6 @@ PARSER_END(SENTENCE)
 
 SKIP :
 { " " | "\r" | "\t" | "\n" }
-TOKEN :
-{   
-	<P:"Program"> 
-	| <ID:["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
-	| <INT:(["0"-"9"])+>
-}
 
 TOKEN :
 {
@@ -40,15 +34,15 @@ TOKEN :
 
 TOKEN :
 {
-  <COMMENT: ["#"](~["\n"])+>
+  <COMMENT: ["#"](~["\n"])+["."]>
 }
 TOKEN :
 {   
 	< END:";" >
 }
-int Parse():		{}
-{   
-	<P><ID><END>  {return 1;}
+int Parse():    {}
+{    
+  <BEGIN> <ESCOPO> <END> {return 1;}
 }
 
 int Comment(): {}
