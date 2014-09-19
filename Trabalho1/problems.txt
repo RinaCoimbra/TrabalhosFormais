@@ -1,0 +1,31 @@
+PROBLEMAS que nao sei como resolver:
+
+- IF -
+
+1. Soh funciona lendo de arquivo, se ler direto do terminal, da problema. Acho que era bom
+perguntar pro monitor da sandra como corrige isso [?]
+2. No caso de soh ter uma linha ou duas linhas separadas com virgula, contando que a segunda
+nao seja break ou return, o uso de chaves eh opcional, nao sei se nessa linguagem tambem eh.
+Por enquanto deixei o uso de chaves como obrigatorio
+3. Parametro eh opicional, se tiver 1 parametro, nao tem virgula depois, se tiver mais
+de 1 parametro eh obrgatorio ter uma virgula depois de cada um, com excecao do
+ultimo parametro. Por enquanto deixei com 0 ou mais parametros, porem sem virgulas
+
+OBS:
+
+1. Tava dando muito conflito de comentario, por exemplo, voce coloca que depois da abertura de chaves do begin
+eh opicional colocar comentario e que antes do if tambem pode ter comentario, entao se voce tem
+BEGIN {
+	#comentario
+
+	#comentario
+	if () {
+
+	}
+}
+Ele fala que da conflito, era pra ter soh um comentario opicional, entao eu modifiquei, coloquei que depois de uma
+abertura de chaves e depois de um fechamento de chaves, eh sempre opcional colocar comentario.
+Dai tirei os comentarios dos inicios e finais de todos os comandos, incluindo o begin e end, para padronizar.
+Acho que cobre todos os casos. Eu testei e parece que funciona.
+Assim fica mais claro, padronizado e nao tem perigo de ficar dando conflito e ter que corrigir no futuro.
+Da uma olhada nos testes e ve o que voce acha
