@@ -24,7 +24,7 @@ SKIP :
 TOKEN :
 {
     < BEGIN: "BEGIN" >
-  | < ESCOPOFUNCAO: ["{"] (~["}"])* >
+  | < ESCOPOFUNCAOB: ["{"]  >
 }
 
 TOKEN :
@@ -34,20 +34,25 @@ TOKEN :
 
 TOKEN :
 {   
-	< END:"}" >
+	< ESCOPOFUNCAOEND:"}" >
 }
 
 int Begin():    {}
 {    
-  <BEGIN> <ESCOPOFUNCAO> [Middle()] <END> {return 1;}
+  <BEGIN> [EscopoFuncao()] EscopoFuncao()  {return 1;}
+}
+
+void EscopoFuncao(): {}
+{
+  <ESCOPOFUNCAOB> <ESCOPOFUNCAOEND>
 }
 
 void Middle(): {}
 {
-  <ESCOPOFUNCAO>
+  <ESCOPOFUNCAOB>
 }
 
-int Comment(): {}
+void Comment(): {}
 {
-  <COMMENT> {return 1;}
+  <COMMENT>
 }
