@@ -25,6 +25,7 @@ TOKEN :
 {
     < BEGIN: "BEGIN" >
   | < ESCOPOFUNCAOB: ["{"]  >
+  | < ESCOPOFUNCAOEND: ["}"] >
 }
 
 TOKEN :
@@ -32,14 +33,9 @@ TOKEN :
   <COMMENT: ["#"](~["\n"])+>
 }
 
-TOKEN :
-{   
-	< ESCOPOFUNCAOEND:"}" >
-}
-
 int Begin():    {}
 {    
-  <BEGIN> [EscopoFuncao()] EscopoFuncao()  {return 1;}
+  <BEGIN> EscopoFuncao() [EscopoFuncao()]{return 1;}
 }
 
 void EscopoFuncao(): {}
