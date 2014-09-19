@@ -1,23 +1,30 @@
 # Begin
 BEGIN
 {	
+	while (param) {
+
+	}
+	
 	# If
 	if (param param param)
-	{
+	{	
+
 		# If
-		if ()
+		if (param)
 		{
 			# If
-			if ()
+			if (param)
 			{
+				while (param param) {
 
+				}
 			}
 		}
 
 		else
 		{
 			# If
-			if ()
+			if (param)
 			{
 
 			}
@@ -28,6 +35,10 @@ BEGIN
 	else
 	{
 
+		while (param) {
+
+		}
+
 	}
 }
 
@@ -37,13 +48,13 @@ BEGIN
 	if (param param)
 	{	
 		# If
-		if ()
+		if (param)
 		{
 			# If
-			if ()
+			if (param)
 			{
 				# If
-				if ()
+				if (param)
 				{
 
 				}
@@ -56,11 +67,24 @@ BEGIN
 		}
 	}
 
+	while (param) {
+
+	}
+
 	# Else
 	else
 	{
-	
+		# While
+		while (param) {
+			# Conteudo
+		}
 	}
+}
+
+# TA ACEITANDO ISSO E NAO ERA PRA ACEITAR, MAS NAO SEI ARRUMAR ISSO NAO
+# PRA MIM O CODIGO TA CERTO E NAO ERA PRA ESTAR PASSANDO
+while (param) {
+
 }
 
 # End

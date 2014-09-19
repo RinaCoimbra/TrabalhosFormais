@@ -11,6 +11,16 @@ Por enquanto deixei o uso de chaves como obrigatorio
 de 1 parametro eh obrgatorio ter uma virgula depois de cada um, com excecao do
 ultimo parametro. Por enquanto deixei com 0 ou mais parametros, porem sem virgulas
 
+- WHILE E IF -
+
+1. Podem ser colocados fora de um escopo de funcao e nao deveria ser permitido. Por exemplo:
+BEGIN {}
+if(){}
+END{}
+Ele nao deveria aceitar, mas aceita.
+
+
+
 OBS:
 
 1. Tava dando muito conflito de comentario, por exemplo, voce coloca que depois da abertura de chaves do begin

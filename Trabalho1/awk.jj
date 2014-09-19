@@ -44,11 +44,15 @@ TOKEN :
   | < ESCOPOPARAMB: "(" >
   | < ESCOPOPARAME: ")" >
 
+  // Parameters
+
+  | < PARAM: "param" >
+
   // Actions
 
   | < IF: "if" >
   | < ELSE: "else" >
-  | < PARAM: "param" >
+  | < WHILE: "while" >
 }
 
 // -----------------------------------------------
@@ -70,17 +74,26 @@ void Comment(): {}
 }
 
 // -----------------------------------------------
+// Parameters
+// -----------------------------------------------
+
+void Parameter(): {}
+{
+  <PARAM>
+}
+
+// -----------------------------------------------
 // Scope
 // -----------------------------------------------
 
 void EscopoParam(): {}
 {
-  <ESCOPOPARAMB> (<PARAM>)* <ESCOPOPARAME>
+  <ESCOPOPARAMB> (Parameter())+ <ESCOPOPARAME>
 }
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (Comment())* (If())* <ESCOPOFUNCAOE> (Comment())*
+  <ESCOPOFUNCAOB> (Comment())* (If() | While())* <ESCOPOFUNCAOE> (Comment())*
 }
 
 // -----------------------------------------------
@@ -90,4 +103,9 @@ void EscopoFuncao(): {}
 int If(): {}
 {
   <IF> EscopoParam() EscopoFuncao() [<ELSE> EscopoFuncao()] { return 1; }
+}
+
+int While(): {}
+{
+  <WHILE> EscopoParam() EscopoFuncao() { return 1; }
 }
