@@ -12,7 +12,8 @@ public class AWK {
     new AWK(System.in);
     System.out.println("Reading from standard input...");
     
-    int comment = AWK.Begin();  
+    int ok = AWK.Begin();
+    if (ok == 1) System.out.println("Ok!");
   }
 }
 
@@ -25,8 +26,17 @@ TOKEN :
 {
     < BEGINFUNCAO: "BEGIN" >
   | < ESCOPOFUNCAOB: "{"  >
-  | < ESCOPOFUNCAOEND: "}" >
+  | < ESCOPOFUNCAOE: "}" >
   | < ENDFUNCAO: "END" >
+}
+
+TOKEN :
+{
+    < IF: "if" >
+  | < ELSE: "else" >
+  | < ESCOPOPARAMB: "(" >
+  | < ESCOPOPARAME: ")" >
+  | < PARAM: "param" >
 }
 
 TOKEN :
@@ -36,17 +46,22 @@ TOKEN :
 
 int Begin():    {}
 {    
-  (Comment())* <BEGINFUNCAO> EscopoFuncao() (Comment())* [EscopoFuncao()] (Comment())* [<ENDFUNCAO> EscopoFuncao()] (Comment())* {return 1;}
+  (Comment())* <BEGINFUNCAO> EscopoFuncao() [<ENDFUNCAO> EscopoFuncao()] { return 1; }
+}
+
+int If(): {}
+{
+  <IF> EscopoParam() EscopoFuncao() [<ELSE> EscopoFuncao()] { return 1; }
+}
+
+void EscopoParam(): {}
+{
+  <ESCOPOPARAMB> (<PARAM>)* <ESCOPOPARAME>
 }
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (Comment())* <ESCOPOFUNCAOEND>
-}
-
-void Middle(): {}
-{
-  <ESCOPOFUNCAOB>
+  <ESCOPOFUNCAOB> (Comment())* (If())* <ESCOPOFUNCAOE> (Comment())*
 }
 
 void Comment(): {}
