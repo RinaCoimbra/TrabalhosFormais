@@ -16,7 +16,7 @@ public class AWK {
     // 	System.out.println("OK");
     // }  
     //int v = SENTENCE.Parse2();
-    int comment = AWK.Comment();  
+    int comment = AWK.Parse();  
     //System.out.println(v); 
 
   }
@@ -42,9 +42,13 @@ TOKEN :
 }
 int Parse():    {}
 {    
-  <BEGIN> <ESCOPO> <END> {return 1;}
+  (Comment())*<BEGIN> <ESCOPO> [after()] <END> (Comment())* {return 1;}
 }
-int Comment(): {}
+void after():  {}
 {
-  <COMMENT> {return 1;}
+  <ESCOPO>
+}
+void Comment(): {}
+{
+  <COMMENT>
 }
