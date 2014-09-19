@@ -47,7 +47,7 @@ int Parse():    {}
 
 int Comment(): {}
 {
-  <COMMENT> {return 1;}
+  <COMMEsndjsndjsndksNT> {return 1;}
 }
 
 int Parse2():		{int v,t;}
