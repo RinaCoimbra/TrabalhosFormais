@@ -5,32 +5,26 @@ options
   //LOOKAHEAD = 2;
 }
 
-PARSER_BEGIN(SENTENCE)
+PARSER_BEGIN(AWK)
 
-public class SENTENCE {
+public class AWK {
   public static void main(String args []) throws ParseException  {
-    new SENTENCE(System.in);
+    new AWK(System.in);
     System.out.println("Reading from standard input...");
     // int v = SENTENCE.Parse();  
     // if( v == 1 ){
     // 	System.out.println("OK");
     // }  
     //int v = SENTENCE.Parse2();
-    int comment = SENTENCE.Comment();  
+    int comment = AWK.Comment();  
     //System.out.println(v); 
 
   }
 }
-PARSER_END(SENTENCE)
+PARSER_END(AWK)
 
 SKIP :
 { " " | "\r" | "\t" | "\n" }
-TOKEN :
-{   
-	<P:"Program"> 
-	| <ID:["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
-	| <INT:(["0"-"9"])+>
-}
 
 TOKEN :
 {
@@ -46,9 +40,9 @@ TOKEN :
 {   
 	< END:";" >
 }
-int Parse():		{}
-{   
-	<P><ID><END>  {return 1;}
+int Parse():    {}
+{    
+  <BEGIN> <ESCOPO> <END> {return 1;}
 }
 
 int Comment(): {}
