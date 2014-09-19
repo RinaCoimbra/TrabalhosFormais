@@ -51,4 +51,3 @@ int Comment(): {}
 {
   <COMMENT> {return 1;}
 }
-
