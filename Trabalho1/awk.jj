@@ -22,37 +22,56 @@ PARSER_END(AWK)
 SKIP :
 { " " | "\r" | "\t" | "\n" }
 
-TOKEN :
-{
-    < BEGINFUNCAO: "BEGIN" >
-  | < ESCOPOFUNCAOB: "{"  >
-  | < ESCOPOFUNCAOE: "}" >
-  | < ENDFUNCAO: "END" >
-}
+// -----------------------------------------------
+// Tokens
+// -----------------------------------------------
 
 TOKEN :
 {
-    < IF: "if" >
-  | < ELSE: "else" >
+  // Special patterns
+
+    < BEGINFUNCAO: "BEGIN" >
+  | < ENDFUNCAO:   "END" >
+
+  // Comments
+
+  | <COMMENT: ["#"](~["\n"])+>
+
+  // Scope 
+
+  | < ESCOPOFUNCAOB: "{"  >
+  | < ESCOPOFUNCAOE: "}" >
   | < ESCOPOPARAMB: "(" >
   | < ESCOPOPARAME: ")" >
+
+  // Actions
+
+  | < IF: "if" >
+  | < ELSE: "else" >
   | < PARAM: "param" >
 }
 
-TOKEN :
-{
-  <COMMENT: ["#"](~["\n"])+>
-}
+// -----------------------------------------------
+// Special patterns
+// -----------------------------------------------
 
 int Begin():    {}
 {    
   (Comment())* <BEGINFUNCAO> EscopoFuncao() [<ENDFUNCAO> EscopoFuncao()] { return 1; }
 }
 
-int If(): {}
+// -----------------------------------------------
+// Comments
+// -----------------------------------------------
+
+void Comment(): {}
 {
-  <IF> EscopoParam() EscopoFuncao() [<ELSE> EscopoFuncao()] { return 1; }
+  <COMMENT>
 }
+
+// -----------------------------------------------
+// Scope
+// -----------------------------------------------
 
 void EscopoParam(): {}
 {
@@ -64,7 +83,11 @@ void EscopoFuncao(): {}
   <ESCOPOFUNCAOB> (Comment())* (If())* <ESCOPOFUNCAOE> (Comment())*
 }
 
-void Comment(): {}
+// -----------------------------------------------
+// Actions
+// -----------------------------------------------
+
+int If(): {}
 {
-  <COMMENT>
+  <IF> EscopoParam() EscopoFuncao() [<ELSE> EscopoFuncao()] { return 1; }
 }
