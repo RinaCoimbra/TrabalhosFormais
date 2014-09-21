@@ -53,6 +53,18 @@ TOKEN :
   | < IF: "if" >
   | < ELSE: "else" >
   | < WHILE: "while" >
+
+  // INTEIROS E FLOATS
+  | < INT: (["0"-"9"])+>
+  | < FLOAT: (["0"-"9"])+("." ((["0"-"9"])+))?>
+  | < VAR:["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
+
+  // Expressoes
+  | < QUESTION: "?">
+  | < COLON: ":">
+  | < LOGICALEXPSYMBOL: ("&&"|"||" | "==" | "~!" | "~" | ">=" | ">" | "!=" | "<=" | "<" | "-" | "+" | "%" | "/" | "*" | "^") >
+  | < UNARYEXPSYMBOL: ("++" | "--")>
+  | <UNARYEXPSYMBOLBEFORE: ("+" | "-" | "!")>
 }
 
 // -----------------------------------------------
@@ -100,12 +112,37 @@ void EscopoFuncao(): {}
 // Actions
 // -----------------------------------------------
 
-int If(): {}
+void If(): {}
 {
-  <IF> EscopoParam() EscopoFuncao() [<ELSE> EscopoFuncao()] { return 1; }
+  <IF> <ESCOPOPARAMB> Expression() <ESCOPOPARAME> EscopoFuncao() [<ELSE> EscopoFuncao()]
 }
 
-int While(): {}
+void While(): {}
 {
-  <WHILE> EscopoParam() EscopoFuncao() { return 1; }
+  <WHILE> EscopoParam() EscopoFuncao()
 }
+
+// -----------------------------------------------
+// Expressions
+// -----------------------------------------------
+
+void Expression(): {}
+{
+  BinaryExp() [<QUESTION> BinaryExp() <COLON> BinaryExp()]
+}
+
+void BinaryExp(): {}
+{
+   UnaryExp() [<LOGICALEXPSYMBOL> UnaryExp()]
+}
+
+void UnaryExp(): {}
+{
+  [<UNARYEXPSYMBOLBEFORE>] Parenthesis() [<UNARYEXPSYMBOL>]
+}
+
+void Parenthesis(): {}
+{
+  (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> | <INT> | <VAR> | <FLOAT>)
+}
+
