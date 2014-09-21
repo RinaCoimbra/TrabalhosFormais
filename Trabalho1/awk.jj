@@ -61,7 +61,7 @@ TOKEN :
 
 int Begin():    {}
 {    
-  (Comment())* <BEGINFUNCAO> EscopoFuncao() [<ENDFUNCAO> EscopoFuncao()] { return 1; }
+  (Comment())* <BEGINFUNCAO> EscopoFuncao() [EscopoFuncao()] [<ENDFUNCAO> EscopoFuncao()] <EOF>{ return 1; }
 }
 
 // -----------------------------------------------
