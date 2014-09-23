@@ -94,7 +94,7 @@ void EscopoParam(): {}
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (Comment())* (Action())* <ESCOPOFUNCAOE> (Comment())*
+  <ESCOPOFUNCAOB> (Comment())* Action() <ESCOPOFUNCAOE> (Comment())*
 }
 
 // -----------------------------------------------
@@ -103,7 +103,7 @@ void EscopoFuncao(): {}
 
 int Action(): {}
 {
-  (If() | While() | Do()) { return 1; }
+  (If())* (While())* { return 1; }
 }
 
 int If(): {}
