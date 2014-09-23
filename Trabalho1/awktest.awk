@@ -1,11 +1,6 @@
 # Begin
 BEGIN
 {	
-	while (param)
-	{
-
-	}
-	
 	# If
 	if (param param param)
 	{	
@@ -22,7 +17,7 @@ BEGIN
 				}
 			}
 		}
-		
+
 		else
 		{
 			# If
