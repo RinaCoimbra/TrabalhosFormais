@@ -35,7 +35,7 @@ TOKEN :
 
   // Comments
 
-  | <COMMENT: ["#"](~["\n"])+>
+  | <COMMENT: ["#"](~["\n"])+ >
 
   // Scope 
 
@@ -53,6 +53,7 @@ TOKEN :
   | < IF: "if" >
   | < ELSE: "else" >
   | < WHILE: "while" >
+  | < DO: "do" >
 }
 
 // -----------------------------------------------
@@ -93,12 +94,17 @@ void EscopoParam(): {}
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (Comment())* (If() | While())* <ESCOPOFUNCAOE> (Comment())*
+  <ESCOPOFUNCAOB> (Comment())* (Action())* <ESCOPOFUNCAOE> (Comment())*
 }
 
 // -----------------------------------------------
 // Actions
 // -----------------------------------------------
+
+int Action(): {}
+{
+  (If() | While() | Do()) { return 1; }
+}
 
 int If(): {}
 {
@@ -108,4 +114,9 @@ int If(): {}
 int While(): {}
 {
   <WHILE> EscopoParam() EscopoFuncao() { return 1; }
+}
+
+int Do(): {}
+{
+  <DO> EscopoFuncao() <WHILE> EscopoParam() { return 1; }
 }

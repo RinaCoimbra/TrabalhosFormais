@@ -19,6 +19,11 @@ if(){}
 END{}
 Ele nao deveria aceitar, mas aceita.
 
+- WHILE -
+
+1. Esta aceitando que coloque um While entre um if e um else, e nao deveria aceitar.
+Mas pra mim o codigo ta certo '-'
+
 
 
 OBS:
