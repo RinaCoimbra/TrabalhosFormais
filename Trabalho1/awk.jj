@@ -59,13 +59,17 @@ TOKEN :
   | < ASSIGNMENTELEV: "^=">
   | < LOGICALOR: "||">
   | < LOGICALAND: "&&">
-  | < OPVETORIN: "in">
+  | < OPVETORIN: "in"> // FALTA FAZER
   | < OPLESS: "<">
   | < OPMORE: ">">
   | < OPLESSEQ: "<=">
   | < OPMOREEQ: ">=">
   | < OPDIFF: "!=">
   | < EQEQ: "=="> 
+  | < PIPE1 : "|">  // PERGUNTAR COMO FAZ O SPACE DE CONCATENACAO DE STRING
+  | < PIPE2 : "|&"> // PERGUNTAR SE EH SOH PRA GETLINE
+  | < ADD: "+">
+  | < SUB: "-">
   | < LOGICALEXPSYMBOL: ("-" | "+" | "%" | "/" | "*" | "^") >
   | < UNARYEXPSYMBOL: ("++" | "--")>
   | <UNARYEXPSYMBOLBEFORE: ("+" | "-" | "!")>
@@ -159,9 +163,18 @@ void LogicalANDExp(): {}
 
 void BinaryExp(): {}
 {
-   UnaryExp() [<LOGICALEXPSYMBOL> UnaryExp()]
+   AddSub() [(< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) AddSub()]
 }
 
+void AddSub(): {}
+{
+  MultDiv() [ (<ADD>| <SUB>) MultDiv()]
+}
+
+void MultDiv(): {}
+{
+  Exponential() [(<MULT>|<DIV>)]
+}
 void UnaryExp(): {}
 {
   [<UNARYEXPSYMBOLBEFORE>] Parenthesis() [<UNARYEXPSYMBOL>]
