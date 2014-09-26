@@ -5,7 +5,7 @@ BEGIN
 	{
 
 	}
-	while(a)
+	while(a+b)
 
 	while (a+b) {
 		do
@@ -15,8 +15,8 @@ BEGIN
 		while(a)
 	}
 
-	if(a+b)
-		a+b
+	if(a+=8)
+		b+2
 
 	if (a+b)
 	{	
@@ -29,7 +29,7 @@ BEGIN
 				{
 
 				}
-				
+
 				do
 				{
 
