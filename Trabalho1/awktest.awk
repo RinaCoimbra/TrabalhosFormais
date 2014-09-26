@@ -1,8 +1,18 @@
 # aiu diuashd uiash diuas
 BEGIN
 {	
-	while (a+b) {
+	do
+	{
 
+	}
+	while(a)
+
+	while (a+b) {
+		do
+		{
+
+		}
+		while(a)
 	}
 
 	if(a+b)
@@ -19,6 +29,12 @@ BEGIN
 				{
 
 				}
+				
+				do
+				{
+
+				}
+				while(a)
 			}
 		}
 

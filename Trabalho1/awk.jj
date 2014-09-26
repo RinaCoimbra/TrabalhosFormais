@@ -45,6 +45,7 @@ TOKEN :
   | < IF: "if" >
   | < ELSE: "else" >
   | < WHILE: "while" >
+  | < DO: "do" >
 
   // INTEIROS E FLOATS
   | < INT: (["0"-"9"])+>
@@ -94,7 +95,7 @@ void EscopoParam(): {}
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (If() | While())* <ESCOPOFUNCAOE> }
+  <ESCOPOFUNCAOB> (If() | DoWhile() | While())* <ESCOPOFUNCAOE> }
 
 // -----------------------------------------------
 // Actions
@@ -103,6 +104,11 @@ void EscopoFuncao(): {}
 void If(): {}
 {
   <IF> EscopoParam() (EscopoFuncao() | Expression()) [<ELSE> (EscopoFuncao()| Expression())]
+}
+
+void DoWhile(): {}
+{
+  <DO> EscopoFuncao() <WHILE> EscopoParam()
 }
 
 void While(): {}
