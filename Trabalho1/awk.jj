@@ -54,7 +54,23 @@ TOKEN :
   // Expressoes
   | < QUESTION: "?">
   | < COLON: ":">
-  | < LOGICALEXPSYMBOL: ("&&"|"||" | "==" | "~!" | "~" | ">=" | ">" | "!=" | "<=" | "<" | "-" | "+" | "%" | "/" | "*" | "^") >
+  | < ASSIGNMENTEQ : "=">
+  | < ASSIGNMENTEP : "+=">
+  | < ASSIGNMENTEL : "-=">
+  | < ASSIGNMENTEM : "*=">
+  | < ASSIGNMENTDIV : "/=">
+  | < ASSIGNMENTEMOD : "%=">
+  | < ASSIGNMENTELEV: "^=">
+  | < LOGICALOR: "||">
+  | < LOGICALAND: "&&">
+  | < OPVETORIN: "in">
+  | < OPLESS: "<">
+  | < OPMORE: ">">
+  | < OPLESSEQ: "<=">
+  | < OPMOREEQ: ">=">
+  | < OPDIFF: "!=">
+  | < EQEQ: "=="> 
+  | < LOGICALEXPSYMBOL: ("&&" | "==" | "~!" | "~" | ">=" | ">" | "!=" | "<=" | "<" | "-" | "+" | "%" | "/" | "*" | "^") >
   | < UNARYEXPSYMBOL: ("++" | "--")>
   | <UNARYEXPSYMBOLBEFORE: ("+" | "-" | "!")>
 }
@@ -94,7 +110,7 @@ void EscopoParam(): {}
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (If() | While())* <ESCOPOFUNCAOE> }
+  <ESCOPOFUNCAOB> (If() | While() | Assignment())* <ESCOPOFUNCAOE> }
 
 // -----------------------------------------------
 // Actions
@@ -113,6 +129,12 @@ void While(): {}
 // -----------------------------------------------
 // Expressions
 // -----------------------------------------------
+
+void Assignment(): {}
+{
+  <VAR> (<ASSIGNMENTEQ>
+| <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>)Expression()
+}
 
 void Expression(): {}
 {
