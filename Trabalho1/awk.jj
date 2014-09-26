@@ -47,11 +47,6 @@ TOKEN :
   | < WHILE: "while" >
   | < DO: "do" >
 
-  // INTEIROS E FLOATS
-  | < INT: (["0"-"9"])+>
-  | < FLOAT: (["0"-"9"])+("." ((["0"-"9"])+))?>
-  | < VAR:["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
-
   // Expressoes
   | < QUESTION: "?">
   | < COLON: ":">
@@ -71,9 +66,14 @@ TOKEN :
   | < OPMOREEQ: ">=">
   | < OPDIFF: "!=">
   | < EQEQ: "=="> 
-  | < LOGICALEXPSYMBOL: ("&&" | "==" | "~!" | "~" | ">=" | ">" | "!=" | "<=" | "<" | "-" | "+" | "%" | "/" | "*" | "^") >
+  | < LOGICALEXPSYMBOL: ("-" | "+" | "%" | "/" | "*" | "^") >
   | < UNARYEXPSYMBOL: ("++" | "--")>
   | <UNARYEXPSYMBOLBEFORE: ("+" | "-" | "!")>
+
+    // INTEIROS E FLOATS
+  | < INT: (["0"-"9"])+>
+  | < FLOAT: (["0"-"9"])+("." ((["0"-"9"])+))?>
+  | < VAR:["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
 }
 
 // -----------------------------------------------
@@ -144,7 +144,17 @@ void Assignment(): {}
 
 void Expression(): {}
 {
-  BinaryExp() [<QUESTION> BinaryExp() <COLON> BinaryExp()]
+  LogicalORExp() [<QUESTION> BinaryExp() <COLON> BinaryExp()]
+}
+
+void LogicalORExp(): {}
+{
+  LogicalANDExp() [<LOGICALOR> LogicalANDExp()]
+}
+
+void LogicalANDExp(): {}
+{
+  BinaryExp() [<LOGICALAND> BinaryExp()]
 }
 
 void BinaryExp(): {}
