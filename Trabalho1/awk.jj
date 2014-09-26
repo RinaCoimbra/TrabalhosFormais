@@ -121,7 +121,7 @@ void EscopoParam(): {}
 
 void EscopoParamFor(): {}
 {
-  <ESCOPOPARAMB> (Procurador())* <PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())* <ESCOPOPARAME>
+  <ESCOPOPARAMB> ((Procurador())* <PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())*) | () <ESCOPOPARAME>
 }
 
 void EscopoFuncao(): {}
@@ -132,6 +132,11 @@ void EscopoFuncao(): {}
 // -----------------------------------------------
 // Actions
 // -----------------------------------------------
+
+void Vector(): {}
+{
+  <ESCOPOVECTORB> (<INT> | <FLOAT>) (<VIRGULA> (<INT> | <FLOAT>))* <ESCOPOVECTORE>
+}
 
 void If(): {}
 {
@@ -151,12 +156,6 @@ void While(): {}
 void For(): {}
 {
   <FOR> EscopoParamFor() EscopoFuncao()
-}
-
-
-void Vector(): {}
-{
-  <ESCOPOVECTORB> (<INT> | <FLOAT>) (<VIRGULA> (<INT> | <FLOAT>))* <ESCOPOVECTORE>
 }
 
 // -----------------------------------------------
