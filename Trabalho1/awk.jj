@@ -154,11 +154,8 @@ void For(): {}
 
 void Procurador(): {}
 {
-  (<VAR>
-      [((<ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>) Expression())
-      | ProcExp()])
+    (<VAR> [(AssignmentOperator() Expression()) | ProcExp()])
   | ((<INT> | <FLOAT>) [ProcExp()])
-
 }
 
 void ProcExp(): {}
@@ -166,10 +163,9 @@ void ProcExp(): {}
   (<QUESTION> BinaryExp() <COLON> BinaryExp()) | (<LOGICALOR> LogicalANDExp()) | (<LOGICALAND> BinaryExp()) | (<LOGICALEXPSYMBOL> UnaryExp())
 }
 
-void Assignment(): {}
+void AssignmentOperator(): {}
 {
-  <VAR> (<ASSIGNMENTEQ>
-| <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>) Expression()
+  <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>
 }
 
 void Expression(): {}
