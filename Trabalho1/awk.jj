@@ -48,7 +48,12 @@ TOKEN :
   | < DO: "do" >
   | < FOR: "for" >
 
+  // Pontuacoes
+
+  | < PONTOVIRGULA: ";" >
+
   // Expressoes
+
   | < QUESTION: "?">
   | < COLON: ":">
   | < ASSIGNMENTEQ : "=">
@@ -107,12 +112,17 @@ void End():    {}
 
 void EscopoParam(): {}
 {
-  <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+  <ESCOPOPARAMB> (Procurador()) <ESCOPOPARAME>
+}
+
+void EscopoParamFor(): {}
+{
+  <ESCOPOPARAMB> (Procurador())* <PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())* <ESCOPOPARAME>
 }
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | Assignment())* <ESCOPOFUNCAOE> }
+  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | Procurador())* <ESCOPOFUNCAOE> }
 
 // -----------------------------------------------
 // Actions
@@ -120,7 +130,7 @@ void EscopoFuncao(): {}
 
 void If(): {}
 {
-  <IF> EscopoParam() (EscopoFuncao() | Expression()) [<ELSE> (EscopoFuncao()| Expression())]
+  <IF> EscopoParam() (EscopoFuncao() | Procurador()) [<ELSE> (EscopoFuncao()| Procurador())]
 }
 
 void DoWhile(): {}
@@ -135,17 +145,31 @@ void While(): {}
 
 void For(): {}
 {
-  <FOR> EscopoParam() EscopoFuncao()
+  <FOR> EscopoParamFor() EscopoFuncao()
 }
 
 // -----------------------------------------------
 // Expressions
 // -----------------------------------------------
 
+void Procurador(): {}
+{
+  (<VAR>
+      [((<ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>) Expression())
+      | ProcExp()])
+  | ((<INT> | <FLOAT>) [ProcExp()])
+
+}
+
+void ProcExp(): {}
+{
+  (<QUESTION> BinaryExp() <COLON> BinaryExp()) | (<LOGICALOR> LogicalANDExp()) | (<LOGICALAND> BinaryExp()) | (<LOGICALEXPSYMBOL> UnaryExp())
+}
+
 void Assignment(): {}
 {
   <VAR> (<ASSIGNMENTEQ>
-| <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>)Expression()
+| <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>) Expression()
 }
 
 void Expression(): {}
@@ -170,7 +194,7 @@ void BinaryExp(): {}
 
 void UnaryExp(): {}
 {
-  [<UNARYEXPSYMBOLBEFORE>] Parenthesis() [<UNARYEXPSYMBOL>]
+  Parenthesis() [<UNARYEXPSYMBOL>]
 }
 
 void Parenthesis(): {}
