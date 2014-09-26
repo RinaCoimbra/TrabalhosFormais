@@ -46,6 +46,7 @@ TOKEN :
   | < ELSE: "else" >
   | < WHILE: "while" >
   | < DO: "do" >
+  | < FOR: "for" >
 
   // INTEIROS E FLOATS
   | < INT: (["0"-"9"])+>
@@ -114,6 +115,11 @@ void DoWhile(): {}
 void While(): {}
 {
   <WHILE> EscopoParam() EscopoFuncao()
+}
+
+void For(): {}
+{
+  <FOR> EscopoParam() EscopoFuncao()
 }
 
 // -----------------------------------------------
