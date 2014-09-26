@@ -12,7 +12,7 @@ public class AWK {
     new AWK(System.in);
     System.out.println("Reading from standard input...");
     
-    int ok = AWK.Begin();
+    int ok = AWK.Start();
     if (ok == 1) System.out.println("Ok!");
   }
 }
@@ -20,7 +20,7 @@ public class AWK {
 PARSER_END(AWK)
 
 SKIP :
-{ " " | "\r" | "\t" | "\n" }
+{ " " | "\r" | "\t" | "\n" | <["#"](~["\n"])+> }
 
 // -----------------------------------------------
 // Tokens
@@ -33,20 +33,12 @@ TOKEN :
     < BEGINFUNCAO: "BEGIN" >
   | < ENDFUNCAO:   "END" >
 
-  // Comments
-
-  | <COMMENT: ["#"](~["\n"])+>
-
   // Scope 
 
   | < ESCOPOFUNCAOB: "{"  >
   | < ESCOPOFUNCAOE: "}" >
   | < ESCOPOPARAMB: "(" >
   | < ESCOPOPARAME: ")" >
-
-  // Parameters
-
-  | < PARAM: "param" >
 
   // Actions
 
@@ -71,27 +63,24 @@ TOKEN :
 // Special patterns
 // -----------------------------------------------
 
-int Begin():    {}
+int Start(): {}
+{
+  (Begin() | Middle() | End()) <EOF> { return 1; }
+}
+
+void Begin():    {}
 {    
-  (Comment())* <BEGINFUNCAO> EscopoFuncao() [EscopoFuncao()] [<ENDFUNCAO> EscopoFuncao()] <EOF>{ return 1; }
+  (<BEGINFUNCAO> EscopoFuncao())+ [Middle() | End()]
 }
 
-// -----------------------------------------------
-// Comments
-// -----------------------------------------------
-
-void Comment(): {}
-{
-  <COMMENT>
+void Middle():    {}
+{    
+  (EscopoFuncao())+ [Begin() | End()]
 }
 
-// -----------------------------------------------
-// Parameters
-// -----------------------------------------------
-
-void Parameter(): {}
-{
-  <PARAM>
+void End():    {}
+{    
+  (<ENDFUNCAO> EscopoFuncao())+ [Begin() | Middle()]
 }
 
 // -----------------------------------------------
@@ -100,13 +89,12 @@ void Parameter(): {}
 
 void EscopoParam(): {}
 {
-  <ESCOPOPARAMB> (Parameter())+ <ESCOPOPARAME>
+  <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
 }
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (Comment())* (If() | While())* <ESCOPOFUNCAOE> (Comment())*
-}
+  <ESCOPOFUNCAOB> (If() | While())* <ESCOPOFUNCAOE> }
 
 // -----------------------------------------------
 // Actions
@@ -114,7 +102,7 @@ void EscopoFuncao(): {}
 
 void If(): {}
 {
-  <IF> <ESCOPOPARAMB> Expression() <ESCOPOPARAME> (EscopoFuncao() | <PARAM>) [<ELSE> (EscopoFuncao()| <PARAM>)]
+  <IF> EscopoParam() (EscopoFuncao() | Expression()) [<ELSE> (EscopoFuncao()| Expression())]
 }
 
 void While(): {}

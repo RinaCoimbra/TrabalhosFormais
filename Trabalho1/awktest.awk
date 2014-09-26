@@ -1,17 +1,21 @@
-# Begin
+# aiu diuashd uiash diuas
 BEGIN
 {	
-	# If
-	if (param param param)
+	while (a+b) {
+
+	}
+
+	if(a+b)
+		a+b
+
+	if (a+b)
 	{	
 
-		# If
-		if (param)
+		if (a+b)
 		{
-			# If
-			if (param)
+			if (a+b)
 			{
-				while (param param)
+				while (a+b)
 				{
 
 				}
@@ -20,37 +24,34 @@ BEGIN
 
 		else
 		{
-			# If
-			if (param)
+			if (a+b)
 			{
 
 			}
 		}
 	}
 
-	# Else
 	else
 	{
-		while (param)
+		while (a+b)
 		{
 
 		}
 	}
 }
 
-# Middle
+BEGIN{}
+
+BEGIN{}
+
 {	
-	# If
-	if (param param)
+	if (a+b)
 	{	
-		# If
-		if (param)
+		if (a+b)
 		{
-			# If
-			if (param)
+			if (a+b)
 			{
-				# If
-				if (param)
+				if (a+b)
 				{
 
 				}
@@ -63,49 +64,39 @@ BEGIN
 		}
 	}
 
-	# TA ACEITANDO ISSO E NAO ERA PRA ACEITAR, MAS NAO SEI ARRUMAR ISSO NAO
-	# PRA MIM O CODIGO TA CERTO E NAO ERA PRA ESTAR PASSANDO
-	while (param)
-	{
-		# Conteudo
-	}
-
-	# Else
 	else
 	{
-		# While
-		while (param)
+		while (a+b)
 		{
-			# Conteudo
 		}
 	}
 
-	# While
-	while (param)
+	while (a+b)
 	{
-		# Conteudo
 	}
 }
 
-# TA ACEITANDO ISSO E NAO ERA PRA ACEITAR, MAS NAO SEI ARRUMAR ISSO NAO
-# PRA MIM O CODIGO TA CERTO E NAO ERA PRA ESTAR PASSANDO
-while (param)
-{
+{}
+{}
+{}
 
-}
-
-# End
 END
 {	
-	# If
-	if (param)
+	if (a+b)
 	{
 
 	}
 
-	# Else
 	else
 	{
 	
 	}
 }
+
+END {}
+END {}
+BEGIN{}
+END {}
+{}
+{}
+END {}
