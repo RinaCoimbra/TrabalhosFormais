@@ -68,16 +68,26 @@ TOKEN :
   | < ASSIGNMENTELEV: "^=">
   | < LOGICALOR: "||">
   | < LOGICALAND: "&&">
-  | < OPVETORIN: "in">
+  | < OPVETORIN: "in"> // FALTA FAZER
   | < OPLESS: "<">
   | < OPMORE: ">">
   | < OPLESSEQ: "<=">
   | < OPMOREEQ: ">=">
   | < OPDIFF: "!=">
   | < EQEQ: "=="> 
-  | < LOGICALEXPSYMBOL: ("-" | "+" | "%" | "/" | "*" | "^") >
-  | < UNARYEXPSYMBOL: ("++" | "--")>
-  | < UNARYEXPSYMBOLBEFORE: ("+" | "-" | "!")>
+  | < PIPE1 : "|">  // PERGUNTAR COMO FAZ O SPACE DE CONCATENACAO DE STRING
+  | < PIPE2 : "|&"> // PERGUNTAR SE EH SOH PRA GETLINE
+  | < ADD: "+">
+  | < SUB: "-">
+  | < MULT: "*">
+  | < DIV: "/">
+  | < MOD: "%">
+  | < EXP: "^">
+  | < LOGICALNOT: "!">
+  | < INCREMENT: "++">
+  | < DECREMENT: "--">
+  | < FDREF: "$">
+
 
   // Tipos
 
@@ -170,7 +180,8 @@ void Procurador(): {}
 
 void ProcExp(): {}
 {
-  (<QUESTION> BinaryExp() <COLON> BinaryExp()) | (<LOGICALOR> LogicalANDExp()) | (<LOGICALAND> BinaryExp()) | (<LOGICALEXPSYMBOL> UnaryExp())
+   (<QUESTION> Expression() <COLON> Expression()) 
+  | (<LOGICALOR> Expression()) | (<LOGICALAND> Expression()) | ((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) Expression()) | ((<ADD>| <SUB>) Expression()) | ((<MULT>|<DIV>| <MOD>) Expression())|(<EXP> Expression())
 }
 
 void AssignmentOperator(): {}
@@ -180,30 +191,56 @@ void AssignmentOperator(): {}
 
 void Expression(): {}
 {
-  LogicalORExp() [<QUESTION> BinaryExp() <COLON> BinaryExp()]
+  LogicalORExp() [(<QUESTION>  LogicalORExp() <COLON>LogicalORExp())+]
 }
 
 void LogicalORExp(): {}
 {
-  LogicalANDExp() [<LOGICALOR> LogicalANDExp()]
+  LogicalANDExp() [(<LOGICALOR> LogicalANDExp())+]
 }
 
 void LogicalANDExp(): {}
 {
-  BinaryExp() [<LOGICALAND> BinaryExp()]
+  BinaryExp() [(<LOGICALAND> BinaryExp())+]
 }
 
 void BinaryExp(): {}
 {
-   UnaryExp() [<LOGICALEXPSYMBOL> UnaryExp()]
+   AddSub() [((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) AddSub())+]
 }
 
-void UnaryExp(): {}
+void AddSub(): {}
 {
-  Parenthesis() [<UNARYEXPSYMBOL>]
+  MultDiv() [ ((<ADD>| <SUB>) MultDiv())+]
 }
 
-void Parenthesis(): {}
+void MultDiv(): {}
 {
-  (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> | <INT> | (<VAR> [Vector()]) | <FLOAT>)
+  Exponential() [((<MULT>|<DIV>| <MOD>) Exponential())+]
 }
+
+// void UnaryExp(): {}
+// {
+//    [<ADD>| <SUB> | <LOGICALNOT>] Exponential()
+// }
+
+void Exponential(): {}
+{
+  PossibleTokens()[(<EXP> PossibleTokens())+]
+}
+
+void PossibleTokens(): {}
+{
+  (<INCREMENT>|<DECREMENT>)[<FDREF>][<ADD>|<SUB>|<LOGICALNOT>](<INT> | (<VAR> [Vector()])| <FLOAT>)
+  | [<FDREF>][<ADD>|<SUB>|<LOGICALNOT>](<INT> | (<VAR> [Vector()])| <FLOAT>) [<INCREMENT>|<DECREMENT>]
+}
+
+// void IncDec(): {}
+// {
+//   ([<INCREMENT> | <DECREMENT>] Parenthesis()) | ( Parenthesis() [<INCREMENT> | <DECREMENT>] )
+// }
+
+// void Parenthesis(): {}
+// {
+//   (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> | <INT> | <VAR> | <FLOAT>)
+// }
