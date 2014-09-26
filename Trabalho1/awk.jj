@@ -39,6 +39,8 @@ TOKEN :
   | < ESCOPOFUNCAOE: "}" >
   | < ESCOPOPARAMB: "(" >
   | < ESCOPOPARAME: ")" >
+  | < ESCOPOVECTORB: "[" >
+  | < ESCOPOVECTORE: "]" >
 
   // Actions
 
@@ -51,6 +53,7 @@ TOKEN :
   // Pontuacoes
 
   | < PONTOVIRGULA: ";" >
+  | < VIRGULA: "," >
 
   // Expressoes
 
@@ -85,10 +88,12 @@ TOKEN :
   | < DECREMENT: "--">
   | < FDREF: "$">
 
-    // INTEIROS E FLOATS
+
+  // Tipos
+
   | < INT: (["0"-"9"])+>
   | < FLOAT: (["0"-"9"])+("." ((["0"-"9"])+))?>
-  | < VAR:["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
+  | < VAR: ["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
 }
 
 // -----------------------------------------------
@@ -131,7 +136,8 @@ void EscopoParamFor(): {}
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | Procurador())* <ESCOPOFUNCAOE> }
+  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | For() | Procurador())* <ESCOPOFUNCAOE>
+}
 
 // -----------------------------------------------
 // Actions
@@ -157,23 +163,31 @@ void For(): {}
   <FOR> EscopoParamFor() EscopoFuncao()
 }
 
+
+void Vector(): {}
+{
+  <ESCOPOVECTORB> (<INT> | <FLOAT>) (<VIRGULA> (<INT> | <FLOAT>))* <ESCOPOVECTORE>
+}
+
 // -----------------------------------------------
 // Expressions
 // -----------------------------------------------
 
 void Procurador(): {}
 {
-  (<VAR>
-      [((<ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>) Expression())
-      | ProcExp()])
+    (<VAR> [Vector()] [(AssignmentOperator() Expression()) | ProcExp()])
   | ((<INT> | <FLOAT>) [ProcExp()])
-
 }
 
 void ProcExp(): {}
 {
    (<QUESTION> Expression() <COLON> Expression()) 
   | (<LOGICALOR> Expression()) | (<LOGICALAND> Expression()) | ((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) Expression()) | ((<ADD>| <SUB>) Expression()) | ((<MULT>|<DIV>| <MOD>) Expression())|(<EXP> Expression())
+}
+
+void AssignmentOperator(): {}
+{
+  <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>
 }
 
 void Expression(): {}
@@ -218,8 +232,8 @@ void Exponential(): {}
 
 void PossibleTokens(): {}
 {
-  (<INCREMENT>|<DECREMENT>)[<FDREF>][<ADD>|<SUB>|<LOGICALNOT>](<INT> | <VAR> | <FLOAT>)
-  | [<FDREF>][<ADD>|<SUB>|<LOGICALNOT>](<INT> | <VAR> | <FLOAT>) [<INCREMENT>|<DECREMENT>]
+  (<INCREMENT>|<DECREMENT>)[<FDREF>][<ADD>|<SUB>|<LOGICALNOT>](<INT> | (<VAR> [Vector()])| <FLOAT>)
+  | [<FDREF>][<ADD>|<SUB>|<LOGICALNOT>](<INT> | (<VAR> [Vector()])| <FLOAT>) [<INCREMENT>|<DECREMENT>]
 }
 
 // void IncDec(): {}
@@ -231,4 +245,3 @@ void PossibleTokens(): {}
 // {
 //   (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> | <INT> | <VAR> | <FLOAT>)
 // }
-
