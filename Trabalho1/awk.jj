@@ -114,7 +114,7 @@ void EscopoFuncao(): {}
 
 void If(): {}
 {
-  <IF> <ESCOPOPARAMB> Expression() <ESCOPOPARAME> EscopoFuncao() [<ELSE> EscopoFuncao()]
+  <IF> <ESCOPOPARAMB> Expression() <ESCOPOPARAME> (EscopoFuncao() | <PARAM>) [<ELSE> (EscopoFuncao()| <PARAM>)]
 }
 
 void While(): {}
