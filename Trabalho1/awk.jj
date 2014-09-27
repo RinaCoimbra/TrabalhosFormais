@@ -20,7 +20,7 @@ public class AWK {
 PARSER_END(AWK)
 
 SKIP :
-{ " " | "\r" | "\t" | "\n" | <["#"](~["\n"])+> }
+{ " " | "\r" | "\t" | "\n" | <"#"(~["\n"])+> }
 
 // -----------------------------------------------
 // Tokens
@@ -61,15 +61,27 @@ TOKEN :
 
   // Numeric functions
 
-  | <ARCTAN: "atan2" >
-  | <COS: "cos" >
-  | <NFEXP: "exp" >
-  | <NFINT: "int" >
-  | <LOG: "log" >
-  | <RAND: "rand" >
-  | <SIN: "sin" >
-  | <SQRT: "sqrt" >
-  | <SRAND: "srand" >
+  | < ARCTAN: "atan2" >
+  | < COS: "cos" >
+  | < NFEXP: "exp" >
+  | < NFINT: "int" >
+  | < LOG: "log" >
+  | < RAND: "rand" >
+  | < SIN: "sin" >
+  | < SQRT: "sqrt" >
+  | < SRAND: "srand" >
+
+  // String functions
+
+  | < ASORT: "asort" >
+  | < ASORTI: "asorti" >
+  | < INDEX: "index" >
+  | < LENGTH: "length" >
+  | < SPLIT: "split" >
+  | < STRTONUM: "strtonum" >
+  | < SUBSTR: "substr" >
+  | < TOLOWER: "tolower" >
+  | < TOUPPER: "toupper" >
 
   // Built-ins
 
@@ -113,6 +125,7 @@ TOKEN :
   | < INT: (["0"-"9"])+>
   | < FLOAT: (["0"-"9"])+("." ((["0"-"9"])+))?>
   | < VAR: ["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
+  | < STRING: "\""(~["\""])+ "\"">
 }
 
 // -----------------------------------------------
@@ -141,7 +154,7 @@ void End(): {}
 
 void Pattern(): {}
 {
-  (Procurador() (<VIRGULA> Procurador())*) | NumericFunctions()
+  (Procurador() (<VIRGULA> Procurador())*) | NumericFunctions() | StringFunctions()
 }
 
 // -----------------------------------------------
@@ -160,7 +173,7 @@ void EscopoParamFor(): {}
 
 void ConteudoStatement(): {}
 {
-  If() | DoWhile() | While() | For() | Procurador() | Delete() | NumericFunctions() | <EXIT>
+  If() | DoWhile() | While() | For() | Procurador() | Delete() | NumericFunctions() | StringFunctions() | <EXIT>
 }
 
 void EscopoStatement(): {}
@@ -223,27 +236,27 @@ void NumericFunctions(): {}
 
 void Arctan(): {}
 {
-  <ARCTAN> <ESCOPOPARAMB> (<VAR> | <INT> | <FLOAT>) <VIRGULA> (<VAR> | <INT> | <FLOAT>) <ESCOPOPARAME>
+  <ARCTAN> <ESCOPOPARAMB> Procurador() <VIRGULA> Procurador() <ESCOPOPARAME>
 }
 
 void Cos(): {}
 {
-  <COS> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+  <COS> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
 }
 
 void Exp(): {}
 {
-  <NFEXP> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+  <NFEXP> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
 }
 
 void Int(): {}
 {
-  <NFINT> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+  <NFINT> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
 }
 
 void Log(): {}
 {
-  <LOG> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+  <LOG> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
 }
 
 void Rand(): {}
@@ -253,17 +266,71 @@ void Rand(): {}
 
 void Sin(): {}
 {
-  <SIN> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+  <SIN> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
 }
 
 void Sqrt(): {}
 {
-  <SQRT> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+  <SQRT> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
 }
 
 void Srand(): {}
 {
   <SRAND> <ESCOPOPARAMB> (Procurador())* <ESCOPOPARAME>
+}
+
+// -----------------------------------------------
+// String Functions
+// -----------------------------------------------
+
+void StringFunctions(): {}
+{
+  Asort() | Asorti() | Index() | Length() | Split() | Strtonum() | Substr() | Tolower() | Toupper()
+}
+
+void Asort(): {}
+{
+  <ASORT> <ESCOPOPARAMB> (<STRING> | <VAR>) [<VIRGULA> (<STRING> | <VAR>)] <ESCOPOPARAME>
+}
+
+void Asorti(): {}
+{
+  <ASORTI> <ESCOPOPARAMB> (<STRING> | <VAR>) [<VIRGULA> (<STRING> | <VAR>)] <ESCOPOPARAME>
+}
+
+void Index(): {}
+{
+  <INDEX> <ESCOPOPARAMB> Procurador() <VIRGULA> Procurador() <ESCOPOPARAME>
+}
+
+void Length(): {}
+{
+  <LENGTH> <ESCOPOPARAMB> [Procurador()] <ESCOPOPARAME>
+}
+
+void Split(): {}
+{
+  <SPLIT> <ESCOPOPARAMB> Procurador() <VIRGULA> (<VAR> | <STRING>) <ESCOPOPARAME>
+}
+
+void Strtonum(): {}
+{
+  <STRTONUM> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+}
+
+void Substr(): {}
+{
+  <SUBSTR> <ESCOPOPARAMB> Procurador() <VIRGULA> Procurador() [<VIRGULA> Procurador()] <ESCOPOPARAME>
+}
+
+void Tolower(): {}
+{
+  <TOLOWER> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+}
+
+void Toupper(): {}
+{
+  <TOUPPER> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
 }
 
 // -----------------------------------------------
@@ -280,19 +347,14 @@ void Gambiarra2(): {}
   <VAR> [Vector()] [(AssignmentOperator() Expression()) | ProcExp()]
 }
 
-void Gambiarra3(): {}
-{
-  [Vector()] [(AssignmentOperator() Expression()) | ProcExp()] 
-}
-
 void Procurador(): {}
 {
-    Gambiarra1() | Gambiarra2()
+  Gambiarra1() | Gambiarra2()
 }
 
 void ProcExp(): {}
 {
-   (<QUESTION> Expression() <COLON> Expression()) 
+    (<QUESTION> Expression() <COLON> Expression()) 
   | (<LOGICALOR> Expression()) | (<LOGICALAND> Expression()) | ((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) Expression()) | ((<ADD>| <SUB>) Expression()) | ((<MULT>|<DIV>| <MOD>) Expression())|(<EXP> Expression())
 }
 
@@ -303,7 +365,7 @@ void AssignmentOperator(): {}
 
 void Expression(): {}
 {
-  LogicalORExp() [(<QUESTION>  LogicalORExp() <COLON>LogicalORExp())+]
+  LogicalORExp() [(<QUESTION> LogicalORExp() <COLON> LogicalORExp())+]
 }
 
 void LogicalORExp(): {}

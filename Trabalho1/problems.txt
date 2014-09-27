@@ -4,4 +4,6 @@ PROBLEMAS que nao sei como resolver:
 2. Return tem que definir?
 3. Break permite quantas vezes quiser
 4. Arrumar aquelas funcoes "Gambiarra"
-5. a = numericFunctions(0)
+5. Colocar String, numeric functions, string functions no PossibleTokens
+6. String functions que aceitam +1
+7. Index, Length nao ta aceitando String porque String nao esta em PossibleTokens ainda

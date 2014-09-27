@@ -2,6 +2,12 @@
 2+2
 BEGIN
 {	
+	asort(a, asd)
+	asort("a", asd)
+	asort(a, "asd")
+	asort(a)
+	asort("a")
+
 	do
 	{
 		break
@@ -85,15 +91,30 @@ BEGIN
 		while (a+b)
 		{
 			exp(a+s-2)
+			index(a, d)
+			index(3, 4)
+			index(a+3, 4)
 		}
 	}
 }
 
+asort("a")
+asorti("a")
 2+3
 exp(a+s-2)
 2+3,
 2+3
 cos(a+v)
+asort(a, asd)
+asorti(a, asd)
+asort("a", asd)
+asorti("a", asd)
+asort(a, "asd")
+asort(a)
+length()
+length(a)
+length(a+3)
+
 
 BEGIN{
 	for (a+=0; a +a; 0)
@@ -140,7 +161,13 @@ BEGIN{
 	{
 		while (a+b)
 		{
-		rand()
+			rand()
+			split(a, b)
+			split(a+2, b)
+			split(2, b)
+			strtonum(a)
+			strtonum(3)
+			strtonum(3+e)
 		}
 	}
 
@@ -148,6 +175,11 @@ BEGIN{
 
 	while (a+b)
 	{
+		substr(a, s, r)
+		substr(a, s+3, 2)
+		substr(a, s, r)
+		substr(a, s)
+		substr(a+4, s)
 	}
 }
 
@@ -171,6 +203,12 @@ srand(s*d)
 {}
 {}
 
+tolower(a)
+tolower(a+v)
+tolower(9)
+toupper(a)
+toupper(a+v)
+toupper(9)
 2+3
 atan2(2, 2)
 2+3,
