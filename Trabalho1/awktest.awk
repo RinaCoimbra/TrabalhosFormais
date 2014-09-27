@@ -3,9 +3,11 @@ BEGIN
 {	
 	do
 	{
-
+		break
 	}
 	while(a+b)
+
+	exit
 
 	while (a+b) {
 		do
@@ -13,14 +15,17 @@ BEGIN
 
 		}
 		while(a)
+		break
 	}
 
 	for (a; ; 0)
 	{
 		b - 2
+		exit a+2
 		for (a+=0; a+a; 0)
 		{
 			a = 1
+			break
 		}	
 	}
 
@@ -29,7 +34,7 @@ BEGIN
 
 	if (a+b)
 	{	
-
+		delete a
 		if (a+b)
 		{
 			if (a+b)
@@ -43,8 +48,12 @@ BEGIN
 				{
 					for (a+=0; a+a; 0)
 					{
+						a+b
+						break
 						a = 1
+						continue
 					}	
+					continue
 				}
 				while(a)
 			}
@@ -54,7 +63,7 @@ BEGIN
 		{
 			if (a+b)
 			{
-
+				delete a[3]
 			}
 		}
 	}
@@ -72,6 +81,7 @@ BEGIN{
 	for (a+=0; a +a; 0)
 	{
 		a = 1
+		continue
 	}	
 }
 
@@ -96,6 +106,7 @@ BEGIN{
 			{	
 				for (a+=0; a+a; 0)
 				{
+					continue
 					a = 1
 				}	
 			}

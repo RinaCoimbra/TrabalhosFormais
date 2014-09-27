@@ -1,5 +1,7 @@
 PROBLEMAS que nao sei como resolver:
 
-1. Soh funciona lendo de arquivo, se ler direto do terminal, da problema. Acho que era bom perguntar pro monitor da sandra como corrige isso [?]
+1. Descrever no relatorio que a entrada eh por arquivo
 2. Falta definir o tipo do vector [opicional] e o vector pode conter char ou string
-3. Vector com espaco, mudamos de token para funcao por causa dos espacos. Ex: v[a, b], como token, ele nao skipa espaco
+3. Return tem que definir?
+4. Break permite quantas vezes quiser
+5. Arrumar aquelas funcoes "Gambiarra"
