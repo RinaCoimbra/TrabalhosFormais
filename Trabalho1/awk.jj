@@ -52,6 +52,7 @@ TOKEN :
   | < BREAK: "break" >
   | < EXIT: "exit" >
   | < CONTINUE: "continue" >
+  | < DELETE: "delete" >
 
   // Pontuacoes
 
@@ -109,17 +110,17 @@ int Start(): {}
 
 void Begin():    {}
 {    
-  (<BEGINFUNCAO> EscopoFuncao())+ [Middle() | End()]
+  (<BEGINFUNCAO> EscopoStatement())+ [Middle() | End()]
 }
 
 void Middle():    {}
 {    
-  (EscopoFuncao())+ [Begin() | End()]
+  (EscopoStatement())+ [Begin() | End()]
 }
 
 void End():    {}
 {    
-  (<ENDFUNCAO> EscopoFuncao())+ [Begin() | Middle()]
+  (<ENDFUNCAO> EscopoStatement())+ [Begin() | Middle()]
 }
 
 // -----------------------------------------------
@@ -136,19 +137,24 @@ void EscopoParamFor(): {}
   <ESCOPOPARAMB> (Procurador())* <PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())* <ESCOPOPARAME>
 }
 
-void EscopoFuncao(): {}
+void ConteudoStatement(): {}
 {
-  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | For() | Procurador() | <EXIT>)* <ESCOPOFUNCAOE>
-}
- 
-void EscopoFuncaoWithBreak(): {}
-{
-  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | For() | Procurador() | <BREAK> | <EXIT> )* <ESCOPOFUNCAOE>
+  If() | DoWhile() | While() | For() | Procurador() | Delete() | <EXIT>
 }
 
-void EscopoFuncaoLoop(): {}
+void EscopoStatement(): {}
 {
-  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | For() | Procurador() | <CONTINUE> | <BREAK> | <EXIT> )* <ESCOPOFUNCAOE>
+  <ESCOPOFUNCAOB> (ConteudoStatement())* <ESCOPOFUNCAOE>
+}
+ 
+void EscopoStatementControl(): {}
+{
+  <ESCOPOFUNCAOB> (ConteudoStatement() | <BREAK> )* <ESCOPOFUNCAOE>
+}
+
+void EscopoStatementLoop(): {}
+{
+  <ESCOPOFUNCAOB> (ConteudoStatement() | <CONTINUE> | <BREAK> )* <ESCOPOFUNCAOE>
 }
 
 // -----------------------------------------------
@@ -162,22 +168,27 @@ void Vector(): {}
 
 void If(): {}
 {
-  <IF> EscopoParam() (EscopoFuncaoWithBreak() | Procurador()) [<ELSE> (EscopoFuncaoWithBreak()| Procurador())]
+  <IF> EscopoParam() (EscopoStatementControl() | Procurador()) [<ELSE> (EscopoStatementControl()| Procurador())]
 }
 
 void DoWhile(): {}
 {
-  <DO> EscopoFuncaoLoop() <WHILE> EscopoParam()
+  <DO> EscopoStatementLoop() <WHILE> EscopoParam()
 }
 
 void While(): {}
 {
-  <WHILE> EscopoParam() EscopoFuncaoLoop()
+  <WHILE> EscopoParam() EscopoStatementLoop()
 }
 
 void For(): {}
 {
-  <FOR> EscopoParamFor() EscopoFuncaoLoop()
+  <FOR> EscopoParamFor() EscopoStatementLoop()
+}
+
+void Delete(): {}
+{
+  <DELETE> <VAR> [Vector()]
 }
 
 // -----------------------------------------------

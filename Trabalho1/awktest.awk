@@ -34,6 +34,7 @@ BEGIN
 
 	if (a+b)
 	{	
+		delete a
 		if (a+b)
 		{
 			if (a+b)
@@ -62,7 +63,7 @@ BEGIN
 		{
 			if (a+b)
 			{
-
+				delete a[3]
 			}
 		}
 	}
