@@ -1,7 +1,7 @@
 PROBLEMAS que nao sei como resolver:
 
 1. Descrever no relatorio que a entrada eh por arquivo
-2. Falta definir o tipo do vector [opicional] e o vector pode conter char ou string
-3. Return tem que definir?
-4. Break permite quantas vezes quiser
-5. Arrumar aquelas funcoes "Gambiarra"
+2. Return tem que definir?
+3. Break permite quantas vezes quiser
+4. Arrumar aquelas funcoes "Gambiarra"
+5. a = numericFunctions(0)

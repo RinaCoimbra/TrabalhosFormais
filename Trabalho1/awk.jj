@@ -71,6 +71,10 @@ TOKEN :
   | <SQRT: "sqrt" >
   | <SRAND: "srand" >
 
+  // Built-ins
+
+  | < BUILTIN: ("ARGC" | "ARGIND" | "ARGV" | "BINMODE" | "CONVFMT" | "ENVIRON" | "ERRNO" | "FIELDWIDTHS" | "FILENAME" | "FNR" | "FS" | "IGNORECASE" | "LINT" | "NF" | "NR" | "OFMT" | "OFS" | "ORS" | "PROCINFO" | "RS" | "RT" | "RSTART" | "RLENGHT" | "SUBSEP" | "TEXTDOMAIN")>
+
   // Expressoes
 
   | < QUESTION: "?">
@@ -117,22 +121,27 @@ TOKEN :
 
 int Start(): {}
 {
-  (Begin() | Middle() | End()) <EOF> { return 1; }
+  (Pattern())* (Begin() | Middle() | End()) <EOF> { return 1; }
 }
 
-void Begin():    {}
+void Begin(): {}
 {    
-  (<BEGINFUNCAO> EscopoStatement())+ [Middle() | End()]
+  (<BEGINFUNCAO> EscopoStatement() (Pattern())*)+ [Middle() | End()]
 }
 
-void Middle():    {}
+void Middle(): {}
 {    
-  (EscopoStatement())+ [Begin() | End()]
+  (EscopoStatement() (Pattern())*)+ [Begin() | End()]
 }
 
-void End():    {}
+void End(): {}
 {    
-  (<ENDFUNCAO> EscopoStatement())+ [Begin() | Middle()]
+  (<ENDFUNCAO> EscopoStatement() (Pattern())*)+ [Begin() | Middle()]
+}
+
+void Pattern(): {}
+{
+  Procurador() (<VIRGULA> Procurador())* (NumericFunctions())*
 }
 
 // -----------------------------------------------
@@ -175,7 +184,7 @@ void EscopoStatementLoop(): {}
 
 void Vector(): {}
 {
-  <ESCOPOVECTORB> (<INT> | <FLOAT>) (<VIRGULA> (<INT> | <FLOAT>))* <ESCOPOVECTORE>
+  <ESCOPOVECTORB> (<VAR> | <INT> | <FLOAT>) (<VIRGULA> (<VAR> | <INT> | <FLOAT>))* <ESCOPOVECTORE>
 }
 
 void If(): {}
@@ -209,12 +218,17 @@ void Delete(): {}
 
 void NumericFunctions(): {}
 {
-  Arctan()
+  Arctan() | Cos()
 }
 
 void Arctan(): {}
 {
   <ARCTAN> <ESCOPOPARAMB> (<VAR> | <INT> | <FLOAT>) <VIRGULA> (<VAR> | <INT> | <FLOAT>) <ESCOPOPARAME>
+}
+
+void Cos(): {}
+{
+  <COS> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
 }
 
 // -----------------------------------------------
@@ -282,11 +296,6 @@ void MultDiv(): {}
   Exponential() [((<MULT>|<DIV>| <MOD>) Exponential())+]
 }
 
-// void UnaryExp(): {}
-// {
-//    [<ADD>| <SUB> | <LOGICALNOT>] Exponential()
-// }
-
 void Exponential(): {}
 {
   PossibleTokens()[(<EXP> PossibleTokens())+]
@@ -300,7 +309,7 @@ void PossibleTokens(): {}
 
 void Prefixos(): {}
 {
-  (<ADD>|<SUB>|<LOGICALNOT>) [<FDREF>]
+  (<ADD>|<SUB>|<LOGICALNOT>)[<FDREF>]
 }
 
 // void IncDec(): {}

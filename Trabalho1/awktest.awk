@@ -1,4 +1,5 @@
 # aiu diuashd uiash diuas
+2+2
 BEGIN
 {	
 	do
@@ -27,10 +28,14 @@ BEGIN
 		exit a+2
 		for (a+=0; a+a; 0)
 		{
+			cos(a+v)
+			cos(a+v)
 			a = 1
 			break
 		}	
 	}
+
+	cos(a+v)
 
 	if(a+=8)
 		b+2
@@ -64,9 +69,11 @@ BEGIN
 
 		else
 		{
+			cos(a+v)
 			if (a+b)
 			{
 				delete a[3]
+				atan2(2, 2)
 			}
 		}
 	}
@@ -80,6 +87,11 @@ BEGIN
 	}
 }
 
+2+3
+2+3,
+2+3
+cos(a+v)
+
 BEGIN{
 	for (a+=0; a +a; 0)
 	{
@@ -87,6 +99,7 @@ BEGIN{
 		continue
 	}	
 }
+2+3
 
 BEGIN{
 	v[0, 1, 3.2]
@@ -131,6 +144,13 @@ BEGIN{
 {}
 {}
 {}
+
+2+3
+atan2(2, 2)
+2+3,
+2+3
+atan2(2, 2)
+atan2(2, 2)
 
 END
 {	
