@@ -55,6 +55,10 @@ TOKEN :
   | < PONTOVIRGULA: ";" >
   | < VIRGULA: "," >
 
+  // Built-ins
+
+  | < BUILTIN: ("ARGC" | "ARGIND" | "ARGV" | "BINMODE" | "CONVFMT" | "ENVIRON" | "ERRNO" | "FIELDWIDTHS" | "FILENAME" | "FNR" | "FS" | "IGNORECASE" | "LINT" | "NF" | "NR" | "OFMT" | "OFS" | "ORS" | "PROCINFO" | "RS" | "RT" | "RSTART" | "RLENGHT" | "SUBSEP" | "TEXTDOMAIN")>
+
   // Expressoes
 
   | < QUESTION: "?">
@@ -102,22 +106,22 @@ TOKEN :
 
 int Start(): {}
 {
-  (Begin() | Middle() | End()) <EOF> { return 1; }
+  [(Procurador() (<VIRGULA> Procurador())*)] (Begin() | Middle() | End()) <EOF> { return 1; }
 }
 
 void Begin():    {}
 {    
-  (<BEGINFUNCAO> EscopoFuncao())+ [Middle() | End()]
+  (<BEGINFUNCAO> EscopoFuncao())+ [(Procurador() (<VIRGULA> Procurador())*)] [Middle() | End()]
 }
 
 void Middle():    {}
 {    
-  (EscopoFuncao())+ [Begin() | End()]
+  (EscopoFuncao())+ [(Procurador() (<VIRGULA> Procurador())*)] [Begin() | End()]
 }
 
 void End():    {}
 {    
-  (<ENDFUNCAO> EscopoFuncao())+ [Begin() | Middle()]
+  (<ENDFUNCAO> EscopoFuncao())+ [(Procurador() (<VIRGULA> Procurador())*)] [Begin() | Middle()]
 }
 
 // -----------------------------------------------
@@ -233,11 +237,6 @@ void MultDiv(): {}
   Exponential() [((<MULT>|<DIV>| <MOD>) Exponential())+]
 }
 
-// void UnaryExp(): {}
-// {
-//    [<ADD>| <SUB> | <LOGICALNOT>] Exponential()
-// }
-
 void Exponential(): {}
 {
   PossibleTokens()[(<EXP> PossibleTokens())+]
@@ -251,7 +250,7 @@ void PossibleTokens(): {}
 
 void Prefixos(): {}
 {
-  <FDREF>][<ADD>|<SUB>|<LOGICALNOT>
+  (<ADD>|<SUB>|<LOGICALNOT>)[<FDREF>]
 }
 
 // void IncDec(): {}
