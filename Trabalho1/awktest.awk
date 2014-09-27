@@ -9,10 +9,13 @@ BEGIN
 
 	exit
 
+	atan2(2, 2)
+	atan2(2, 2)
+
 	while (a+b) {
 		do
 		{
-
+			atan2(2, 2.3)
 		}
 		while(a)
 		break

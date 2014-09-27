@@ -59,6 +59,18 @@ TOKEN :
   | < PONTOVIRGULA: ";" >
   | < VIRGULA: "," >
 
+  // Numeric functions
+
+  | <ARCTAN: "atan2" >
+  | <COS: "cos" >
+  | <NFEXP: "exp" >
+  | <NFINT: "int" >
+  | <LOG: "log" >
+  | <RAND: "rand" >
+  | <SIN: "sin" >
+  | <SQRT: "sqrt" >
+  | <SRAND: "srand" >
+
   // Expressoes
 
   | < QUESTION: "?">
@@ -139,7 +151,7 @@ void EscopoParamFor(): {}
 
 void ConteudoStatement(): {}
 {
-  If() | DoWhile() | While() | For() | Procurador() | Delete() | <EXIT>
+  If() | DoWhile() | While() | For() | Procurador() | Delete() | NumericFunctions() | <EXIT>
 }
 
 void EscopoStatement(): {}
@@ -189,6 +201,20 @@ void For(): {}
 void Delete(): {}
 {
   <DELETE> <VAR> [Vector()]
+}
+
+// -----------------------------------------------
+// Numeric Functions
+// -----------------------------------------------
+
+void NumericFunctions(): {}
+{
+  Arctan()
+}
+
+void Arctan(): {}
+{
+  <ARCTAN> <ESCOPOPARAMB> (<VAR> | <INT> | <FLOAT>) <VIRGULA> (<VAR> | <INT> | <FLOAT>) <ESCOPOPARAME>
 }
 
 // -----------------------------------------------
