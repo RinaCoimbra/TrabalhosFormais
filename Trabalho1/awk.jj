@@ -131,13 +131,7 @@ void EscopoParam(): {}
 
 void EscopoParamFor(): {}
 {
-  <ESCOPOPARAMB> (Gambiarra4() | Prefixos() ((<VAR>|<INT>|<FLOAT>)* <PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())*)
-    | ([<INT>| <FLOAT>] (<PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())*)) ) <ESCOPOPARAME>
-}
-
-void Gambiarra4(): {}
-{
-  <VAR> (<PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())*) | (<OPVETORIN> <VAR>)
+  <ESCOPOPARAMB> (Procurador())* <PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())* <ESCOPOPARAME>
 }
 
 void EscopoFuncao(): {}
