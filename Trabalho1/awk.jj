@@ -141,7 +141,7 @@ void End(): {}
 
 void Pattern(): {}
 {
-  Procurador() (<VIRGULA> Procurador())* (NumericFunctions())*
+  (Procurador() (<VIRGULA> Procurador())*) | NumericFunctions()
 }
 
 // -----------------------------------------------
@@ -218,7 +218,7 @@ void Delete(): {}
 
 void NumericFunctions(): {}
 {
-  Arctan() | Cos()
+  Arctan() | Cos() | Exp() | Int() | Log() | Rand() | Sin() | Sqrt() | Srand()
 }
 
 void Arctan(): {}
@@ -229,6 +229,41 @@ void Arctan(): {}
 void Cos(): {}
 {
   <COS> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+}
+
+void Exp(): {}
+{
+  <NFEXP> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+}
+
+void Int(): {}
+{
+  <NFINT> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+}
+
+void Log(): {}
+{
+  <LOG> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+}
+
+void Rand(): {}
+{
+  <RAND> <ESCOPOPARAMB> <ESCOPOPARAME>
+}
+
+void Sin(): {}
+{
+  <SIN> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+}
+
+void Sqrt(): {}
+{
+  <SQRT> <ESCOPOPARAMB> (Procurador())+ <ESCOPOPARAME>
+}
+
+void Srand(): {}
+{
+  <SRAND> <ESCOPOPARAMB> (Procurador())* <ESCOPOPARAME>
 }
 
 // -----------------------------------------------

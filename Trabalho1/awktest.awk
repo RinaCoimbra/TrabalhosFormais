@@ -76,18 +76,21 @@ BEGIN
 				atan2(2, 2)
 			}
 		}
+
+		exp(a+s-2)
 	}
 
 	else
 	{
 		while (a+b)
 		{
-
+			exp(a+s-2)
 		}
 	}
 }
 
 2+3
+exp(a+s-2)
 2+3,
 2+3
 cos(a+v)
@@ -112,6 +115,7 @@ BEGIN{
 		{
 			if (a+b)
 			{
+				int(1.3)
 				if (a+b)
 				{
 
@@ -124,7 +128,10 @@ BEGIN{
 				{
 					continue
 					a = 1
+					sin(a+2.3)
 				}	
+
+				int (a+2.3)
 			}
 		}
 	}
@@ -133,15 +140,34 @@ BEGIN{
 	{
 		while (a+b)
 		{
+		rand()
 		}
 	}
+
+	rand()
 
 	while (a+b)
 	{
 	}
 }
 
+rand()
+BEGIN{}
+
+atan2(2, 2)
+atan2(2, 2)
+
+BEGIN{}
+
 {}
+
+atan2(2, 2)
+log(1.2+3/abc)
+sin(a+2.3)
+int (a+2.3)
+srand(3+2)
+srand(s*d)
+
 {}
 {}
 
@@ -156,19 +182,21 @@ END
 {	
 	if (a+b)
 	{
-
 	}
 
 	else
 	{
-	
+		sin(a+2.3)
+		srand()
 	}
 }
 
 END {}
 END {}
+srand()
 BEGIN{}
 END {}
+sqrt(awk+2)
 {}
 {}
 END {}
