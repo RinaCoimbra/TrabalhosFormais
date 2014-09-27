@@ -131,7 +131,13 @@ void EscopoParam(): {}
 
 void EscopoParamFor(): {}
 {
-  <ESCOPOPARAMB> ((Procurador())* <PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())*) | () <ESCOPOPARAME>
+  <ESCOPOPARAMB> (Gambiarra4() | Prefixos() ((<VAR>|<INT>|<FLOAT>)* <PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())*)
+    | ([<INT>| <FLOAT>] (<PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())*)) ) <ESCOPOPARAME>
+}
+
+void Gambiarra4(): {}
+{
+  <VAR> (<PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())*) | (<OPVETORIN> <VAR>)
 }
 
 void EscopoFuncao(): {}
@@ -172,10 +178,24 @@ void For(): {}
 // Expressions
 // -----------------------------------------------
 
+void Gambiarra1(): {}
+{
+  (<INT> | <FLOAT>) [ProcExp()]
+}
+
+void Gambiarra2(): {}
+{
+  <VAR> [Vector()] [(AssignmentOperator() Expression()) | ProcExp()]
+}
+
+void Gambiarra3(): {}
+{
+  [Vector()] [(AssignmentOperator() Expression()) | ProcExp()] 
+}
+
 void Procurador(): {}
 {
-    (<VAR> [Vector()] [(AssignmentOperator() Expression()) | ProcExp()])
-  | ((<INT> | <FLOAT>) [ProcExp()])
+    Gambiarra1() | Gambiarra2()
 }
 
 void ProcExp(): {}
@@ -231,8 +251,13 @@ void Exponential(): {}
 
 void PossibleTokens(): {}
 {
-  (<INCREMENT>|<DECREMENT>)[<FDREF>][<ADD>|<SUB>|<LOGICALNOT>](<INT> | (<VAR> [Vector()])| <FLOAT>)
-  | [<FDREF>][<ADD>|<SUB>|<LOGICALNOT>](<INT> | (<VAR> [Vector()])| <FLOAT>) [<INCREMENT>|<DECREMENT>]
+  (<INCREMENT>|<DECREMENT>) [Prefixos()] (<INT> | (<VAR> [Vector()])| <FLOAT>)
+  |  [Prefixos()] (<INT> | (<VAR> [Vector()])| <FLOAT>) [<INCREMENT>|<DECREMENT>]
+}
+
+void Prefixos(): {}
+{
+  <FDREF>][<ADD>|<SUB>|<LOGICALNOT>
 }
 
 // void IncDec(): {}
