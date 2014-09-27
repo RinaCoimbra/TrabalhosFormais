@@ -42,13 +42,16 @@ TOKEN :
   | < ESCOPOVECTORB: "[" >
   | < ESCOPOVECTORE: "]" >
 
-  // Actions
+  // Control statements
 
   | < IF: "if" >
   | < ELSE: "else" >
   | < WHILE: "while" >
   | < DO: "do" >
   | < FOR: "for" >
+  | < BREAK: "break" >
+  | < EXIT: "exit" >
+  | < CONTINUE: "continue" >
 
   // Pontuacoes
 
@@ -87,7 +90,6 @@ TOKEN :
   | < INCREMENT: "++">
   | < DECREMENT: "--">
   | < FDREF: "$">
-
 
   // Tipos
 
@@ -136,7 +138,17 @@ void EscopoParamFor(): {}
 
 void EscopoFuncao(): {}
 {
-  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | For() | Procurador())* <ESCOPOFUNCAOE>
+  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | For() | Procurador() | <EXIT>)* <ESCOPOFUNCAOE>
+}
+ 
+void EscopoFuncaoWithBreak(): {}
+{
+  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | For() | Procurador() | <BREAK> | <EXIT> )* <ESCOPOFUNCAOE>
+}
+
+void EscopoFuncaoLoop(): {}
+{
+  <ESCOPOFUNCAOB> (If() | DoWhile() | While() | For() | Procurador() | <CONTINUE> | <BREAK> | <EXIT> )* <ESCOPOFUNCAOE>
 }
 
 // -----------------------------------------------
@@ -150,22 +162,22 @@ void Vector(): {}
 
 void If(): {}
 {
-  <IF> EscopoParam() (EscopoFuncao() | Procurador()) [<ELSE> (EscopoFuncao()| Procurador())]
+  <IF> EscopoParam() (EscopoFuncaoWithBreak() | Procurador()) [<ELSE> (EscopoFuncaoWithBreak()| Procurador())]
 }
 
 void DoWhile(): {}
 {
-  <DO> EscopoFuncao() <WHILE> EscopoParam()
+  <DO> EscopoFuncaoLoop() <WHILE> EscopoParam()
 }
 
 void While(): {}
 {
-  <WHILE> EscopoParam() EscopoFuncao()
+  <WHILE> EscopoParam() EscopoFuncaoLoop()
 }
 
 void For(): {}
 {
-  <FOR> EscopoParamFor() EscopoFuncao()
+  <FOR> EscopoParamFor() EscopoFuncaoLoop()
 }
 
 // -----------------------------------------------
@@ -251,7 +263,7 @@ void PossibleTokens(): {}
 
 void Prefixos(): {}
 {
-  <FDREF>][<ADD>|<SUB>|<LOGICALNOT>
+  (<ADD>|<SUB>|<LOGICALNOT>) [<FDREF>]
 }
 
 // void IncDec(): {}
