@@ -83,6 +83,11 @@ TOKEN :
   | < TOLOWER: "tolower" >
   | < TOUPPER: "toupper" >
 
+  // I/O Statements
+
+  | < GETLINE: "getline" >
+  | < PRINT: "print" >
+
   // Built-ins
 
   | < BUILTIN: ("ARGC" | "ARGIND" | "ARGV" | "BINMODE" | "CONVFMT" | "ENVIRON" | "ERRNO" | "FIELDWIDTHS" | "FILENAME" | "FNR" | "FS" | "IGNORECASE" | "LINT" | "NF" | "NR" | "OFMT" | "OFS" | "ORS" | "PROCINFO" | "RS" | "RT" | "RSTART" | "RLENGHT" | "SUBSEP" | "TEXTDOMAIN")>
@@ -154,7 +159,7 @@ void End(): {}
 
 void Pattern(): {}
 {
-  (Procurador() (<VIRGULA> Procurador())*) | NumericFunctions() | StringFunctions()
+  (Procurador() (<VIRGULA> Procurador())*) | NumericFunctions() | StringFunctions() | Iostatement()
 }
 
 // -----------------------------------------------
@@ -173,7 +178,7 @@ void EscopoParamFor(): {}
 
 void ConteudoStatement(): {}
 {
-  If() | DoWhile() | While() | For() | Procurador() | Delete() | NumericFunctions() | StringFunctions() | <EXIT>
+  If() | DoWhile() | While() | For() | Procurador() | Delete() | NumericFunctions() | StringFunctions() | Iostatement() | <EXIT>
 }
 
 void EscopoStatement(): {}
@@ -197,7 +202,7 @@ void EscopoStatementLoop(): {}
 
 void Vector(): {}
 {
-  <ESCOPOVECTORB> (<VAR> | <INT> | <FLOAT>) (<VIRGULA> (<VAR> | <INT> | <FLOAT>))* <ESCOPOVECTORE>
+  <ESCOPOVECTORB> (Lvalue() | <INT> | <FLOAT>) (<VIRGULA> (Lvalue() | <INT> | <FLOAT>))* <ESCOPOVECTORE>
 }
 
 void If(): {}
@@ -222,7 +227,7 @@ void For(): {}
 
 void Delete(): {}
 {
-  <DELETE> <VAR> [Vector()]
+  <DELETE> Lvalue() [Vector()]
 }
 
 // -----------------------------------------------
@@ -290,12 +295,12 @@ void StringFunctions(): {}
 
 void Asort(): {}
 {
-  <ASORT> <ESCOPOPARAMB> (<STRING> | <VAR>) [<VIRGULA> (<STRING> | <VAR>)] <ESCOPOPARAME>
+  <ASORT> <ESCOPOPARAMB> (<STRING> | Lvalue()) [<VIRGULA> (<STRING> | Lvalue())] <ESCOPOPARAME>
 }
 
 void Asorti(): {}
 {
-  <ASORTI> <ESCOPOPARAMB> (<STRING> | <VAR>) [<VIRGULA> (<STRING> | <VAR>)] <ESCOPOPARAME>
+  <ASORTI> <ESCOPOPARAMB> (<STRING> | Lvalue()) [<VIRGULA> (<STRING> | Lvalue())] <ESCOPOPARAME>
 }
 
 void Index(): {}
@@ -310,7 +315,7 @@ void Length(): {}
 
 void Split(): {}
 {
-  <SPLIT> <ESCOPOPARAMB> Procurador() <VIRGULA> (<VAR> | <STRING>) <ESCOPOPARAME>
+  <SPLIT> <ESCOPOPARAMB> Procurador() <VIRGULA> (Lvalue() | <STRING>) <ESCOPOPARAME>
 }
 
 void Strtonum(): {}
@@ -334,6 +339,25 @@ void Toupper(): {}
 }
 
 // -----------------------------------------------
+// I/O Statements
+// -----------------------------------------------
+
+void Iostatement(): {}
+{
+  Getline() | Print()
+}
+
+void Getline(): {}
+{
+  <GETLINE>
+}
+
+void Print(): {}
+{
+  <PRINT>
+}
+
+// -----------------------------------------------
 // Expressions
 // -----------------------------------------------
 
@@ -344,7 +368,7 @@ void Gambiarra1(): {}
 
 void Gambiarra2(): {}
 {
-  <VAR> [Vector()] [(AssignmentOperator() Expression()) | ProcExp()]
+  Lvalue() [Vector()] [(AssignmentOperator() Expression()) | ProcExp()]
 }
 
 void Procurador(): {}
@@ -400,8 +424,8 @@ void Exponential(): {}
 
 void PossibleTokens(): {}
 {
-  (<INCREMENT>|<DECREMENT>) [Prefixos()] (<INT> | (<VAR> [Vector()])| <FLOAT>)
-  |  [Prefixos()] (<INT> | (<VAR> [Vector()])| <FLOAT>) [<INCREMENT>|<DECREMENT>]
+  (<INCREMENT>|<DECREMENT>) [Prefixos()] (<INT> | (Lvalue() [Vector()])| <FLOAT>)
+  |  [Prefixos()] (<INT> | (Lvalue() [Vector()])| <FLOAT>) [<INCREMENT>|<DECREMENT>]
 }
 
 void Prefixos(): {}
@@ -416,5 +440,15 @@ void Prefixos(): {}
 
 // void Parenthesis(): {}
 // {
-//   (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> | <INT> | <VAR> | <FLOAT>)
+//   (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> | <INT> | Lvalue() | <FLOAT>)
 // }
+
+
+// -----------------------------------------------
+// Lvalue
+// -----------------------------------------------
+
+void Lvalue(): {}
+{
+  <VAR> | <BUILTIN>
+}

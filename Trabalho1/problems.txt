@@ -7,3 +7,9 @@ PROBLEMAS que nao sei como resolver:
 5. Colocar String, numeric functions, string functions no PossibleTokens
 6. String functions que aceitam +1
 7. Index, Length nao ta aceitando String porque String nao esta em PossibleTokens ainda
+
+
+FALTA:
+PRINTAR
+ARVORE
+BUGS

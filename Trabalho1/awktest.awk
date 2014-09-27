@@ -183,6 +183,14 @@ BEGIN{
 	}
 }
 
+getline
+getline a+b
+getline 6
+print
+print a+b
+print 6
+
+
 rand()
 BEGIN{}
 
