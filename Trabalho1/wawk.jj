@@ -173,6 +173,7 @@ void InsideFor(): {}
 {
    Lvalue() ( ([Expression2() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>]])
     | ( <OPVETORIN> Lvalue()))
+    | ([ConditionalExp3() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>]])
 }
 
 void While(): {}
@@ -215,16 +216,9 @@ void Print(): {}
 // Expression
 // -----------------------------------------------
 
-
-// void Expression(): {}
-// {
-//   (Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) OneLineIf()) | (OtherTypes() AllOP() Expr1())
-// }
-
-
 void Expression(): {}
 {
-    ( Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) Expression() ) | ConditionalExp3()
+    ( Lvalue() [Vector()] [Expression2()] ) | ConditionalExp3()
 }
 
 void ConditionalExp(): {}
