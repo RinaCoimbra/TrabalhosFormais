@@ -1,0 +1,424 @@
+options
+{
+  JDK_VERSION = "1.5";
+  static = true; 
+  //LOOKAHEAD = 2;
+}
+
+PARSER_BEGIN(NAWK)
+
+public class NAWK {
+  public static void main(String args []) throws ParseException  {
+    new NAWK(System.in);
+    System.out.println("Reading from standard input...");
+    
+    int ok = NAWK.Program();
+    if (ok == 1) System.out.println("Ok!");
+  }
+}
+
+PARSER_END(NAWK)
+
+SKIP :
+{ " " | "\r" | "\t" | "\n" | <"#"(~["\n"])+> }
+
+// -----------------------------------------------
+// Tokens
+// -----------------------------------------------
+
+TOKEN :
+{
+  // Special patterns
+
+    < BEGINFUNCAO: "BEGIN" >
+  | < ENDFUNCAO:   "END" >
+
+  // Scope 
+
+  | < ESCOPOFUNCAOB: "{"  >
+  | < ESCOPOFUNCAOE: "}" >
+  | < ESCOPOPARAMB: "(" >
+  | < ESCOPOPARAME: ")" >
+  | < ESCOPOVECTORB: "[" >
+  | < ESCOPOVECTORE: "]" >
+
+  // Control statements
+
+  | < IF: "if" >
+  | < ELSE: "else" >
+  | < WHILE: "while" >
+  | < DO: "do" >
+  | < FOR: "for" >
+  | < BREAK: "break" >
+  | < EXIT: "exit" >
+  | < CONTINUE: "continue" >
+  | < DELETE: "delete" >
+
+  // Pontuacoes
+
+  | < PONTOVIRGULA: ";" >
+  | < VIRGULA: "," >
+
+  // Numeric functions
+
+  | < ARCTAN: "atan2" >
+  | < COS: "cos" >
+  | < NFEXP: "exp" >
+  | < NFINT: "int" >
+  | < LOG: "log" >
+  | < RAND: "rand" >
+  | < SIN: "sin" >
+  | < SQRT: "sqrt" >
+  | < SRAND: "srand" >
+
+  // String functions
+
+  | < ASORT: "asort" >
+  | < ASORTI: "asorti" >
+  | < INDEX: "index" >
+  | < LENGTH: "length" >
+  | < SPLIT: "split" >
+  | < STRTONUM: "strtonum" >
+  | < SUBSTR: "substr" >
+  | < TOLOWER: "tolower" >
+  | < TOUPPER: "toupper" >
+
+  // I/O Statements
+
+  | < GETLINE: "getline" >
+  | < PRINT: "print" >
+
+  // Built-ins
+
+  | < BUILTIN: ("ARGC" | "ARGIND" | "ARGV" | "BINMODE" | "CONVFMT" | "ENVIRON" | "ERRNO" | "FIELDWIDTHS" | "FILENAME" | "FNR" | "FS" | "IGNORECASE" | "LINT" | "NF" | "NR" | "OFMT" | "OFS" | "ORS" | "PROCINFO" | "RS" | "RT" | "RSTART" | "RLENGHT" | "SUBSEP" | "TEXTDOMAIN")>
+
+  // Expressoes
+
+  | < QUESTION: "?">
+  | < COLON: ":">
+  | < ASSIGNMENTEQ : "=">
+  | < ASSIGNMENTEP : "+=">
+  | < ASSIGNMENTEL : "-=">
+  | < ASSIGNMENTEM : "*=">
+  | < ASSIGNMENTDIV : "/=">
+  | < ASSIGNMENTEMOD : "%=">
+  | < ASSIGNMENTELEV: "^=">
+  | < ASSIGNMENTEXP: "**=">
+  | < LOGICALOR: "||">
+  | < LOGICALAND: "&&">
+  | < OPVETORIN: "in"> // FALTA FAZER
+  | < OPLESS: "<">
+  | < OPMORE: ">">
+  | < OPLESSEQ: "<=">
+  | < OPMOREEQ: ">=">
+  | < OPDIFF: "!=">
+  | < EQEQ: "=="> 
+  | < PIPE1 : "|">  // PERGUNTAR COMO FAZ O SPACE DE CONCATENACAO DE STRING
+  | < PIPE2 : "|&"> // PERGUNTAR SE EH SOH PRA GETLINE
+  | < ADD: "+">
+  | < SUB: "-">
+  | < MULT: "*">
+  | < DIV: "/">
+  | < MOD: "%">
+  | < EXP: "^">
+  | <EXP2: "**">
+  | < LOGICALNOT: "!">
+  | < INCREMENT: "++">
+  | < DECREMENT: "--">
+  | < FDREF: "$">
+
+  // Tipos
+
+  | < INT: (["0"-"9"])+>
+  | < FLOAT: (["0"-"9"])+("." ((["0"-"9"])+))?>
+  | < ID: ["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
+  | < STRING: "\""(~["\""])+ "\"">
+}
+
+// -----------------------------------------------
+// Special patterns
+// -----------------------------------------------
+
+int Program(): {}
+{
+  ((Expression() ListExpression())* [Pattern()] <ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>)* <EOF>{return 1;}
+}
+
+void Pattern(): {}
+{
+  <BEGINFUNCAO> | <ENDFUNCAO>
+}
+
+// -----------------------------------------------
+// Control Statements
+// -----------------------------------------------
+
+void Statement(): {}
+{
+   If() | For() | While() | DoWhile() | Exit() | Delete() | <BREAK> | <CONTINUE> |  Expression() | Iofunctions()
+}
+
+void If(): {}
+{
+  <IF> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+}
+
+// Falta o for in
+void For(): {}
+{
+  <FOR> <ESCOPOPARAMB> InsideFor() <ESCOPOPARAME> (Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+}
+
+void InsideFor(): {}
+{
+  (LOOKAHEAD(4)([Expression()] <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()])
+    | (Lvalue() <OPVETORIN> Lvalue()))
+}
+
+void While(): {}
+{
+  <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+}
+void DoWhile(): {}
+{
+  <DO> (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>) <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME>
+}
+void Exit(): {}
+{
+  <EXIT>
+}
+void Delete(): {}
+{
+  <DELETE> Lvalue()[Vector()]
+}
+
+// -----------------------------------------------
+// I/O Statements
+// -----------------------------------------------
+
+void Iofunctions(): {}
+{
+  Getline() | Print()
+}
+
+void Getline(): {}
+{
+  <GETLINE>
+}
+
+void Print(): {}
+{
+  <PRINT>
+}
+
+// -----------------------------------------------
+// Expression
+// -----------------------------------------------
+
+
+// void Expression(): {}
+// {
+//   (Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) OneLineIf()) | (OtherTypes() AllOP() Expr1())
+// }
+
+
+void Expression(): {}
+{
+    LOOKAHEAD(3) ( Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) Expression() ) | ConditionalExp()
+}
+
+void ConditionalExp(): {}
+{
+  LogicalORExp() [<QUESTION> ConditionalExp() <COLON> ConditionalExp()]
+}
+
+void LogicalORExp(): {}
+{
+  LogicalANDExp() (<LOGICALOR> LogicalANDExp())*
+}
+
+void LogicalANDExp(): {}
+{
+  InArray() (<LOGICALAND> InArray())*
+}
+
+void InArray(): {}
+{
+  BinaryExp() (<OPVETORIN> Lvalue())*
+}
+
+void BinaryExp(): {}
+{
+   AddSub() [((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) AddSub())+]
+}
+
+void AddSub(): {}
+{
+   MultDiv()  ((<ADD>| <SUB>)+ MultDiv())*
+}
+
+void MultDiv(): {}
+{
+   UnaryExp() ((<MULT>|<DIV>| <MOD>) UnaryExp())*
+}
+
+// Tem que colocar os iniciais no começo em algum lugar
+void UnaryExp(): {}
+{
+  (<LOGICALNOT>)* Exponential()
+}
+
+//testar se funciona
+void Exponential(): {}
+{
+  PlusPlus() [(<EXP>|<EXP2>) Exponential()]
+}
+
+void PlusPlus():{}
+{
+
+  ((<INCREMENT>|<DECREMENT>) Lvalue()[Vector()])| (Lvalue() [Vector()] [LOOKAHEAD(2)(<INCREMENT>|<DECREMENT>)]) | FieldReference()
+}
+
+void FieldReference(): {}
+{
+  ( (<FDREF>)+ ( (Lvalue()[Vector()]) | Parenthesis() ) ) 
+  | Parenthesis()
+}
+
+void Parenthesis(): {}
+{
+  (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> )| <INT> | <FLOAT> | <STRING> | NumericFunctions() | StringFunctions()
+}
+
+void ListExpression(): {}
+{
+  (<VIRGULA> Expression())*
+}
+
+// -----------------------------------------------
+// Types
+// -----------------------------------------------
+
+void Lvalue(): {}
+{
+  <ID> | <BUILTIN>
+}
+
+void OtherTypes(): {}
+{
+  <STRING> | <INT> | <FLOAT>
+}
+
+void Vector(): {}
+{
+  <ESCOPOVECTORB> Expression() ListExpression() <ESCOPOVECTORE>
+}
+
+// -----------------------------------------------
+// Numeric Functions
+// -----------------------------------------------
+
+void NumericFunctions(): {}
+{
+  Arctan() | Cos() | Exp() | Int() | Log() | Rand() | Sin() | Sqrt() | Srand()
+}
+
+void Arctan(): {}
+{
+  <ARCTAN> <ESCOPOPARAMB> Expression() <VIRGULA> Expression() <ESCOPOPARAME>
+}
+
+void Cos(): {}
+{
+  <COS> <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+}
+
+void Exp(): {}
+{
+  <NFEXP> <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+}
+
+void Int(): {}
+{
+  <NFINT> <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+}
+
+void Log(): {}
+{
+  <LOG> <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+}
+
+void Rand(): {}
+{
+  <RAND> <ESCOPOPARAMB> <ESCOPOPARAME>
+}
+
+void Sin(): {}
+{
+  <SIN> <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+}
+
+void Sqrt(): {}
+{
+  <SQRT> <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+}
+
+void Srand(): {}
+{
+  <SRAND> <ESCOPOPARAMB> (Expression())* <ESCOPOPARAME>
+}
+
+// -----------------------------------------------
+// String Functions
+// -----------------------------------------------
+
+void StringFunctions(): {}
+{
+  Asort() | Asorti() | Index() | Length() | Split() | Strtonum() | Substr() | Tolower() | Toupper()
+}
+
+void Asort(): {}
+{
+  <ASORT> <ESCOPOPARAMB> (<STRING> | Lvalue()) [<VIRGULA> (<STRING> | Lvalue())] <ESCOPOPARAME>
+}
+
+void Asorti(): {}
+{
+  <ASORTI> <ESCOPOPARAMB> (<STRING> | Lvalue()) [<VIRGULA> (<STRING> | Lvalue())] <ESCOPOPARAME>
+}
+
+void Index(): {}
+{
+  <INDEX> <ESCOPOPARAMB> Expression() <VIRGULA> Expression() <ESCOPOPARAME>
+}
+
+void Length(): {}
+{
+  <LENGTH> <ESCOPOPARAMB> [Expression()] <ESCOPOPARAME>
+}
+
+void Split(): {}
+{
+  <SPLIT> <ESCOPOPARAMB> Expression() <VIRGULA> (Lvalue() | <STRING>) <ESCOPOPARAME>
+}
+
+void Strtonum(): {}
+{
+  <STRTONUM> <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+}
+
+void Substr(): {}
+{
+  <SUBSTR> <ESCOPOPARAMB> Expression() <VIRGULA> Expression() [<VIRGULA> Expression()] <ESCOPOPARAME>
+}
+
+void Tolower(): {}
+{
+  <TOLOWER> <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+}
+
+void Toupper(): {}
+{
+  <TOUPPER> <ESCOPOPARAMB> Expression() <ESCOPOPARAME>
+}
