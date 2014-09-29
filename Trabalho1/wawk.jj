@@ -224,7 +224,7 @@ void Print(): {}
 
 void Expression(): {}
 {
-     LOOKAHEAD(3) ( Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) Expression() ) | ConditionalExp()
+    ( Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) Expression() ) | ConditionalExp3()
 }
 
 void ConditionalExp(): {}
@@ -338,6 +338,64 @@ void PlusPlus2():{}
 {
 
   (<INCREMENT>|<DECREMENT>)
+}
+
+void ConditionalExp3(): {}
+{
+  LogicalORExp3() [<QUESTION> ConditionalExp() <COLON> ConditionalExp()]
+}
+
+void LogicalORExp3(): {}
+{
+  LogicalANDExp3() (<LOGICALOR> LogicalANDExp())*
+}
+
+void LogicalANDExp3(): {}
+{
+  InArray3() (<LOGICALAND> InArray())*
+}
+
+void InArray3(): {}
+{
+  BinaryExp3() (<OPVETORIN> Lvalue())*
+}
+
+void BinaryExp3(): {}
+{
+   AddSub3() [((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) AddSub())+]
+}
+
+void AddSub3(): {}
+{
+   MultDiv3()  [(<ADD>| <SUB>)+ AddSub()]
+}
+
+void MultDiv3(): {}
+{
+   UnaryExp3() ((<MULT>|<DIV>| <MOD>) UnaryExp())*
+}
+
+// Tem que colocar os iniciais no começo em algum lugar
+void UnaryExp3(): {}
+{
+  (<LOGICALNOT>)* Exponential3()
+}
+
+//testar se funciona
+void Exponential3(): {}
+{
+  FieldReference3() [(<EXP>|<EXP2>) Exponential()]
+}
+
+void FieldReference3(): {}
+{
+  ( (<FDREF>)+ (Parenthesis() ) ) 
+  | Parenthesis3()
+}
+
+void Parenthesis3(): {}
+{
+   (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> )| (<INT> | <FLOAT> | <STRING> | NumericFunctions() | StringFunctions())
 }
 
 void ListExpression(): {}
