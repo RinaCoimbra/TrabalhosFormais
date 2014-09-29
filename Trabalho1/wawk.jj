@@ -160,7 +160,7 @@ void Statement(): {}
 
 void If(): {}
 {
-  <IF> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() [<INCREMENT>|<DECREMENT>]  <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+  <IF> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression()  <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
 }
 
 // Falta o for in
@@ -171,18 +171,18 @@ void For(): {}
 
 void InsideFor(): {}
 {
-   Lvalue() ( ([Expression2() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>]])
-    | ( <OPVETORIN> Lvalue()))
-    | ([ConditionalExp3() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>]])
+   Lvalue()  ( ( Expression2()  <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()] )
+    | ( <OPVETORIN> Lvalue())
+    | ([ConditionalExp3()] <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()]) )
 }
 
 void While(): {}
 {
-  <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() [<INCREMENT>|<DECREMENT>] <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+  <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
 }
 void DoWhile(): {}
 {
-  <DO> (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>) <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() [<INCREMENT>|<DECREMENT>] <ESCOPOPARAME>
+  <DO> (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>) <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression()<ESCOPOPARAME>
 }
 void Exit(): {}
 {
