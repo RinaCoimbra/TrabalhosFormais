@@ -2,18 +2,42 @@ options
 {
   JDK_VERSION = "1.5";
   static = true; 
-  //LOOKAHEAD = 2;
 }
 
 PARSER_BEGIN(AWK)
 
+import java.util.*;
+
 public class AWK {
-  public static void main(String args []) throws ParseException  {
+
+  /* Print tokens */
+  public static ArrayList<TokenType> tokenTypeList = new ArrayList<TokenType>();
+
+  public static void addToken (Token token, String type) {
+
+    tokenTypeList.add (new TokenType (token, type));
+  }
+
+  /* Main */
+  public static void main (String args []) throws ParseException  {
+
     new AWK(System.in);
     System.out.println("Reading from standard input...");
     
+    int i = 0;
     int ok = AWK.Start();
     if (ok == 1) System.out.println("Ok!");
+
+    for (TokenType token : tokenTypeList) {
+      System.out.println((++i) + "\t "+token.type+" \t "+token.token.toString());
+      /*
+      for (Iterator i = tokenTypeList.iterator(); i.hasNext();) {
+        System.out.println(i.next());
+      }
+      */
+    }
+
+    System.out.println("SUCESS");
   }
 }
 
@@ -127,7 +151,7 @@ TOKEN :
 
   // Tipos
 
-  | < INT: (["0"-"9"])+>
+  | < INTEGER: (["0"-"9"])+>
   | < FLOAT: (["0"-"9"])+("." ((["0"-"9"])+))?>
   | < VAR: ["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
   | < STRING: "\""(~["\""])+ "\"">
@@ -142,9 +166,11 @@ int Start(): {}
   (Pattern())* (Begin() | Middle() | End()) <EOF> { return 1; }
 }
 
-void Begin(): {}
+void Begin(): { Token token1 = null; }
 {    
-  (<BEGINFUNCAO> EscopoStatement() (Pattern())*)+ [Middle() | End()]
+  (token1 = <BEGINFUNCAO> EscopoStatement() (Pattern())*)+ [Middle() | End()]
+
+  { if (token1 != null) addToken (token1, "BEGIN\t"); }
 }
 
 void Middle(): {}
@@ -152,28 +178,40 @@ void Middle(): {}
   (EscopoStatement() (Pattern())*)+ [Begin() | End()]
 }
 
-void End(): {}
+void End(): { Token token1 = null; }
 {    
-  (<ENDFUNCAO> EscopoStatement() (Pattern())*)+ [Begin() | Middle()]
+  (token1 = <ENDFUNCAO> EscopoStatement() (Pattern())*)+ [Begin() | Middle()]
+
+  { if (token1 != null) addToken (token1, "END\t"); }
 }
 
-void Pattern(): {}
+void Pattern(): { Token token1 = null; }
 {
-  (Procurador() (<VIRGULA> Procurador())*) | NumericFunctions() | StringFunctions() | Iostatement()
+  (Procurador() (token1 = <VIRGULA> Procurador())*) | NumericFunctions() | StringFunctions() | Iostatement()
+
+  { if (token1 != null) addToken (token1, "VIRGULA\t"); }
 }
 
 // -----------------------------------------------
 // Scope
 // -----------------------------------------------
 
-void EscopoParam(): {}
+void EscopoParam(): { Token token1 = null, token2 = null; }
 {
-  <ESCOPOPARAMB> (Procurador()) <ESCOPOPARAME>
+  token1 = <ESCOPOPARAMB> (Procurador()) token2 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "ESCOPOPARAMB\t"); }
+  { if (token1 != null) addToken (token2, "ESCOPOPARAME\t"); }
 }
 
-void EscopoParamFor(): {}
+void EscopoParamFor(): { Token token1 = null, token2 = null, token3 = null, token4 = null; }
 {
-  <ESCOPOPARAMB> (Procurador())* <PONTOVIRGULA> (Procurador())* <PONTOVIRGULA> (Procurador())* <ESCOPOPARAME>
+  token1 = <ESCOPOPARAMB> (Procurador())* token2 = <PONTOVIRGULA> (Procurador())* token3 = <PONTOVIRGULA> (Procurador())* token4 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "ESCOPOPARAMB\t"); }
+  { if (token2 != null) addToken (token2, "PONTOVIRGULA\t"); }
+  { if (token3 != null) addToken (token3, "PONTOVIRGULA\t"); }
+  { if (token4 != null) addToken (token4, "ESCOPOPARAME\t"); }
 }
 
 void ConteudoStatement(): {}
@@ -181,53 +219,85 @@ void ConteudoStatement(): {}
   If() | DoWhile() | While() | For() | Procurador() | Delete() | NumericFunctions() | StringFunctions() | Iostatement() | <EXIT>
 }
 
-void EscopoStatement(): {}
+void EscopoStatement(): { Token token1 = null, token2 = null; }
 {
-  <ESCOPOFUNCAOB> (ConteudoStatement())* <ESCOPOFUNCAOE>
+  token1 = <ESCOPOFUNCAOB> (ConteudoStatement())* token2 = <ESCOPOFUNCAOE>
+
+  { if (token1 != null) addToken (token1, "ESCOPOFUNCAOB\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOFUNCAOE\t"); }
 }
  
-void EscopoStatementControl(): {}
+void EscopoStatementControl(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <ESCOPOFUNCAOB> (ConteudoStatement() | <BREAK> )* <ESCOPOFUNCAOE>
+  token1 = <ESCOPOFUNCAOB> (ConteudoStatement() | token2 = <BREAK> )* token3 = <ESCOPOFUNCAOE>
+
+  { if (token1 != null) addToken (token1, "ESCOPOFUNCAOB\t"); }
+  { if (token2 != null) addToken (token2, "BREAK\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOFUNCAOE\t"); }
 }
 
-void EscopoStatementLoop(): {}
+void EscopoStatementLoop(): { Token token1 = null, token2 = null, token3 = null, token4 = null; }
 {
-  <ESCOPOFUNCAOB> (ConteudoStatement() | <CONTINUE> | <BREAK> )* <ESCOPOFUNCAOE>
+  token1 = <ESCOPOFUNCAOB> (ConteudoStatement() | token2 = <CONTINUE> | token3 = <BREAK> )* token4 = <ESCOPOFUNCAOE>
+
+  { if (token1 != null) addToken (token1, "ESCOPOFUNCAOB\t"); }
+  { if (token2 != null) addToken (token2, "CONTINUE\t"); }
+  { if (token3 != null) addToken (token3, "BREAK\t"); }
+  { if (token4 != null) addToken (token4, "ESCOPOFUNCAOE\t"); }
 }
 
 // -----------------------------------------------
 // Actions
 // -----------------------------------------------
 
-void Vector(): {}
+void Vector(): { Token token1 = null, token2 = null, token3 = null, token4 = null, token5 = null, token6 = null, token7 = null; }
 {
-  <ESCOPOVECTORB> (Lvalue() | <INT> | <FLOAT>) (<VIRGULA> (Lvalue() | <INT> | <FLOAT>))* <ESCOPOVECTORE>
+  token1 = <ESCOPOVECTORB> (Lvalue() | token2 = <INTEGER> | token3 = <FLOAT>) (token4 = <VIRGULA> (Lvalue() | token5 = <INTEGER> | token6 = <FLOAT>))* token7 = <ESCOPOVECTORE>
+
+  { if (token1 != null) addToken (token1, "ESCOPOVECTORB\t"); }
+  { if (token2 != null) addToken (token2, "INTEGER\t"); }
+  { if (token3 != null) addToken (token3, "FLOAT\t"); }
+  { if (token4 != null) addToken (token4, "VIRGULA\t"); }
+  { if (token5 != null) addToken (token5, "INTEGER\t"); }
+  { if (token6 != null) addToken (token6, "FLOAT\t"); }
+  { if (token7 != null) addToken (token7, "ESCOPOVECTORE\t"); }
 }
 
-void If(): {}
+void If(): { Token token1 = null, token2 = null; }
 {
-  <IF> EscopoParam() (EscopoStatementControl() | Procurador()) [<ELSE> (EscopoStatementControl()| Procurador())]
+  token1 = <IF> EscopoParam() (EscopoStatementControl() | Procurador()) [token2 = <ELSE> (EscopoStatementControl()| Procurador())]
+
+  { if (token1 != null) addToken (token1, "IF\t"); }
+  { if (token2 != null) addToken (token2, "ELSE\t"); }
 }
 
-void DoWhile(): {}
+void DoWhile(): { Token token1 = null, token2 = null; }
 {
-  <DO> EscopoStatementLoop() <WHILE> EscopoParam()
+  token1 = <DO> EscopoStatementLoop() token2 = <WHILE> EscopoParam()
+
+  { if (token1 != null) addToken (token1, "DO\t"); }
+  { if (token2 != null) addToken (token2, "WHILE\t"); }
 }
 
-void While(): {}
+void While(): { Token token1 = null; }
 {
-  <WHILE> EscopoParam() EscopoStatementLoop()
+  token1 = <WHILE> EscopoParam() EscopoStatementLoop()
+
+  { if (token1 != null) addToken (token1, "WHILE\t"); }
 }
 
-void For(): {}
+void For(): { Token token1 = null; }
 {
-  <FOR> EscopoParamFor() EscopoStatementLoop()
+  token1 = <FOR> EscopoParamFor() EscopoStatementLoop()
+
+  { if (token1 != null) addToken (token1, "FOR\t"); }
 }
 
-void Delete(): {}
+void Delete(): { Token token1 = null; }
 {
-  <DELETE> Lvalue() [Vector()]
+  token1 = <DELETE> Lvalue() [Vector()]
+
+  { if (token1 != null) addToken (token1, "DELETE\t"); }
 }
 
 // -----------------------------------------------
@@ -239,49 +309,86 @@ void NumericFunctions(): {}
   Arctan() | Cos() | Exp() | Int() | Log() | Rand() | Sin() | Sqrt() | Srand()
 }
 
-void Arctan(): {}
+void Arctan(): { Token token1 = null, token2 = null, token3 = null, token4 = null; }
 {
-  <ARCTAN> <ESCOPOPARAMB> Procurador() <VIRGULA> Procurador() <ESCOPOPARAME>
+  token1 = <ARCTAN> token2 = <ESCOPOPARAMB> Procurador() token3 = <VIRGULA> Procurador() token4 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "ARCTAN\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "VIRGULA\t"); }
+  { if (token4 != null) addToken (token4, "ESCOPOPARAME\t"); }
 }
 
-void Cos(): {}
+void Cos(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <COS> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+  token1 = <COS> token2 = <ESCOPOPARAMB> Procurador() token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "COS\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Exp(): {}
+void Exp(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <NFEXP> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+  token1 = <NFEXP> token2 = <ESCOPOPARAMB> Procurador() token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "NFEXP\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Int(): {}
+void Int(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <NFINT> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+  token1 = <NFINT> token2 = <ESCOPOPARAMB> Procurador() token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "NFINT\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Log(): {}
+void Log(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <LOG> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+  token1 = <LOG> token2 = <ESCOPOPARAMB> Procurador() token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "LOG\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Rand(): {}
+void Rand(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <RAND> <ESCOPOPARAMB> <ESCOPOPARAME>
+  token1 = <RAND> token2 = <ESCOPOPARAMB> token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "RAND\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Sin(): {}
+void Sin(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <SIN> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+  token1 = <SIN> token2 = <ESCOPOPARAMB> Procurador() token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "SIN\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Sqrt(): {}
+void Sqrt(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <SQRT> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+  token1 = <SQRT> token2 = <ESCOPOPARAMB> Procurador() token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "SQRT\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Srand(): {}
+void Srand(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <SRAND> <ESCOPOPARAMB> (Procurador())* <ESCOPOPARAME>
+  token1 = <SRAND> token2 = <ESCOPOPARAMB> (Procurador())* token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "SRAND\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
 // -----------------------------------------------
@@ -293,49 +400,96 @@ void StringFunctions(): {}
   Asort() | Asorti() | Index() | Length() | Split() | Strtonum() | Substr() | Tolower() | Toupper()
 }
 
-void Asort(): {}
+void Asort(): { Token token1 = null, token2 = null, token3 = null, token4 = null, token5 = null, token6 = null; }
 {
-  <ASORT> <ESCOPOPARAMB> (<STRING> | Lvalue()) [<VIRGULA> (<STRING> | Lvalue())] <ESCOPOPARAME>
+  token1 = <ASORT> token2 = <ESCOPOPARAMB> (token3 = <STRING> | Lvalue()) [token4 = <VIRGULA> (token5 = <STRING> | Lvalue())] token6 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "ASORT\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "STRING\t"); }
+  { if (token4 != null) addToken (token4, "VIRGULA\t"); }
+  { if (token5 != null) addToken (token5, "STRING\t"); }
+  { if (token6 != null) addToken (token6, "ESCOPOPARAME\t"); }
 }
 
-void Asorti(): {}
+void Asorti(): { Token token1 = null, token2 = null, token3 = null, token4 = null, token5 = null, token6 = null; }
 {
-  <ASORTI> <ESCOPOPARAMB> (<STRING> | Lvalue()) [<VIRGULA> (<STRING> | Lvalue())] <ESCOPOPARAME>
+  token1 = <ASORTI> token2 = <ESCOPOPARAMB> (token3 = <STRING> | Lvalue()) [token4 = <VIRGULA> (token5 = <STRING> | Lvalue())] token6 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "ASORTI\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "STRING\t"); }
+  { if (token4 != null) addToken (token4, "VIRGULA\t"); }
+  { if (token5 != null) addToken (token5, "STRING\t"); }
+  { if (token6 != null) addToken (token6, "ESCOPOPARAME\t"); }
 }
 
-void Index(): {}
+void Index(): { Token token1 = null, token2 = null, token3 = null, token4 = null; }
 {
-  <INDEX> <ESCOPOPARAMB> Procurador() <VIRGULA> Procurador() <ESCOPOPARAME>
+  token1 = <INDEX> token2 = <ESCOPOPARAMB> Procurador() token3 = <VIRGULA> Procurador() token4 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "INDEX\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "VIRGULA\t"); }
+  { if (token4 != null) addToken (token4, "ESCOPOPARAME\t"); }
 }
 
-void Length(): {}
+void Length(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <LENGTH> <ESCOPOPARAMB> [Procurador()] <ESCOPOPARAME>
+  token1 = <LENGTH> token2 = <ESCOPOPARAMB> [Procurador()] token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "LENGTH\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Split(): {}
+void Split(): { Token token1 = null, token2 = null, token3 = null, token4 = null, token5 = null; }
 {
-  <SPLIT> <ESCOPOPARAMB> Procurador() <VIRGULA> (Lvalue() | <STRING>) <ESCOPOPARAME>
+  token1 = <SPLIT> token2 = <ESCOPOPARAMB> Procurador() token3 = <VIRGULA> (Lvalue() | token4 = <STRING>) token5 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "SPLIT\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "VIRGULA\t"); }
+  { if (token4 != null) addToken (token4, "STRING\t"); }
+  { if (token5 != null) addToken (token5, "ESCOPOPARAME\t"); }
 }
 
-void Strtonum(): {}
+void Strtonum(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <STRTONUM> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+  token1 = <STRTONUM> token2 = <ESCOPOPARAMB> Procurador() token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "STRTONUM\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Substr(): {}
+void Substr(): { Token token1 = null, token2 = null, token3 = null, token4 = null, token5 = null; }
 {
-  <SUBSTR> <ESCOPOPARAMB> Procurador() <VIRGULA> Procurador() [<VIRGULA> Procurador()] <ESCOPOPARAME>
+  token1 = <SUBSTR> token2 = <ESCOPOPARAMB> Procurador() token3 = <VIRGULA> Procurador() [token4 = <VIRGULA> Procurador()] token5 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "SUBSTR\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "VIRGULA\t"); }
+  { if (token4 != null) addToken (token4, "VIRGULA\t"); }
+  { if (token5 != null) addToken (token5, "ESCOPOPARAME\t"); }
 }
 
-void Tolower(): {}
+void Tolower(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <TOLOWER> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+  token1 = <TOLOWER> token2 = <ESCOPOPARAMB> Procurador() token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "TOLOWER\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
-void Toupper(): {}
+void Toupper(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  <TOUPPER> <ESCOPOPARAMB> Procurador() <ESCOPOPARAME>
+  token1 = <TOUPPER> token2 = <ESCOPOPARAMB> Procurador() token3 = <ESCOPOPARAME>
+
+  { if (token1 != null) addToken (token1, "TOUPPER\t"); }
+  { if (token2 != null) addToken (token2, "ESCOPOPARAMB\t"); }
+  { if (token3 != null) addToken (token3, "ESCOPOPARAME\t"); }
 }
 
 // -----------------------------------------------
@@ -347,23 +501,30 @@ void Iostatement(): {}
   Getline() | Print()
 }
 
-void Getline(): {}
+void Getline(): { Token token1 = null; }
 {
-  <GETLINE>
+  token1 = <GETLINE>
+
+  { if (token1 != null) addToken (token1, "GETLINE\t"); }
 }
 
-void Print(): {}
+void Print(): { Token token1 = null; }
 {
-  <PRINT>
+  token1 = <PRINT>
+
+  { if (token1 != null) addToken (token1, "PRINT\t"); }
 }
 
 // -----------------------------------------------
 // Expressions
 // -----------------------------------------------
 
-void Gambiarra1(): {}
+void Gambiarra1(): { Token token1 = null, token2 = null; }
 {
-  (<INT> | <FLOAT>) [ProcExp()]
+  (token1 = <INTEGER> | token2 = <FLOAT>) [ProcExp()]
+
+  { if (token1 != null) addToken (token1, "INTEGER\t"); }
+  { if (token2 != null) addToken (token2, "FLOAT\t"); }
 }
 
 void Gambiarra2(): {}
@@ -376,61 +537,123 @@ void Procurador(): {}
   Gambiarra1() | Gambiarra2()
 }
 
-void ProcExp(): {}
+void ProcExp(): { Token token1 = null, token2 = null, token3 = null, token4 = null, token5 = null, token6 = null, token7 = null, token8 = null, token9 = null, token10 = null, token11 = null, token12 = null, token13 = null, token14 = null, token15 = null, token16 = null; }
 {
-    (<QUESTION> Expression() <COLON> Expression()) 
-  | (<LOGICALOR> Expression()) | (<LOGICALAND> Expression()) | ((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) Expression()) | ((<ADD>| <SUB>) Expression()) | ((<MULT>|<DIV>| <MOD>) Expression())|(<EXP> Expression())
+    (token1 = <QUESTION> Expression() token2 = <COLON> Expression()) 
+  | (token3 = <LOGICALOR> Expression()) | (token4 = <LOGICALAND> Expression()) | ((token5 = < OPLESS>  | token6 = < OPMORE>  | token7 = < OPLESSEQ>  | token8 = < OPMOREEQ>  | token9 = < OPDIFF>  | token10 = < EQEQ> ) Expression()) | ((token11 = <ADD>| token12 = <SUB>) Expression()) | ((token13 = <MULT>|token14 = <DIV>| token15 = <MOD>) Expression())|(token16 = <EXP> Expression())
+
+  { if (token1 != null) addToken (token1, "QUESTION\t"); }
+  { if (token2 != null) addToken (token2, "COLON\t"); }
+  { if (token3 != null) addToken (token3, "LOGICALOR\t"); }
+  { if (token4 != null) addToken (token4, "LOGICALAND\t"); }
+  { if (token5 != null) addToken (token5, "OPLESS\t"); }
+  { if (token6 != null) addToken (token6, "OPMORE\t"); }
+  { if (token7 != null) addToken (token7, "OPLESSEQ\t"); }
+  { if (token8 != null) addToken (token8, "OPMOREEQ\t"); }
+  { if (token9 != null) addToken (token9, "OPDIFF\t"); }
+  { if (token10 != null) addToken (token10, "EQEQ\t"); }
+  { if (token11 != null) addToken (token11, "ADD\t"); }
+  { if (token12 != null) addToken (token12, "SUB\t"); }
+  { if (token13 != null) addToken (token13, "MULT\t"); }
+  { if (token14 != null) addToken (token14, "DIV\t"); }
+  { if (token15 != null) addToken (token15, "MOD\t"); }
+  { if (token16 != null) addToken (token16, "EXP\t"); }
 }
 
-void AssignmentOperator(): {}
+void AssignmentOperator(): { Token token1 = null, token2 = null, token3 = null, token4 = null, token5 = null, token6 = null, token7 = null; }
 {
-  <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV>
+  token1 = <ASSIGNMENTEQ> | token2 = <ASSIGNMENTEP> | token3 = <ASSIGNMENTEL> | token4 = <ASSIGNMENTEM> | token5 = <ASSIGNMENTDIV> | token6 = <ASSIGNMENTEMOD> | token7 = <ASSIGNMENTELEV>
+
+  { if (token1 != null) addToken (token1, "ASSIGNMENTEQ\t"); }
+  { if (token2 != null) addToken (token2, "ASSIGNMENTEP\t"); }
+  { if (token3 != null) addToken (token3, "ASSIGNMENTEL\t"); }
+  { if (token4 != null) addToken (token4, "ASSIGNMENTEM\t"); }
+  { if (token5 != null) addToken (token5, "ASSIGNMENTDIV\t"); }
+  { if (token6 != null) addToken (token6, "ASSIGNMENTEMOD\t"); }
+  { if (token7 != null) addToken (token7, "ASSIGNMENTELEV\t"); }
 }
 
-void Expression(): {}
+void Expression(): { Token token1 = null, token2 = null; }
 {
-  LogicalORExp() [(<QUESTION> LogicalORExp() <COLON> LogicalORExp())+]
+  LogicalORExp() [(token1 = <QUESTION> LogicalORExp() token2 = <COLON> LogicalORExp())+]
+
+  { if (token1 != null) addToken (token1, "QUESTION\t"); }
+  { if (token2 != null) addToken (token2, "COLON\t"); }
 }
 
-void LogicalORExp(): {}
+void LogicalORExp(): { Token token1 = null; }
 {
-  LogicalANDExp() [(<LOGICALOR> LogicalANDExp())+]
+  LogicalANDExp() [(token1 = <LOGICALOR> LogicalANDExp())+]
+    
+  { if (token1 != null) addToken (token1, "LOGICALOR\t"); }
 }
 
-void LogicalANDExp(): {}
+void LogicalANDExp(): { Token token1 = null; }
 {
-  BinaryExp() [(<LOGICALAND> BinaryExp())+]
+  BinaryExp() [(token1 = <LOGICALAND> BinaryExp())+]
+    
+  { if (token1 != null) addToken (token1, "LOGICALAND\t"); }
 }
 
-void BinaryExp(): {}
+void BinaryExp(): { Token token1 = null, token2 = null, token3 = null, token4 = null, token5 = null, token6 = null; }
 {
-   AddSub() [((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) AddSub())+]
+   AddSub() [((token1 = < OPLESS>  | token2 = < OPMORE>  | token3 = < OPLESSEQ>  | token4 = < OPMOREEQ>  | token5 = < OPDIFF>  | token6 = < EQEQ> ) AddSub())+]
+
+  { if (token1 != null) addToken (token1, "OPLESS\t"); }
+  { if (token2 != null) addToken (token2, "OPMORE\t"); }
+  { if (token3 != null) addToken (token3, "OPLESSEQ\t"); }
+  { if (token4 != null) addToken (token4, "OPMOREEQ\t"); }
+  { if (token5 != null) addToken (token5, "OPDIFF\t"); }
+  { if (token6 != null) addToken (token6, "EQEQ\t"); }
 }
 
-void AddSub(): {}
+void AddSub(): { Token token1 = null, token2 = null; }
 {
-  MultDiv() [ ((<ADD>| <SUB>) MultDiv())+]
+  MultDiv() [ ((token1 = <ADD>| token2 = <SUB>) MultDiv())+]
+
+  { if (token1 != null) addToken (token1, "ADD\t"); }
+  { if (token2 != null) addToken (token2, "SUB\t"); }
 }
 
-void MultDiv(): {}
+void MultDiv(): { Token token1 = null, token2 = null, token3 = null; }
 {
-  Exponential() [((<MULT>|<DIV>| <MOD>) Exponential())+]
+  Exponential() [((token1 = <MULT>|token2 = <DIV>| token3 = <MOD>) Exponential())+]
+
+  { if (token1 != null) addToken (token1, "MULT\t"); }
+  { if (token2 != null) addToken (token2, "DIV\t"); }
+  { if (token3 != null) addToken (token3, "MOD\t"); }
 }
 
-void Exponential(): {}
+void Exponential(): { Token token1 = null; }
 {
-  PossibleTokens()[(<EXP> PossibleTokens())+]
+  PossibleTokens()[(token1 = <EXP> PossibleTokens())+]
+  
+  { if (token1 != null) addToken (token1, "EXP\t"); }
 }
 
-void PossibleTokens(): {}
+void PossibleTokens(): { Token token1 = null, token2 = null, token3 = null, token4 = null, token5 = null, token6 = null, token7 = null, token8 = null; }
 {
-  (<INCREMENT>|<DECREMENT>) [Prefixos()] (<INT> | (Lvalue() [Vector()])| <FLOAT>)
-  |  [Prefixos()] (<INT> | (Lvalue() [Vector()])| <FLOAT>) [<INCREMENT>|<DECREMENT>]
+  (token1 = <INCREMENT> | token2 = <DECREMENT>) [Prefixos()] (token3 = <INTEGER> | (Lvalue() [Vector()])| token4 = <FLOAT>)
+  |  [Prefixos()] (token5 = <INTEGER> | (Lvalue() [Vector()])| token6 = <FLOAT>) [token7 = <INCREMENT> | token8 = <DECREMENT>]
+
+  { if (token1 != null) addToken (token1, "INCREMENT\t"); }
+  { if (token2 != null) addToken (token2, "DECREMENT\t"); }
+  { if (token3 != null) addToken (token3, "INTEGER\t"); }
+  { if (token4 != null) addToken (token4, "FLOAT\t"); }
+  { if (token5 != null) addToken (token5, "INTEGER\t"); }
+  { if (token6 != null) addToken (token6, "FLOAT\t"); }
+  { if (token7 != null) addToken (token7, "INCREMENT\t"); }
+  { if (token8 != null) addToken (token8, "DECREMENT\t"); }
 }
 
-void Prefixos(): {}
+void Prefixos(): { Token token1 = null, token2 = null, token3 = null, token4 = null; }
 {
-  (<ADD>|<SUB>|<LOGICALNOT>)[<FDREF>]
+  (token1 = <ADD> | token2 = <SUB> | token3 = <LOGICALNOT>) [token4 = <FDREF>]
+
+  { if (token1 != null) addToken (token1, "ADD\t"); }
+  { if (token2 != null) addToken (token2, "SUB\t"); }
+  { if (token3 != null) addToken (token3, "LOGICALNOT\t"); }
+  { if (token4 != null) addToken (token4, "FDREF\t"); }
 }
 
 // void IncDec(): {}
@@ -440,7 +663,7 @@ void Prefixos(): {}
 
 // void Parenthesis(): {}
 // {
-//   (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> | <INT> | Lvalue() | <FLOAT>)
+//   (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> | <INTEGER> | Lvalue() | <FLOAT>)
 // }
 
 
@@ -448,7 +671,10 @@ void Prefixos(): {}
 // Lvalue
 // -----------------------------------------------
 
-void Lvalue(): {}
+void Lvalue(): { Token token1 = null, token2 = null; }
 {
-  <VAR> | <BUILTIN>
+  token1 = <VAR> | token2 = <BUILTIN>
+
+  { if (token1 != null) addToken (token1, "VAR\t"); }
+  { if (token2 != null) addToken (token2, "BUILTIN\t"); }
 }
