@@ -160,7 +160,7 @@ void Statement(): {}
 
 void If(): {}
 {
-  <IF> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() [<INCREMENT>|<DECREMENT>]  <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+  <IF> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression()  <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
 }
 
 // Falta o for in
@@ -171,17 +171,18 @@ void For(): {}
 
 void InsideFor(): {}
 {
-   Lvalue() ( ([Expression2() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>] ] <PONTOVIRGULA> [Expression() [<INCREMENT>|<DECREMENT>]])
-    | ( <OPVETORIN> Lvalue()))
+   Lvalue()  ( ( Expression2()  <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()] )
+    | ( <OPVETORIN> Lvalue())
+    | ([ConditionalExp3()] <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()]) )
 }
 
 void While(): {}
 {
-  <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() [<INCREMENT>|<DECREMENT>] <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+  <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
 }
 void DoWhile(): {}
 {
-  <DO> (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>) <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() [<INCREMENT>|<DECREMENT>] <ESCOPOPARAME>
+  <DO> (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>) <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression()<ESCOPOPARAME>
 }
 void Exit(): {}
 {
@@ -215,16 +216,9 @@ void Print(): {}
 // Expression
 // -----------------------------------------------
 
-
-// void Expression(): {}
-// {
-//   (Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) OneLineIf()) | (OtherTypes() AllOP() Expr1())
-// }
-
-
 void Expression(): {}
 {
-     LOOKAHEAD(3) ( Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) Expression() ) | ConditionalExp()
+    ( Lvalue() [Vector()] [Expression2()] ) | ConditionalExp3()
 }
 
 void ConditionalExp(): {}
@@ -338,6 +332,64 @@ void PlusPlus2():{}
 {
 
   (<INCREMENT>|<DECREMENT>)
+}
+
+void ConditionalExp3(): {}
+{
+  LogicalORExp3() [<QUESTION> ConditionalExp() <COLON> ConditionalExp()]
+}
+
+void LogicalORExp3(): {}
+{
+  LogicalANDExp3() (<LOGICALOR> LogicalANDExp())*
+}
+
+void LogicalANDExp3(): {}
+{
+  InArray3() (<LOGICALAND> InArray())*
+}
+
+void InArray3(): {}
+{
+  BinaryExp3() (<OPVETORIN> Lvalue())*
+}
+
+void BinaryExp3(): {}
+{
+   AddSub3() [((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) AddSub())+]
+}
+
+void AddSub3(): {}
+{
+   MultDiv3()  [(<ADD>| <SUB>)+ AddSub()]
+}
+
+void MultDiv3(): {}
+{
+   UnaryExp3() ((<MULT>|<DIV>| <MOD>) UnaryExp())*
+}
+
+// Tem que colocar os iniciais no começo em algum lugar
+void UnaryExp3(): {}
+{
+  (<LOGICALNOT>)* Exponential3()
+}
+
+//testar se funciona
+void Exponential3(): {}
+{
+  FieldReference3() [(<EXP>|<EXP2>) Exponential()]
+}
+
+void FieldReference3(): {}
+{
+  ( (<FDREF>)+ (Parenthesis() ) ) 
+  | Parenthesis3()
+}
+
+void Parenthesis3(): {}
+{
+   (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> )| (<INT> | <FLOAT> | <STRING> | NumericFunctions() | StringFunctions())
 }
 
 void ListExpression(): {}
