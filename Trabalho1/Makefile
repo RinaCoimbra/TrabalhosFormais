@@ -4,3 +4,10 @@ awk:
 
 run:
 	java AWK
+
+nawk:
+	java -cp javacc.jar javacc nawk.jj
+        javac -cp .:javacc.jar *.java
+
+nrun: 
+	java NAWK
