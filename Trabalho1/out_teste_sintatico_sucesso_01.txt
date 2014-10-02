@@ -1,0 +1,3 @@
+java NAWK
+Reading from standard input...
+SUCESS

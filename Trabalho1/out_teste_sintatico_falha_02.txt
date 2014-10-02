@@ -1,0 +1,13 @@
+Exception in thread "main" ParseException: Encountered " ")" ") "" at line 5, column 14.
+Was expecting one of:
+    "in" ...
+    "in" ...
+    
+	at NAWK.generateParseException(NAWK.java:3057)
+	at NAWK.jj_consume_token(NAWK.java:2936)
+	at NAWK.InsideFor(NAWK.java:684)
+	at NAWK.For(NAWK.java:467)
+	at NAWK.Statement(NAWK.java:187)
+	at NAWK.Program(NAWK.java:154)
+	at NAWK.main(NAWK.java:9)
+make: *** [nrun] Error 1
