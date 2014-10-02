@@ -156,7 +156,7 @@ void Pattern(): {}
 
 void Statement(): {}
 {
-  If() | For() | While() | DoWhile() | Exit() | Delete() | (<BREAK> <PONTOVIRGULA>) | (<CONTINUE> <PONTOVIRGULA>) | ( Expression() <PONTOVIRGULA>) | Iofunctions()
+  If() | For() | While() | DoWhile() | Exit() | Delete() | ( <BREAK> <PONTOVIRGULA> ) | (<CONTINUE> <PONTOVIRGULA>) | ( Expression() <PONTOVIRGULA>) | Iofunctions()
 }
 
 void If(): {}
