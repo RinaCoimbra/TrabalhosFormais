@@ -6,33 +6,15 @@ options
 
 PARSER_BEGIN(NAWK)
 
-import java.util.*;
-
 public class NAWK {
 
-  /* Print tokens */
-  public static ArrayList<TokenType> tokenTypeList = new ArrayList<TokenType>();
-
-  public static void addToken (Token token, String type) {
-
-    tokenTypeList.add (new TokenType (token, type));
-  }
-
-  /* Main */
   public static void main(String args []) throws ParseException  {
     
     new NAWK(System.in);
     System.out.println("Reading from standard input...");
     
-    int i = 0;
     int ok = NAWK.Program();
-    if (ok == 1) System.out.println("Ok!");
-
-    for (TokenType token : tokenTypeList) {
-      System.out.println((++i) + "\t "+token.type+" \t "+token.token.toString());
-    }
-
-    System.out.println("SUCESS");
+    if (ok == 1) System.out.println("SUCESS");
   }
 }
 
@@ -160,7 +142,7 @@ TOKEN :
 
 int Program(): {}
 {
-  ((Expression() ListExpression())* [Pattern()] <ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>)* <EOF>{return 1;}
+  ((Expression() ListExpression())* [Pattern()] <ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>)* <EOF> {return 1;}
 }
 
 void Pattern(): {}
@@ -174,44 +156,42 @@ void Pattern(): {}
 
 void Statement(): {}
 {
-  If() | For() | While() | DoWhile() | Exit() | Delete() | (<BREAK> <PONTOVIRGULA>) | (<CONTINUE> <PONTOVIRGULA> )| ( Expression() <PONTOVIRGULA>) | Iofunctions()
+  If() | For() | While() | DoWhile() | Exit() | Delete() | (<BREAK> <PONTOVIRGULA>) | (<CONTINUE> <PONTOVIRGULA>) | ( Expression() <PONTOVIRGULA>) | Iofunctions()
 }
 
 void If(): {}
 {
-  <IF> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+  <IF> <ESCOPOPARAMB>  Expression() <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> ( Statement())* <ESCOPOFUNCAOE> [ <ELSE> ( (<ESCOPOFUNCAOB> ( Statement() )* <ESCOPOFUNCAOE> ) | Statement() )]))
 }
 
-// Falta o for in
 void For(): {}
 {
-  <FOR> <ESCOPOPARAMB> InsideFor() <ESCOPOPARAME> (Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+  <FOR> <ESCOPOPARAMB> InsideFor() <ESCOPOPARAME> ( Statement() | ( <ESCOPOFUNCAOB> ( Statement() )* <ESCOPOFUNCAOE> ))
 }
 
 void InsideFor(): {}
 {
-  (LOOKAHEAD(4)([Expression()] <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()])
-    | (Lvalue() <OPVETORIN> Lvalue()))
+  ( LOOKAHEAD(4) ( [Expression()] <PONTOVIRGULA> [ Expression() ] <PONTOVIRGULA> [ Expression() ] ) | ( Lvalue() <OPVETORIN> Lvalue() ) )
 }
 
 void While(): {}
 {
-  <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
+  <WHILE> <ESCOPOPARAMB> [ (<ADD> | <SUB> ) ] Expression() <ESCOPOPARAME> ( Statement() | ( <ESCOPOFUNCAOB> ( Statement() )* <ESCOPOFUNCAOE> ) )
 }
 
 void DoWhile(): {}
 {
-  <DO> (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>) <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME>
+  <DO> ( <ESCOPOFUNCAOB> ( Statement() )* <ESCOPOFUNCAOE> ) <WHILE> <ESCOPOPARAMB> [ ( <ADD> | <SUB> ) ] Expression() <ESCOPOPARAME>
 }
 
 void Exit(): {}
 {
-<EXIT> [ Expression()] <PONTOVIRGULA>
+  <EXIT> [ Expression() ] <PONTOVIRGULA>
 }
 
 void Delete(): {}
 {
-<DELETE> Lvalue()[Vector()] <PONTOVIRGULA>
+  <DELETE> Lvalue() [ Vector() ] <PONTOVIRGULA>
 }
 
 // -----------------------------------------------
@@ -220,7 +200,7 @@ void Delete(): {}
 
 void Iofunctions(): {}
 {
-  (Getline() | Print()) [Expression()] <PONTOVIRGULA>
+  ( Getline() | Print() ) [ Expression() ] <PONTOVIRGULA>
 }
 
 void Getline(): {}
@@ -240,82 +220,80 @@ void Print(): {}
 
 // void Expression(): {}
 // {
-//   (Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) OneLineIf()) | (OtherTypes() AllOP() Expr1())
+//   (Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) OneLineIf() | (OtherTypes() AllOP() Expr1())
 // }
-
 
 void Expression(): {}
 {
-    LOOKAHEAD(3) ( Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) Expression() ) | ConditionalExp()
+  LOOKAHEAD(3) ( Lvalue() [ Vector() ] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) Expression() ) | ConditionalExp()
 }
 
 void ConditionalExp(): {}
 {
-  LogicalORExp() [<QUESTION> ConditionalExp() <COLON> ConditionalExp()]
+  LogicalORExp() [ <QUESTION> ConditionalExp() <COLON> ConditionalExp() ]
 }
 
 void LogicalORExp(): {}
 {
-  LogicalANDExp() (<LOGICALOR> LogicalANDExp())*
+  LogicalANDExp() ( <LOGICALOR> LogicalANDExp() )*
 }
 
 void LogicalANDExp(): {}
 {
-  InArray() (<LOGICALAND> InArray())*
+  InArray() ( <LOGICALAND> InArray() )*
 }
 
 void InArray(): {}
 {
-  (BinaryExp() (<OPVETORIN> Lvalue())*)
+  ( BinaryExp() ( <OPVETORIN> Lvalue() )* )
 }
 
 void BinaryExp(): {}
 {
-   AddSub() [((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF> | < EQEQ> ) AddSub())+]
+  AddSub() [ ( ( < OPLESS> | < OPMORE> | < OPLESSEQ> | < OPMOREEQ> | < OPDIFF> | < EQEQ> ) AddSub() )+ ]
 }
 
 void AddSub(): {}
 {
-   MultDiv()  ((<ADD>| <SUB>) MultDiv())*
+  MultDiv() ( ( <ADD> | <SUB> ) MultDiv() )*
 }
 
 void MultDiv(): {}
 {
-   UnaryExp() ((<MULT>|<DIV>| <MOD>) UnaryExp())*
+  UnaryExp() ( ( <MULT> | <DIV> | <MOD> ) UnaryExp() )*
 }
 
 // Tem que colocar os iniciais no começo em algum lugar
 void UnaryExp(): {}
 {
-  ((<LOGICALNOT>)* Exponential())
+  ( (<LOGICALNOT> )* Exponential() )
 }
 
 //testar se funciona
 void Exponential(): {}
 {
-  PlusPlus() [(<EXP>|<EXP2>) Exponential()]
+  PlusPlus() [ ( <EXP> | <EXP2> ) Exponential() ]
 }
+
 
 void PlusPlus():{}
 {
-
-  ((<INCREMENT>|<DECREMENT>) Lvalue()[Vector()])| (Lvalue() [Vector()] [LOOKAHEAD(2)(<INCREMENT>|<DECREMENT>)]) | FieldReference()
+  ( ( <INCREMENT> | <DECREMENT> ) Lvalue() [ Vector() ] ) | ( Lvalue() [ Vector() ] [ LOOKAHEAD(2) ( <INCREMENT> | <DECREMENT> ) ] ) | FieldReference()
 }
 
 void FieldReference(): {}
 {
-  ( (<FDREF>)+ ( (Lvalue()[Vector()]) | Parenthesis() ) ) 
-  | Parenthesis()
+  ( ( <FDREF> )+ ( ( Lvalue() [ Vector() ] ) | Parenthesis() ) ) | Parenthesis()
 }
 
 void Parenthesis(): {}
 {
-  (<ESCOPOPARAMB> Expression() <ESCOPOPARAME> )| <INT> | <FLOAT> | <STRING> | NumericFunctions() | StringFunctions()
+  ( <ESCOPOPARAMB> Expression() <ESCOPOPARAME> ) | <INT> | <FLOAT> | <STRING> | NumericFunctions() | StringFunctions()
 }
 
 void ListExpression(): {}
 {
-  (<VIRGULA> Expression())*
+  ( <VIRGULA> Expression() )*
 }
 
 // -----------------------------------------------
@@ -388,7 +366,7 @@ void Sqrt(): {}
 
 void Srand(): {}
 {
-  <SRAND> <ESCOPOPARAMB> (Expression())* <ESCOPOPARAME>
+  <SRAND> <ESCOPOPARAMB> ( Expression() )* <ESCOPOPARAME>
 }
 
 // -----------------------------------------------
@@ -402,12 +380,12 @@ void StringFunctions(): {}
 
 void Asort(): {}
 {
-  <ASORT> <ESCOPOPARAMB> (<STRING> | Lvalue()) [<VIRGULA> (<STRING> | Lvalue())] <ESCOPOPARAME>
+  <ASORT> <ESCOPOPARAMB> ( <STRING> | Lvalue() ) [ <VIRGULA> ( <STRING> | Lvalue() ) ] <ESCOPOPARAME>
 }
 
 void Asorti(): {}
 {
-  <ASORTI> <ESCOPOPARAMB> (<STRING> | Lvalue()) [<VIRGULA> (<STRING> | Lvalue())] <ESCOPOPARAME>
+  <ASORTI> <ESCOPOPARAMB> ( <STRING> | Lvalue() ) [ <VIRGULA> ( <STRING> | Lvalue() ) ] <ESCOPOPARAME>
 }
 
 void Index(): {}
@@ -417,12 +395,12 @@ void Index(): {}
 
 void Length(): {}
 {
-  <LENGTH> <ESCOPOPARAMB> [Expression()] <ESCOPOPARAME>
+  <LENGTH> <ESCOPOPARAMB> [ Expression() ] <ESCOPOPARAME>
 }
 
 void Split(): {}
 {
-  <SPLIT> <ESCOPOPARAMB> Expression() <VIRGULA> (Lvalue() | <STRING>) <ESCOPOPARAME>
+  <SPLIT> <ESCOPOPARAMB> Expression() <VIRGULA> ( Lvalue() | <STRING> ) <ESCOPOPARAME>
 }
 
 void Strtonum(): {}
@@ -432,7 +410,7 @@ void Strtonum(): {}
 
 void Substr(): {}
 {
-  <SUBSTR> <ESCOPOPARAMB> Expression() <VIRGULA> Expression() [<VIRGULA> Expression()] <ESCOPOPARAME>
+  <SUBSTR> <ESCOPOPARAMB> Expression() <VIRGULA> Expression() [ <VIRGULA> Expression() ] <ESCOPOPARAME>
 }
 
 void Tolower(): {}

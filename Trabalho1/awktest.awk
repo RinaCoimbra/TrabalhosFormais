@@ -98,22 +98,22 @@ BEGIN
 	}
 }
 
-asort("a");
-asorti("a");
-2+3;
-exp(a+s-2);
-2+3;
-2+3;
-cos(a+v);
-asort(a, asd);
-asorti(a, asd);
-asort("a", asd);
-asorti("a", asd);
-asort(a, "asd");
-asort(a);
-length();
-length(a);
-length(a+3);
+asort("a")
+asorti("a")
+2+3
+exp(a+s-2)
+2+3
+2+3
+cos(a+v)
+asort(a, asd)
+asorti(a, asd)
+asort("a", asd)
+asorti("a", asd)
+asort(a, "asd")
+asort(a)
+length()
+length(a)
+length(a+3)
 
 
 BEGIN{

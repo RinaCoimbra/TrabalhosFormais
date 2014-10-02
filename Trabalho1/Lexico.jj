@@ -1,0 +1,279 @@
+options
+{
+  JDK_VERSION = "1.5";
+  static = true;
+}
+
+PARSER_BEGIN(LEXICO)
+
+import java.util.*;
+
+public class LEXICO {
+
+  /* Print tokens */
+  public static ArrayList<TokenType> tokenTypeList = new ArrayList<TokenType>();
+
+  public static void addToken (Token token, String type) {
+
+    tokenTypeList.add (new TokenType (token, type));
+  }
+
+  /* Main */
+  public static void main(String args []) throws ParseException  {
+    
+    new LEXICO(System.in);
+    System.out.println("Reading from standard input...");
+    
+    // int i = 0;
+    int ok = LEXICO.AnalisadorLexico();
+
+    
+
+    // for (TokenType token : tokenTypeList) {
+    //   System.out.println((++i) + "\t "+token.type+" \t "+token.token.toString());
+    // }
+
+    if (ok == 1) System.out.println("SUCESS");
+  }
+}
+
+PARSER_END(LEXICO)
+
+SKIP :
+{ " " | "\r" | "\t" | "\n" | <"#"(~["\n"])+> }
+
+// -----------------------------------------------
+// Tokens
+// -----------------------------------------------
+
+TOKEN :
+{
+  // Special patterns
+
+    < BEGINFUNCAO: "BEGIN" >
+  | < ENDFUNCAO:   "END" >
+
+  // Scope 
+
+  | < ESCOPOFUNCAOB: "{"  >
+  | < ESCOPOFUNCAOE: "}" >
+  | < ESCOPOPARAMB: "(" >
+  | < ESCOPOPARAME: ")" >
+  | < ESCOPOVECTORB: "[" >
+  | < ESCOPOVECTORE: "]" >
+
+  // Control statements
+
+  | < IF: "if" >
+  | < ELSE: "else" >
+  | < WHILE: "while" >
+  | < DO: "do" >
+  | < FOR: "for" >
+  | < BREAK: "break" >
+  | < EXIT: "exit" >
+  | < CONTINUE: "continue" >
+  | < DELETE: "delete" >
+
+  // Pontuacoes
+
+  | < PONTOVIRGULA: ";" >
+  | < VIRGULA: "," >
+
+  // Numeric functions
+
+  | < ARCTAN: "atan2" >
+  | < COS: "cos" >
+  | < NFEXP: "exp" >
+  | < NFINT: "int" >
+  | < LOG: "log" >
+  | < RAND: "rand" >
+  | < SIN: "sin" >
+  | < SQRT: "sqrt" >
+  | < SRAND: "srand" >
+
+  // String functions
+
+  | < ASORT: "asort" >
+  | < ASORTI: "asorti" >
+  | < INDEX: "index" >
+  | < LENGTH: "length" >
+  | < SPLIT: "split" >
+  | < STRTONUM: "strtonum" >
+  | < SUBSTR: "substr" >
+  | < TOLOWER: "tolower" >
+  | < TOUPPER: "toupper" >
+
+  // I/O Statements
+
+  | < GETLINE: "getline" >
+  | < PRINT: "print" >
+
+  // Built-ins
+
+  | < BUILTIN: ("ARGC" | "ARGIND" | "ARGV" | "BINMODE" | "CONVFMT" | "ENVIRON" | "ERRNO" | "FIELDWIDTHS" | "FILENAME" | "FNR" | "FS" | "IGNORECASE" | "LINT" | "NF" | "NR" | "OFMT" | "OFS" | "ORS" | "PROCINFO" | "RS" | "RT" | "RSTART" | "RLENGHT" | "SUBSEP" | "TEXTDOMAIN")>
+
+  // Expressoes
+
+  | < QUESTION: "?">
+  | < COLON: ":">
+  | < ASSIGNMENTEQ : "=">
+  | < ASSIGNMENTEP : "+=">
+  | < ASSIGNMENTEL : "-=">
+  | < ASSIGNMENTEM : "*=">
+  | < ASSIGNMENTDIV : "/=">
+  | < ASSIGNMENTEMOD : "%=">
+  | < ASSIGNMENTELEV: "^=">
+  | < ASSIGNMENTEXP: "**=">
+  | < LOGICALOR: "||">
+  | < LOGICALAND: "&&">
+  | < OPVETORIN: "in"> // FALTA FAZER
+  | < OPLESS: "<">
+  | < OPMORE: ">">
+  | < OPLESSEQ: "<=">
+  | < OPMOREEQ: ">=">
+  | < OPDIFF: "!=">
+  | < EQEQ: "=="> 
+  | < PIPE1 : "|">  // PERGUNTAR COMO FAZ O SPACE DE CONCATENACAO DE STRING
+  | < PIPE2 : "|&"> // PERGUNTAR SE EH SOH PRA GETLINE
+  | < ADD: "+">
+  | < SUB: "-">
+  | < MULT: "*">
+  | < DIV: "/">
+  | < MOD: "%">
+  | < EXP: "^">
+  | <EXP2: "**">
+  | < LOGICALNOT: "!">
+  | < INCREMENT: "++">
+  | < DECREMENT: "--">
+  | < FDREF: "$">
+
+  // Tipos
+
+  | < INT: (["0"-"9"])+>
+  | < FLOAT: (["0"-"9"])+("." ((["0"-"9"])+))?>
+  | < ID: ["a"-"z", "A"-"Z"] (["a"-"z", "A"-"Z", "0"-"9"])*>
+  | < STRING: "\""(~["\""])+ "\"">
+}
+
+int AnalisadorLexico(): { int i = 0; Token t; }
+{
+   (t = Tokens() { System.out.println("(" + t.beginLine + ", " + t.beginColumn + ")" + "\t "+tokenTypeList.get(tokenTypeList.size()-1).type+" \t "+tokenTypeList.get(tokenTypeList.size()-1).token.toString()); } )+ { return 1; }
+}
+
+Token Tokens(): {
+  Token
+    token01 = null, token02 = null, token03 = null, token04 = null, token05 = null, token06 = null, token07 = null, token08 = null, token09 = null,
+    token10 = null, token11 = null, token12 = null, token13 = null, token14 = null, token15 = null, token16 = null, token17 = null, token18 = null, token19 = null,
+    token20 = null, token21 = null, token22 = null, token23 = null, token24 = null, token25 = null, token26 = null, token27 = null, token28 = null, token29 = null,
+    token30 = null, token31 = null, token32 = null, token33 = null, token34 = null, token35 = null, token36 = null, token37 = null, token38 = null, token39 = null,
+    token40 = null, token41 = null, token42 = null, token43 = null, token44 = null, token45 = null, token46 = null, token47 = null, token48 = null, token49 = null,
+    token50 = null, token51 = null, token52 = null, token53 = null, token54 = null, token55 = null, token56 = null, token57 = null, token58 = null, token59 = null,
+    token60 = null, token61 = null, token62 = null, token63 = null, token64 = null, token65 = null, token66 = null, token67 = null, token68 = null, token69 = null,
+    token70 = null, token71 = null, token72 = null, token73 = null, token74 = null, token75 = null, token76 = null;
+}
+
+{
+    token01 = < BEGINFUNCAO >     { addToken (token01, "BEGINFUNCAO\t"); return token01; }
+  | token02 = < ENDFUNCAO >       { addToken (token02, "ENDFUNCAO\t"); return token02; }
+
+  // Scope 
+
+  | token03 = < ESCOPOFUNCAOB >   { addToken (token03, "ESCOPOFUNCAOB\t"); return token03; }
+  | token04 = < ESCOPOFUNCAOE >   { addToken (token04, "ESCOPOFUNCAOE\t"); return token04; }
+  | token05 = < ESCOPOPARAMB >    { addToken (token05, "ESCOPOPARAMB\t"); return token05; }
+  | token06 = < ESCOPOPARAME >    { addToken (token06, "ESCOPOPARAME\t"); return token06; }
+  | token07 = < ESCOPOVECTORB >   { addToken (token07, "ESCOPOVECTORB\t"); return token07; }
+  | token08 = < ESCOPOVECTORE >   { addToken (token08, "ESCOPOVECTORE\t"); return token08; }
+
+  // Control statements
+
+  | token09 = < IF >              { addToken (token09, "IF\t"); return token09; }
+  | token10 = < ELSE >            { addToken (token10, "ELSE\t"); return token10; }
+  | token11 = < WHILE >           { addToken (token11, "WHILE\t"); return token11; }
+  | token12 = < DO >              { addToken (token12, "DO\t"); return token12; }
+  | token13 = < FOR >             { addToken (token13, "FOR\t"); return token13; }
+  | token14 = < BREAK >           { addToken (token14, "BREAK\t"); return token14; }
+  | token15 = < EXIT >            { addToken (token15, "EXIT\t"); return token15; }
+  | token16 = < CONTINUE >        { addToken (token16, "CONTINUE\t"); return token16; }
+  | token17 = < DELETE >          { addToken (token17, "DELETE\t"); return token17; }
+
+  // Pontuacoes
+
+  | token18 = < PONTOVIRGULA >    { addToken (token18, "PONTOVIRGULA\t"); return token18; }
+  | token19 = < VIRGULA >         { addToken (token19, "VIRGULA\t"); return token19; }
+
+  // Numeric functions
+
+  | token20 = < ARCTAN >          { addToken (token20, "ARCTAN\t"); return token20; }
+  | token21 = < COS >             { addToken (token21, "COS\t"); return token21; }
+  | token22 = < NFEXP >           { addToken (token22, "NFEXP\t"); return token22; }
+  | token23 = < NFINT >           { addToken (token23, "NFINT\t"); return token23; }
+  | token24 = < LOG >             { addToken (token24, "LOG\t"); return token24; }
+  | token25 = < RAND >            { addToken (token25, "RAND\t"); return token25; }
+  | token26 = < SIN >             { addToken (token26, "SIN\t"); return token26; }
+  | token27 = < SQRT >            { addToken (token27, "SQRT\t"); return token27; }
+  | token28 = < SRAND >           { addToken (token28, "SRAND\t"); return token28; }
+
+  // String functions
+
+  | token29 = < ASORT >           { addToken (token29, "ASORT\t"); return token29; }
+  | token30 = < ASORTI >          { addToken (token30, "ASORTI\t"); return token30; }
+  | token31 = < INDEX >           { addToken (token31, "INDEX\t"); return token31; }
+  | token32 = < LENGTH >          { addToken (token32, "LENGTH\t"); return token32; }
+  | token33 = < SPLIT >           { addToken (token33, "SPLIT\t"); return token33; }
+  | token34 = < STRTONUM >        { addToken (token34, "STRTONUM\t"); return token34; }
+  | token35 = < SUBSTR >          { addToken (token35, "SUBSTR\t"); return token35; }
+  | token36 = < TOLOWER >         { addToken (token36, "TOLOWER\t"); return token36; }
+  | token37 = < TOUPPER >         { addToken (token37, "TOUPPER\t"); return token37; }
+
+  // I/O Statements
+
+  | token38 = < GETLINE >         { addToken (token38, "GETLINE\t"); return token38; }
+  | token39 = < PRINT >           { addToken (token39, "PRINT\t"); return token39; }
+
+  // Built-ins
+
+  | token40 = < BUILTIN >         { addToken (token40, "BUILTIN\t"); return token40; }
+
+  // Expressoes
+
+  | token41 = < QUESTION >        { addToken (token41, "QUESTION\t"); return token41; }
+  | token42 = < COLON >           { addToken (token42, "COLON\t"); return token42; }
+  | token43 = < ASSIGNMENTEQ >    { addToken (token43, "ASSIGNMENTEQ\t"); return token43; }
+  | token44 = < ASSIGNMENTEP >    { addToken (token44, "ASSIGNMENTEP\t"); return token44; }
+  | token45 = < ASSIGNMENTEL >    { addToken (token45, "ASSIGNMENTEL\t"); return token45; }
+  | token46 = < ASSIGNMENTEM >    { addToken (token46, "ASSIGNMENTEM\t"); return token46; }
+  | token47 = < ASSIGNMENTDIV >   { addToken (token47, "ASSIGNMENTDIV\t"); return token47; }
+  | token48 = < ASSIGNMENTEMOD >  { addToken (token48, "ASSIGNMENTEMOD\t"); return token48; }
+  | token49 = < ASSIGNMENTELEV >  { addToken (token49, "ASSIGNMENTELEV\t"); return token49; }
+  | token50 = < ASSIGNMENTEXP >   { addToken (token50, "ASSIGNMENTEXP\t"); return token50; }
+  | token51 = < LOGICALOR >       { addToken (token51, "LOGICALOR\t"); return token51; }
+  | token52 = < LOGICALAND >      { addToken (token52, "LOGICALAND\t"); return token52; }
+  | token53 = < OPVETORIN >       { addToken (token53, "OPVETORIN\t"); return token53; }
+  | token54 = < OPLESS >          { addToken (token54, "OPLESS\t"); return token54; }
+  | token55 = < OPMORE >          { addToken (token55, "OPMORE\t"); return token55; }
+  | token56 = < OPLESSEQ >        { addToken (token56, "OPLESSEQ\t"); return token56; }
+  | token57 = < OPMOREEQ >        { addToken (token57, "OPMOREEQ\t"); return token57; }
+  | token58 = < OPDIFF >          { addToken (token58, "OPDIFF\t"); return token58; }
+  | token59 = < EQEQ >            { addToken (token59, "EQEQ\t"); return token59; }
+  | token60 = < PIPE1 >           { addToken (token60, "PIPE1\t"); return token60; }
+  | token61 = < PIPE2 >           { addToken (token61, "PIPE2\t"); return token61; }
+  | token62 = < ADD >             { addToken (token62, "ADD\t"); return token62; }
+  | token63 = < SUB >             { addToken (token63, "SUB\t"); return token63; }
+  | token64 = < MULT >            { addToken (token64, "MULT\t"); return token64; }
+  | token65 = < DIV >             { addToken (token65, "DIV\t"); return token65; }
+  | token66 = < MOD >             { addToken (token66, "MOD\t"); return token66; }
+  | token67 = < EXP >             { addToken (token67, "EXP\t"); return token67; }
+  | token68 = < EXP2 >            { addToken (token68, "EXP2\t"); return token68; }
+  | token69 = < LOGICALNOT >      { addToken (token69, "LOGICALNOT\t"); return token69; }
+  | token70 = < INCREMENT >       { addToken (token70, "INCREMENT\t"); return token70; }
+  | token71 = < DECREMENT >       { addToken (token71, "DECREMENT\t"); return token71; }
+  | token72 = < FDREF >           { addToken (token72, "FDREF\t"); return token72; }
+
+  // Tipos
+
+  | token73 = < INT >             { addToken (token73, "INT\t"); return token73; }
+  | token74 = < FLOAT >           { addToken (token74, "FLOAT\t"); return token74; }
+  | token75 = < ID >              { addToken (token75, "ID\t"); return token75; }
+  | token76 = < STRING >          { addToken (token76, "STRING\t"); return token76; }
+}
