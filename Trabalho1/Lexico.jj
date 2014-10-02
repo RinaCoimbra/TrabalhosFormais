@@ -24,16 +24,9 @@ public class LEXICO {
     new LEXICO(System.in);
     System.out.println("Reading from standard input...");
     
-    // int i = 0;
-    int ok = LEXICO.AnalisadorLexico();
+    int sucesso = LEXICO.AnalisadorLexico();
 
-    
-
-    // for (TokenType token : tokenTypeList) {
-    //   System.out.println((++i) + "\t "+token.type+" \t "+token.token.toString());
-    // }
-
-    if (ok == 1) System.out.println("SUCESS");
+    if (sucesso == 1) System.out.println("SUCESS");
   }
 }
 
@@ -126,22 +119,22 @@ TOKEN :
   | < ASSIGNMENTEXP: "**=">
   | < LOGICALOR: "||">
   | < LOGICALAND: "&&">
-  | < OPVETORIN: "in"> // FALTA FAZER
+  | < OPVETORIN: "in">
   | < OPLESS: "<">
   | < OPMORE: ">">
   | < OPLESSEQ: "<=">
   | < OPMOREEQ: ">=">
   | < OPDIFF: "!=">
   | < EQEQ: "=="> 
-  | < PIPE1 : "|">  // PERGUNTAR COMO FAZ O SPACE DE CONCATENACAO DE STRING
-  | < PIPE2 : "|&"> // PERGUNTAR SE EH SOH PRA GETLINE
+  | < PIPE1 : "|">
+  | < PIPE2 : "|&">
   | < ADD: "+">
   | < SUB: "-">
   | < MULT: "*">
   | < DIV: "/">
   | < MOD: "%">
   | < EXP: "^">
-  | <EXP2: "**">
+  | < EXP2: "**">
   | < LOGICALNOT: "!">
   | < INCREMENT: "++">
   | < DECREMENT: "--">

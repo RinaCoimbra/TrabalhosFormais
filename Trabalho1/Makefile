@@ -7,7 +7,14 @@ run:
 
 nawk:
 	java -cp javacc.jar javacc nawk.jj
-        javac -cp .:javacc.jar *.java
+    javac -cp .:javacc.jar *.java
 
 nrun: 
 	java NAWK
+
+lexico:
+	java -cp javacc.jar javacc Lexico.jj
+    javac -cp .:javacc.jar *.java
+
+lrun: 
+	java LEXICO
