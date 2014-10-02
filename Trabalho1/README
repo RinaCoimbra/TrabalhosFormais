@@ -1,0 +1,44 @@
+ ==============================================================
+|					Trabalho 1 - Formais					   |
+|				Jaqueline Arai & Marina Coimbra				   |
+|				Como compilar e rodar nosso código :)          |
+ ==============================================================
+
+----------------------------------------------------------------
+  1. As versões NAWK e WAWK
+----------------------------------------------------------------
+
+	As versões NAWK e WAWK são o resultado de dois esforços
+realizados simultaneamente: transformar o código para LL(1) e
+terminar o trabalho sem se importar com LL(1), mas mantendo
+todas as regras de precedência. Apesar do WAWK quebrar regras
+de precedência, duplicar regras com pequenas modificações e tem 
+inúmeras derivações, ele é o mais próximo de LL(1) que chegamos.
+Já o NAWK é o código mais estável que tivemos, apesar de não 
+ser LL(1). Ele conserva as regras de precedência e possui 
+alguns LOOKAHEADS(k) locais, assim como o código C do exemplo. 
+Submetemos as duas versões pois achamos interessante mostrar
+nosso esforço nos dois sentidos e os conflitos gerados por esse 
+esforço.
+
+----------------------------------------------------------------
+  2. Compilando
+----------------------------------------------------------------
+
+	Para compilar o NAWK e WAWK, execute o comando:
+		make nawk
+		   OU
+		make wawk
+	Em um terminal UNIX.
+
+----------------------------------------------------------------
+  3. Executando
+----------------------------------------------------------------
+
+	Para executar o NAWK e WAWK, execute o comando em um terminal UNIX:
+		make nrun < arquivodetestes.awk
+		   OU
+		make wrun < arquivodetestes.awk
+	Sendo o primeiro para executar o NAWK e o segundo executa o WAWK.
+	O arquivodetestes.awk do exemplo deverá conter um programa na
+linguagem AWK.
