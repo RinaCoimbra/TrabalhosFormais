@@ -155,7 +155,7 @@ void Pattern(): {}
 
 void Statement(): {}
 {
-   If() | For() | While() | DoWhile() | Exit() | Delete() | <BREAK> | <CONTINUE> |  Expression() | Iofunctions()
+   If() | For() | While() | DoWhile() | Exit() | Delete() | <BREAK> | <CONTINUE> | ( Expression() <PONTOVIRGULA>) | Iofunctions()
 }
 
 void If(): {}
@@ -244,17 +244,17 @@ void LogicalANDExp(): {}
 
 void InArray(): {}
 {
-  BinaryExp() (<OPVETORIN> Lvalue())*
+  (BinaryExp() (<OPVETORIN> Lvalue())*)
 }
 
 void BinaryExp(): {}
 {
-   AddSub() [((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF>  | < EQEQ> ) AddSub())+]
+   AddSub() [((< OPLESS>  | < OPMORE>  | < OPLESSEQ>  | < OPMOREEQ>  | < OPDIFF> | < EQEQ> ) AddSub())+]
 }
 
 void AddSub(): {}
 {
-   MultDiv()  ((<ADD>| <SUB>)+ MultDiv())*
+   MultDiv()  ((<ADD>| <SUB>) MultDiv())*
 }
 
 void MultDiv(): {}
@@ -265,7 +265,7 @@ void MultDiv(): {}
 // Tem que colocar os iniciais no começo em algum lugar
 void UnaryExp(): {}
 {
-  (<LOGICALNOT>)* Exponential()
+  ((<LOGICALNOT>)* Exponential())
 }
 
 //testar se funciona
