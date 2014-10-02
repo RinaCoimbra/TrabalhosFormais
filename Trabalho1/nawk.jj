@@ -1,19 +1,38 @@
 options
 {
   JDK_VERSION = "1.5";
-  static = true; 
-  //LOOKAHEAD = 2;
+  static = true;
 }
 
 PARSER_BEGIN(NAWK)
 
+import java.util.*;
+
 public class NAWK {
+
+  /* Print tokens */
+  public static ArrayList<TokenType> tokenTypeList = new ArrayList<TokenType>();
+
+  public static void addToken (Token token, String type) {
+
+    tokenTypeList.add (new TokenType (token, type));
+  }
+
+  /* Main */
   public static void main(String args []) throws ParseException  {
+    
     new NAWK(System.in);
     System.out.println("Reading from standard input...");
     
+    int i = 0;
     int ok = NAWK.Program();
     if (ok == 1) System.out.println("Ok!");
+
+    for (TokenType token : tokenTypeList) {
+      System.out.println((++i) + "\t "+token.type+" \t "+token.token.toString());
+    }
+
+    System.out.println("SUCESS");
   }
 }
 
@@ -155,7 +174,7 @@ void Pattern(): {}
 
 void Statement(): {}
 {
-   If() | For() | While() | DoWhile() | Exit() | Delete() | <BREAK> | <CONTINUE> | ( Expression() <PONTOVIRGULA>) | Iofunctions()
+  If() | For() | While() | DoWhile() | Exit() | Delete() | (<BREAK> <PONTOVIRGULA>) | (<CONTINUE> <PONTOVIRGULA> )| ( Expression() <PONTOVIRGULA>) | Iofunctions()
 }
 
 void If(): {}
@@ -179,17 +198,20 @@ void While(): {}
 {
   <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
 }
+
 void DoWhile(): {}
 {
   <DO> (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>) <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME>
 }
+
 void Exit(): {}
 {
-  <EXIT>
+<EXIT> [ Expression()] <PONTOVIRGULA>
 }
+
 void Delete(): {}
 {
-  <DELETE> Lvalue()[Vector()]
+<DELETE> Lvalue()[Vector()] <PONTOVIRGULA>
 }
 
 // -----------------------------------------------
@@ -198,7 +220,7 @@ void Delete(): {}
 
 void Iofunctions(): {}
 {
-  Getline() | Print()
+  (Getline() | Print()) [Expression()] <PONTOVIRGULA>
 }
 
 void Getline(): {}
