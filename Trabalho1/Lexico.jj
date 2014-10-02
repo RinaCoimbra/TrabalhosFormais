@@ -26,7 +26,7 @@ public class LEXICO {
     
     int sucesso = LEXICO.AnalisadorLexico();
 
-    if (sucesso == 1) System.out.println("SUCESS");
+    if (sucesso == 1) System.out.println("SUCCESS");
   }
 }
 
