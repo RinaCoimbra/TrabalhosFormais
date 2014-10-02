@@ -14,7 +14,7 @@ public class NAWK {
     System.out.println("Reading from standard input...");
     
     int ok = NAWK.Program();
-    if (ok == 1) System.out.println("SUCESS");
+    if (ok == 1) System.out.println("SUCCESS");
   }
 }
 
@@ -107,15 +107,15 @@ TOKEN :
   | < ASSIGNMENTEXP: "**=">
   | < LOGICALOR: "||">
   | < LOGICALAND: "&&">
-  | < OPVETORIN: "in"> // FALTA FAZER
+  | < OPVETORIN: "in">
   | < OPLESS: "<">
   | < OPMORE: ">">
   | < OPLESSEQ: "<=">
   | < OPMOREEQ: ">=">
   | < OPDIFF: "!=">
   | < EQEQ: "=="> 
-  | < PIPE1 : "|">  // PERGUNTAR COMO FAZ O SPACE DE CONCATENACAO DE STRING
-  | < PIPE2 : "|&"> // PERGUNTAR SE EH SOH PRA GETLINE
+  | < PIPE1 : "|">
+  | < PIPE2 : "|&">
   | < ADD: "+">
   | < SUB: "-">
   | < MULT: "*">
@@ -217,12 +217,6 @@ void Print(): {}
 // Expression
 // -----------------------------------------------
 
-
-// void Expression(): {}
-// {
-//   (Lvalue() [Vector()] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) OneLineIf() | (OtherTypes() AllOP() Expr1())
-// }
-
 void Expression(): {}
 {
   LOOKAHEAD(3) ( Lvalue() [ Vector() ] ( <ASSIGNMENTEQ> | <ASSIGNMENTEP> | <ASSIGNMENTEL> | <ASSIGNMENTEM> | <ASSIGNMENTDIV> | <ASSIGNMENTEMOD> | <ASSIGNMENTELEV> | <ASSIGNMENTEXP>) Expression() ) | ConditionalExp()
@@ -263,13 +257,11 @@ void MultDiv(): {}
   UnaryExp() ( ( <MULT> | <DIV> | <MOD> ) UnaryExp() )*
 }
 
-// Tem que colocar os iniciais no começo em algum lugar
 void UnaryExp(): {}
 {
   ( (<LOGICALNOT> )* Exponential() )
 }
 
-//testar se funciona
 void Exponential(): {}
 {
   PlusPlus() [ ( <EXP> | <EXP2> ) Exponential() ]

@@ -5,7 +5,7 @@
  ==============================================================
 
 ----------------------------------------------------------------
-  1. As versões NAWK e WAWK
+  1. Análisadores Sintáticos: As versões NAWK e WAWK
 ----------------------------------------------------------------
 
 	As versões NAWK e WAWK são o resultado de dois esforços
@@ -19,26 +19,43 @@ ser LL(1). Ele conserva as regras de precedência e possui
 alguns LOOKAHEADS(k) locais, assim como o código C do exemplo. 
 Submetemos as duas versões pois achamos interessante mostrar
 nosso esforço nos dois sentidos e os conflitos gerados por esse 
-esforço.
+esforço. Os arquivos sao nawk.jj e wawk.jj
 
 ----------------------------------------------------------------
-  2. Compilando
+  2. Análisador Léxico: Lexico.jj
 ----------------------------------------------------------------
 
-	Para compilar o NAWK e WAWK, execute o comando:
+	O Analisador léxico verifica se os tokens do código 
+pertencem ao conjunto dos símbolos terminais. O arquivo é:
+	Lexico.jj
+
+----------------------------------------------------------------
+  3. Compilando
+----------------------------------------------------------------
+
+	Para compilar os analisadores sintaticos NAWK e WAWK,
+	 execute o comando:
 		make nawk
 		   OU
 		make wawk
 	Em um terminal UNIX.
+	Para compilar o analisador lexico execute o comando:
+		make lexico
 
 ----------------------------------------------------------------
-  3. Executando
+  4. Executando
 ----------------------------------------------------------------
 
 	Para executar o NAWK e WAWK, execute o comando em um terminal UNIX:
 		make nrun < arquivodetestes.awk
 		   OU
 		make wrun < arquivodetestes.awk
-	Sendo o primeiro para executar o NAWK e o segundo executa o WAWK.
-	O arquivodetestes.awk do exemplo deverá conter um programa na
-linguagem AWK.
+	Sendo o primeiro para executar o NAWK e o segundo executa o 
+WAWK.
+	Para executar o analisador léxico, execute o comando em um terminal UNIX:
+		make lrun < arquivodetestes.awk
+	O arquivodetestes.awk do exemplo deverá conter um programa 
+na linguagem AWK.
+	Estao disponiveis para testes os seguintes arquivos:
+		awktest.awk
+		awktestepattern.awk

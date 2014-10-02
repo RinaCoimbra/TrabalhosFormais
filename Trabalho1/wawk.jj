@@ -170,11 +170,10 @@ void For(): {}
 
 void InsideFor(): {}
 {
-  Lvalue() ( ( Expression2() <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()] )
-| 
-( <OPVETORIN> Lvalue())
-| ([ConditionalExp3()] <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()]) )
+  Lvalue() ( ( Expression2() <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()] ) | ( <OPVETORIN> Lvalue())
+  | ([ConditionalExp3()] <PONTOVIRGULA> [Expression()] <PONTOVIRGULA> [Expression()]) )
 }
+
 void While(): {}
 {
   <WHILE> <ESCOPOPARAMB> [(<ADD>| <SUB>)] Expression() <ESCOPOPARAME> ( Statement() | (<ESCOPOFUNCAOB> (Statement())* <ESCOPOFUNCAOE>))
