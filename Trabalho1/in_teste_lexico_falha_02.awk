@@ -5,7 +5,7 @@ BEGIN {
 	while (i++<1000000)
 	{
 		x = int (rand()*100 + 0.5)
-		y[x]""
+		y[x]£
 	}
 
 	for (i=0;i<=100;i++)

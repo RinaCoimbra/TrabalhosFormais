@@ -1,3 +1,5 @@
+/* Motivo de falha: Token nao encontrado: "º" */
+
 java LEXICO
 Reading from standard input...
 (1, 1)		 ESCOPOFUNCAOB	 		 {
