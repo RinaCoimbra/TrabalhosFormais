@@ -1,10 +1,3 @@
-awk:
-	java -cp javacc.jar javacc awk.jj
-	javac -cp .:javacc.jar *.java
-
-run:
-	java AWK
-
 nawk:
 	java -cp javacc.jar javacc nawk.jj
         javac -cp .:javacc.jar *.java
@@ -18,3 +11,10 @@ wawk:
 
 wrun:
 	java WAWK
+
+lexico:
+	java -cp javacc.jar javacc Lexico.jj
+	javac -cp .:javacc.jar *.java
+
+lrun:
+	java LEXICO
