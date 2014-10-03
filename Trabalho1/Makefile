@@ -11,3 +11,10 @@ nawk:
 
 nrun: 
 	java NAWK
+
+wawk:
+	java -cp javacc.jar javacc wawk.jj
+	javac -cp .:javacc.jar *.java
+
+wrun:
+	java WAWK

@@ -14,7 +14,7 @@ public class NAWK {
     System.out.println("Reading from standard input...");
     
     int ok = NAWK.Program();
-    if (ok == 1) System.out.println("SUCESS");
+    if (ok == 1) System.out.println("SUCCESS");
   }
 }
 
