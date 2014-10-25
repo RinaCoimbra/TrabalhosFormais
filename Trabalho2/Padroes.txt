@@ -1,9 +1,9 @@
-- Porcentagem: [com pontuação opicional antes ou depois]
+-> Porcentagem: [com pontuação opicional antes ou depois]
 23%
 23,4%
 23.4%
 
-- Variação: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois]
+-> Variação: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois]
 aumento
 aumentaram
 aumentou
@@ -122,14 +122,14 @@ ceder
 cedendo
 cedeu
 
-- Fabricante: [com pontuação opicional antes ou depois]
+-> Fabricante: [com pontuação opicional antes ou depois] [só precisa se nao for usar lista]
 empresa
 fabricante
 companhia
 instituição
 organização
 
-- Preço: [com pontuação opicional antes ou depois]
+-> Preço: [com pontuação opicional antes ou depois]
 100 reais
 100.00 reais
 100,00 reais
@@ -145,20 +145,31 @@ R$ 10.000,00
 R$ 2 mil
 bilhões, milhões, mil
 
-- Contexto do preço: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois]
+-> Contexto do preço: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois]
+* contexto de faturamento da empresa [errado]
 faturamento
-lança
-lançamento
-anunciado
+ganhar
+
+* contexto do preço do dispositivo [é o que queremos]
 preço
 custa
 
-- Ano:
+* contexto de lançamento, se tiver um valor, altas chances de ser o preço do dispositivo [é o que queremos]
+lança
+lançamento
+anunciado
+apresentar
+divulgar
+anunciar
+introduzir
+promover
+
+-> Ano:
 neste ano
 ano atual
 [primeiro, segundo, ...] [trimestre, semestre, metade] de 2012
 
-- Dispositivo:
+-> Dispositivo:
 tablet
 smartphone
 smartTV
@@ -173,7 +184,7 @@ goPro
 Começando ou nao com letra maiuscula
 Com pontuação ou nao ao final
 
-- Tamanho:
+-> Tamanho:
 13 polegadas
 4,7 polegadas
 8 a 10 polegadas
@@ -182,5 +193,5 @@ Com pontuação ou nao ao final
 2560 x 1440 pixels
 2560x1440 pixels
 
-- Contexto tamanho:
+-> Contexto tamanho:
 projetor
