@@ -2,6 +2,37 @@
 23%
 23,4%
 23.4%
+23.4 porcento
+2 em cada 5
+2 de cada 10
+muito
+pouco
+suficiente
+suficientemente
+razoavelmente
+razoável
+limitadamente
+limitado
+magro
+pequeno
+grande
+insuficientemente
+insuficiente
+precário
+bastante
+atípico
+excepcional
+extraordinário
+incomum
+inesperado
+inesperadamente
+excepcionalmente
+bem 
+raro
+magnífico
+enorme
+gigantesco
+imensamente
 
 -> Variação: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois]
 mais
@@ -307,5 +338,4 @@ goPro
 
 -> Contexto tamanho: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois] [pode ser plural ou não]
 projetor [não queremos]
-
 tela
