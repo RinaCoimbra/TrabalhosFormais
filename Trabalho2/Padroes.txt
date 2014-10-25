@@ -1,23 +1,202 @@
-- Porcentagem:
+-> Porcentagem: [com pontuação opicional antes ou depois]
 23%
 23,4%
 23.4%
-pontuação ao final
+23.4 porcento
+2 em cada 5
+2 de cada 10
+muito
+pouco
+suficiente
+suficientemente
+razoavelmente
+razoável
+limitadamente
+limitado
+magro
+pequeno
+grande
+insuficientemente
+insuficiente
+precário
+bastante
+atípico
+excepcional
+extraordinário
+incomum
+inesperado
+inesperadamente
+excepcionalmente
+bem 
+raro
+magnífico
+enorme
+gigantesco
+imensamente
 
-- Variação:
-Aumento
-diminuição
+-> Variação: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois]
 mais
 menos
+aumentar
+aumento
+aumentou
+aumentado
+aumentarão
+aumentando
+aumentaram
+diminuir
+diminuiu
+diminuição
+diminuído
+diminuirão
+diminuindo
+diminuiram
 superar
+supera
+superou
+superado
+superação
+superaram
+superarão
+superando
+crescer
+cresceu
+cresce
+crescido
+crescerão
+cresceram
+crescendo
 crescimento
-Queda
+elevar
+eleva
+elevou
+elevado
+elevação
+elevando
+elevarão
+elevaram
+duplicar
+duplicou
+duplicado
+duplicarão
+duplicando
+duplicaram
+triplicar
+triplicou
+triplicado
+triplicarão
+triplicando
+triplicaram
+quadruplicar
+quadruplicou
+quadruplicado
+quadruplicarão
+quadruplicando
+quadruplicaram
+quintuplicar
+quintuplicou
+quintuplicado
+quintuplicarão
+quintuplicando
+quintuplicaram
+acentuar
+acentuou
+acentuado
+acentuarão
+acentuando
+acentuação
+acentuaram
+melhorar
+melhora
+melhorou
+melhorado
+melhorarão
+melhorando
+melhoraram
+melhoramento
+cair
+caiu
+caindo
+cairam
+decaimento
+queda
+retroceder
+retrocede
+retrocedeu
+retrocesso
+retrocedido
+retrocederão
+retrocedendo
+retrocederam
+baixar
+baixa
+baixou
+baixado
+baixarão
+baixando
+baixaram
+decrescer
+decresce
+decresceu
+decrescido
+decrescerão
+decrescendo
+decresceram
+decrescimento
+reduzir
+reduz
+redução
+reduziu
+reduzido
+reduzirão
+reduzindo
+reduziram
+encolher
+encolhe
+encolheu
+encolhido
+encolherão
+encolhendo
+encolhimento
+encolheram
+abrandar
+abrandou
+abrandado
+abrandarão
+abrandando
+abrandaram
+abrandamento
+amenizar
+amenizou
+amenizado
+amenizarão
+amenização
+amenizando
+amenizaram
+enfraquecer
+enfraquece
+enfraqueceu
+enfraquecido
+enfraquecerão
+enfraquecendo
+enfraquecimento
+enfraqueceram
+ceder
+cede
+cedeu
+cedido
+cederão
+cedendo
+cederam
 
-- Fabricante:
+-> Fabricante: [com pontuação opicional antes ou depois] [só precisa se nao for usar lista]
 empresa
 fabricante
+companhia
+instituição
+organização
 
-- Preço:
+-> Preço: [com pontuação opicional antes ou depois]
 100 reais
 100.00 reais
 100,00 reais
@@ -26,50 +205,137 @@ R$ 100 milhões
 R$100
 R$ 100,00
 R$ 100.00 
-R$ 10.000
+R$ 10.000,00
 2 mil reais
 2,2 mil reais
 2.2 mil reais
 R$ 2 mil
-pontuação ao final
 bilhões, milhões, mil
 
-- Contexto do preço:
+-> Contexto do preço ou mesmo da porcentagem: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois]
+* contexto de faturamento da empresa [errado]
+faturar
+fatura
+faturou
+faturado
+faturarão
+faturando
+faturaram
 faturamento
-lança
-lançamento
-anunciado
+ganhar
+ganho
+ganhou
+ganharão
+ganhando
+ganharam
+vender
+vende
+venda
+vendeu
+vendido
+vendendo
+venderam
+
+* ambiguo
+valor
+
+* contexto do preço do dispositivo [é o que queremos]
 preço
 custa
+custo
 
-- Ano:
+* contexto de lançamento, se tiver um valor, altas chances de ser o preço do dispositivo [é o que queremos]
+lançar
+lança
+lançou
+lançado
+lançando
+lançarão
+lançaram
+lançamento
+anunciar
+anuncia
+anunciou
+anunciado
+anunciarão
+anunciando
+anunciaram
+apresentar
+apresenta
+apresentou
+apresentarão
+apresentado
+apresentando
+apresentaram
+divulgar
+divulga
+divulgou
+divulgado
+divulgação
+divulgarão
+divulgando
+divulgaram
+anunciar
+anuncia
+anunciou
+anunciarão
+anunciando
+anunciado
+anunciaram
+promover
+promove
+promoveu
+promovido
+promoverão
+promovendo
+promoveram
+promoção
+
+-> Ano:
 neste ano
+nesse ano
 ano atual
+ano corrente
+ano presente
+atual ano
+corrente ano
+presente ano
+ano passado
+ano anterior
+último ano
 [primeiro, segundo, ...] [trimestre, semestre, metade] de 2012
 
-- Dispositivo:
+-> Dispositivo: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois] [pode ser plural ou não]
+iPod
+iPad
+iPhone
 tablet
 smartphone
+celular
+TV
 smartTV
 televisão
-TV
+televisor
 desktop
+computador de mesa
+computador portátil
 notebook
 laptop
 câmera
-televisor
+câmera digital
+câmera fotográfica
 goPro
-Começando ou nao com letra maiuscula
-Com pontuação ou nao ao final
 
-- Tamanho:
+-> Tamanho: [com pontuação opicional antes ou depois]
 13 polegadas
 4,7 polegadas
+4.7 polegadas
 8 a 10 polegadas
 8 e 10 polegadas
 8 ou 10 polegadas
 2560 x 1440 pixels
 2560x1440 pixels
 
-- Contexto tamanho:
-projetor
+-> Contexto tamanho: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois] [pode ser plural ou não]
+projetor [não queremos]
+tela
