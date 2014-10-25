@@ -10,3 +10,12 @@ run: extractor
 
 showresults:
 	cat output.out
+
+clonegithub:
+	git clone https://github.com/RinaCoimbra/TrabalhosFormais.git
+
+gitadd: 
+	git add t2.l Makefile
+
+gitcommit:
+	git commit

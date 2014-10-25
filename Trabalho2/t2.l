@@ -8,21 +8,31 @@
 	/* need this for file manipulation */
 #include <stdlib.h>
 %}
-FABRICANTES LG|Samsung|Alcatel-Lucent|Alcatel|BenQ|BlackBerry|Blu|Ericsson|High|Huawei|IGB|Jolla|Kyocera|Lenovo|LG|Microsoft|Motorola|Multilaser|NEC|Nokia|Palm|Pantech|Samsung|Sanyo|Sharp|Sony|Toshiba|Vertu|ZTE|HTC|Aple|Casio|CCE|Dynacom|GE|Semp|TCE|AOC|AUO|Chimei|Era|Great|Proton|Sinai|Tatung|Ultmost|Viewsonic|Vizio|Changhong|Funai|Haier|Hisense|Konka|Panda|Skyworth|TCL|TPV|Xoceco|JVC|Mitsubishi|Panasonic|Blaupunkt|Grundig|Loewe|Telefunken|Insignia|Westinghouse|Philips|Thomson|SIM2|Vestel
+
+/*Definição de Fabricante*/
+FABRICANTE LG|Samsung|Alcatel-Lucent|Alcatel|BenQ|BlackBerry|Blu|Ericsson|High|Huawei|IGB|Jolla|Kyocera|Lenovo|LG|Microsoft|Motorola|Multilaser|NEC|Nokia|Palm|Pantech|Samsung|Sanyo|Sharp|Sony|Toshiba|Vertu|ZTE|HTC|Aple|Casio|CCE|Dynacom|GE|Semp|TCE|AOC|AUO|Chimei|Era|Great|Proton|Sinai|Tatung|Ultmost|Viewsonic|Vizio|Changhong|Funai|Haier|Hisense|Konka|Panda|Skyworth|TCL|TPV|Xoceco|JVC|Mitsubishi|Panasonic|Blaupunkt|Grundig|Loewe|Telefunken|Insignia|Westinghouse|Philips|Thomson|SIM2|Vestel
 EXT_fABRICANTE Electronics‎|Eletrônica|Mobile|Mobility|Corporation|Tech|Inc|Products|Curitel|Computer|Toshiba|Sun
-DATA ano|mês|semestre|trimestre|quadrimestre|período|metade
 
 /*Definição dos números ordinais pertinentes*/
 ORDINAIS 1º|primeiro|2º|segundo|3º|terceiro|4º|quarto|5º|quinto|6º|sexto|7º|sétimo|8º|oitavo|9º|nono|10º|décimo|11º|décimo|12º|décimo|13º|14º|15º
 EXT_ORDINAIS primeiro|segundo|terceiro|quarto|quinto
 
-PRE_DATA primeiro|segundo|terceiro|quarto|quinto|sexto|sétimo|oitavo|nono|décimo|
+/*Definição de data (rel. a % de variação da venda)*/
+PRE_DATA neste|Neste|corrente|presente|atual|último|Último
+DATA ano|mês|semestre|trimestre|quadrimestre|período|metade
+POS_DATA corrente|presente|atual|último|anterior|passado
+
+/*Preposições*/
+PREP a|A|ao|Ao|à|À|aos|Aos|às|Às|de|De|do|Do|da|Da|dos|Dos|das|Das|em|Em|no|No|na|Na|nos|Nos|nas|Nas|num|Num|numa|Numa|nuns|Nuns|numas|Numas|por|Por|pelo|Pelo|pela|Pela|pelos|Pelos|pelas|Pelas
+
 
 SPACE " "|\t
 %%
 
-{FABRICANTES}{SPACE}+({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*		{printf("\n\t> Fabricante: %s END\n", yytext);}	
-{DATACORRENTE}		{printf("\n\t > Data (corrente): %s END\n", yytext);}
+({PRE_DATA}{SPACE})?({ORDINAIS}{SPACE}|{ORDINAIS}{SPACE}{EXT_ORDINAIS}{SPACE})?{DATA}{POS_DATA}?		{printf("\n\t> Data: %s END\n", yytext);}	
+
+{FABRICANTE}{SPACE}+({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*		{printf("\n\t> Fabricante: %s END\n", yytext);}	
+
 " "([0-9])+("."([0-9])+)?"%"[^a-zA-Z0-9]		{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
 ^([0-9])+("."([0-9])+)?"%"[^a-zA-Z0-9]			{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
 " "([0-9])+("."([0-9])+)?" porcento"[^a-zA-Z0-9]			{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
