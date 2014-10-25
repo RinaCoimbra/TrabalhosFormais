@@ -1,0 +1,71 @@
+- Porcentagem:
+23%
+23,4%
+23.4%
+pontuação ao final
+
+- Variação:
+Aumento
+diminuição
+mais
+menos
+superar
+crescimento
+Queda
+
+- Preço:
+100 reais
+100.00 reais
+100,00 reais
+R$ 100
+R$ 100 milhões
+R$100
+R$ 100,00
+R$ 100.00 
+R$ 10.000
+2 mil reais
+2,2 mil reais
+2.2 mil reais
+R$ 2 mil
+pontuação ao final
+bilhões, milhões, mil
+
+- Contexto do preço:
+faturamento
+lança
+lançamento
+anunciado
+preço
+custa
+
+- Ano:
+neste ano
+ano atual
+[primeiro, segundo, ...] [trimestre, semestre, metade] de 2012
+
+- Dispositivo:
+tablet
+smartphone
+smartTV
+televisão
+TV
+desktop
+notebook
+laptop
+câmera
+televisor
+goPro
+Começando ou nao com letra maiuscula
+Com pontuação ou nao ao final
+
+- Tamanho:
+13 polegadas
+4,7 polegadas
+8 a 10 polegadas
+8 e 10 polegadas
+8 ou 10 polegadas
+2560 x 1440 pixels
+2560x1440 pixels
+
+- Contexto tamanho:
+projeteor
