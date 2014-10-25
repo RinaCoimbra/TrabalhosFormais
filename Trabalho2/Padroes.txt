@@ -22,14 +22,25 @@ superando
 crescimento
 cresceu
 crescer
-caiu
-caindo
-cair
-queda
 duplicou
 triplicou
 quadruplicou
 quintuplicou
+acentuar
+acentuando
+acentuou
+melhorou
+melhorando
+melhorar
+melhorado
+caiu
+caindo
+cair
+queda
+retrocedeu
+retrocedendo
+retroceder
+retrocedido
 
 - Fabricante:
 empresa
