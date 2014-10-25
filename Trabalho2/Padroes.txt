@@ -10,12 +10,14 @@ aumentar
 aumento
 aumentou
 aumentado
+aumentarão
 aumentando
 aumentaram
 diminuir
 diminuiu
 diminuição
 diminuído
+diminuirão
 diminuindo
 diminuiram
 superar
@@ -24,11 +26,13 @@ superou
 superado
 superação
 superaram
+superarão
 superando
 crescer
 cresceu
 cresce
 crescido
+crescerão
 cresceram
 crescendo
 crescimento
@@ -38,30 +42,36 @@ elevou
 elevado
 elevação
 elevando
+elevarão
 elevaram
 duplicar
 duplicou
 duplicado
+duplicarão
 duplicando
 duplicaram
 triplicar
 triplicou
 triplicado
+triplicarão
 triplicando
 triplicaram
 quadruplicar
 quadruplicou
 quadruplicado
+quadruplicarão
 quadruplicando
 quadruplicaram
 quintuplicar
 quintuplicou
 quintuplicado
+quintuplicarão
 quintuplicando
 quintuplicaram
 acentuar
 acentuou
 acentuado
+acentuarão
 acentuando
 acentuação
 acentuaram
@@ -69,6 +79,7 @@ melhorar
 melhora
 melhorou
 melhorado
+melhorarão
 melhorando
 melhoraram
 melhoramento
@@ -83,18 +94,21 @@ retrocede
 retrocedeu
 retrocesso
 retrocedido
+retrocederão
 retrocedendo
 retrocederam
 baixar
 baixa
 baixou
 baixado
+baixarão
 baixando
 baixaram
 decrescer
 decresce
 decresceu
 decrescido
+decrescerão
 decrescendo
 decresceram
 decrescimento
@@ -103,24 +117,28 @@ reduz
 redução
 reduziu
 reduzido
+reduzirão
 reduzindo
 reduziram
 encolher
 encolhe
 encolheu
 encolhido
+encolherão
 encolhendo
 encolhimento
 encolheram
 abrandar
 abrandou
 abrandado
+abrandarão
 abrandando
 abrandaram
 abrandamento
 amenizar
 amenizou
 amenizado
+amenizarão
 amenização
 amenizando
 amenizaram
@@ -128,6 +146,7 @@ enfraquecer
 enfraquece
 enfraqueceu
 enfraquecido
+enfraquecerão
 enfraquecendo
 enfraquecimento
 enfraqueceram
@@ -135,6 +154,7 @@ ceder
 cede
 cedeu
 cedido
+cederão
 cedendo
 cederam
 
@@ -161,20 +181,29 @@ R$ 10.000,00
 R$ 2 mil
 bilhões, milhões, mil
 
--> Contexto do preço: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois]
+-> Contexto do preço ou mesmo da porcentagem: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois]
 * contexto de faturamento da empresa [errado]
 faturar
 fatura
 faturou
 faturado
+faturarão
 faturando
 faturaram
 faturamento
 ganhar
 ganho
 ganhou
+ganharão
 ganhando
 ganharam
+vender
+vende
+venda
+vendeu
+vendido
+vendendo
+venderam
 
 * ambiguo
 valor
@@ -188,40 +217,46 @@ custo
 lançar
 lança
 lançou
-lançando
 lançado
-lançamento
+lançando
+lançarão
 lançaram
+lançamento
 anunciar
 anuncia
 anunciou
-anunciando
 anunciado
+anunciarão
+anunciando
 anunciaram
 apresentar
 apresenta
 apresentou
-apresentando
+apresentarão
 apresentado
+apresentando
 apresentaram
 divulgar
 divulga
 divulgou
 divulgado
 divulgação
+divulgarão
 divulgando
 divulgaram
 anunciar
 anuncia
 anunciou
+anunciarão
 anunciando
 anunciado
 anunciaram
 promover
 promove
 promoveu
-promovendo
 promovido
+promoverão
+promovendo
 promoveram
 promoção
 
@@ -270,5 +305,7 @@ goPro
 2560 x 1440 pixels
 2560x1440 pixels
 
--> Contexto tamanho:
+-> Contexto tamanho: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois] [pode ser plural ou não]
 projetor [não queremos]
+
+tela
