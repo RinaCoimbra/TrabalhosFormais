@@ -72,4 +72,4 @@ Com pontuação ou nao ao final
 2560x1440 pixels
 
 - Contexto tamanho:
-projeteor
+projetor
