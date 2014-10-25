@@ -70,8 +70,26 @@ baixar
 baixando
 baixado
 baixa
-baixouo
+baixou
 baixaram
+decrescer
+decrescendo
+decrescido
+decresce
+decresceu
+decresceram
+reduzir
+reduzindo
+reduzido
+reduz
+reduziu
+reduziram
+encolher
+encolhendo
+encolhido
+encolhe
+encolheu
+encolheram
 
 - Fabricante:
 empresa
