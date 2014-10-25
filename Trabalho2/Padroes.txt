@@ -166,6 +166,7 @@ bilhões, milhões, mil
 faturar
 fatura
 faturou
+faturado
 faturando
 faturaram
 faturamento
@@ -190,15 +191,43 @@ lançou
 lançando
 lançado
 lançamento
-anunciado
-apresentar
-divulgar
+lançaram
 anunciar
-introduzir
+anuncia
+anunciou
+anunciando
+anunciado
+anunciaram
+apresentar
+apresenta
+apresentou
+apresentando
+apresentado
+apresentaram
+divulgar
+divulga
+divulgou
+divulgado
+divulgação
+divulgando
+divulgaram
+anunciar
+anuncia
+anunciou
+anunciando
+anunciado
+anunciaram
 promover
+promove
+promoveu
+promovendo
+promovido
+promoveram
+promoção
 
 -> Ano:
 neste ano
+nesse ano
 ano atual
 [primeiro, segundo, ...] [trimestre, semestre, metade] de 2012
 
