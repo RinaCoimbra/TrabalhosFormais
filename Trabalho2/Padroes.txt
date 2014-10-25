@@ -229,26 +229,41 @@ promoção
 neste ano
 nesse ano
 ano atual
+ano corrente
+ano presente
+atual ano
+corrente ano
+presente ano
+ano passado
+ano anterior
+último ano
 [primeiro, segundo, ...] [trimestre, semestre, metade] de 2012
 
--> Dispositivo:
+-> Dispositivo: [começando com letra maiúscula ou não] [com pontuação opicional antes ou depois] [pode ser plural ou não]
+iPod
+iPad
+iPhone
 tablet
 smartphone
+celular
+TV
 smartTV
 televisão
-TV
+televisor
 desktop
+computador de mesa
+computador portátil
 notebook
 laptop
 câmera
-televisor
+câmera digital
+câmera fotográfica
 goPro
-Começando ou nao com letra maiuscula
-Com pontuação ou nao ao final
 
--> Tamanho:
+-> Tamanho: [com pontuação opicional antes ou depois]
 13 polegadas
 4,7 polegadas
+4.7 polegadas
 8 a 10 polegadas
 8 e 10 polegadas
 8 ou 10 polegadas
@@ -256,4 +271,4 @@ Com pontuação ou nao ao final
 2560x1440 pixels
 
 -> Contexto tamanho:
-projetor
+projetor [não queremos]
