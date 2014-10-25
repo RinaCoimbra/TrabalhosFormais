@@ -6,12 +6,22 @@ pontuação ao final
 
 - Variação:
 Aumento
+Aumentou
+Aumentando
 diminuição
+diminuiu
+diminuindo
 mais
 menos
 superar
+superou
+superando
 crescimento
-Queda
+cresceu
+caiu
+caindo
+cair
+queda
 
 - Fabricante:
 empresa
