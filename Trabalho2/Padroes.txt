@@ -4,24 +4,32 @@
 23.4%
 pontuação ao final
 
-- Variação:
-Aumento
-Aumentou
-Aumentando
+- Variação: [começando com letra maiúscula ou não]
+aumento
+aumentou
+aumentado
+aumentando
 diminuição
 diminuiu
+diminuído
 diminuindo
 mais
 menos
 superar
+superado
 superou
 superando
 crescimento
 cresceu
+crescer
 caiu
 caindo
 cair
 queda
+duplicou
+triplicou
+quadruplicou
+quintuplicou
 
 - Fabricante:
 empresa
