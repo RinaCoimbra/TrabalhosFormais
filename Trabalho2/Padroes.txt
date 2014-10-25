@@ -13,6 +13,10 @@ superar
 crescimento
 Queda
 
+- Fabricante:
+empresa
+fabricante
+
 - Preço:
 100 reais
 100.00 reais
