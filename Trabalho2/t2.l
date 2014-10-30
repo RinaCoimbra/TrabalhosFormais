@@ -10,7 +10,7 @@
 %}
 
 /*Definição de Fabricante*/
-FABRICANTE LG|Dazz|Positivo|Samsung|Alcatel-Lucent|ASUS|Canon|Alcatel|BenQ|BlackBerry|Blu|Ericsson|High|Huawei|IGB|Jolla|Kyocera|Lenovo|LG|Microsoft|Motorola|Multilaser|NEC|Nokia|Palm|Pantech|Samsung|Sanyo|Sharp|Sony|Toshiba|Vertu|ZTE|HTC|Aple|Casio|CCE|Dynacom|GE|Semp|TCE|AOC|AUO|Chimei|Era|Great|Proton|Sinai|Tatung|Ultmost|Viewsonic|Vizio|Changhong|Funai|Haier|Hisense|Konka|Panda|Skyworth|TCL|TPV|Xoceco|JVC|Mitsubishi|Panasonic|Blaupunkt|Grundig|Loewe|Telefunken|Insignia|Westinghouse|Philips|Thomson|SIM2|Vestel
+FABRICANTE (LG|Dazz|Positivo|Samsung|Alcatel-Lucent|ASUS|Canon|Alcatel|BenQ|BlackBerry|Blu|Ericsson|High|Huawei|IGB|Jolla|Kyocera|Lenovo|Microsoft|Motorola|Multilaser|NEC|Nokia|Palm|Pantech|Samsung|Sanyo|Sharp|Sony|Toshiba|Vertu|ZTE|HTC|Aple|Casio|CCE|Dynacom|GE|Semp|TCE|AOC|AUO|Chimei|Era|Great|Proton|Sinai|Tatung|Ultmost|Viewsonic|Vizio|Changhong|Funai|Haier|Hisense|Konka|Panda|Skyworth|TCL|TPV|Xoceco|JVC|Mitsubishi|Panasonic|Blaupunkt|Grundig|Loewe|Telefunken|Insignia|Westinghouse|Philips|Thomson|SIM2|Vestel)
 
 EXT_fABRICANTE Electronics‎|Eletrônica|Mobile|Mobility|Corporation|Tech|Inc|Products|Curitel|Computer|Toshiba|Sun
 
@@ -27,21 +27,26 @@ POS_DATA corrente|presente|atual|último|anterior|passado
 PREP a|A|ao|Ao|à|À|aos|Aos|às|Às|de|De|do|Do|da|Da|dos|Dos|das|Das|em|Em|no|No|na|Na|nos|Nos|nas|Nas|num|Num|numa|Numa|nuns|Nuns|numas|Numas|por|Por|pelo|Pelo|pela|Pela|pelos|Pelos|pelas|Pelas
 
 
-SIMBOLOS_MONETARIOS_PRE R$|US$
+SIMBOLOS_MONETARIOS_PRE (R$|US$)
 
 SIMBOLOS_MONETARIOS_POS reais|dólares
 
 VALOR_POS mil|milhões|milhão|bilhões|bilhão|trilhões|trilhão
 
 SPACE " "|\t
+
 %%
 
 ({PRE_DATA}{SPACE})?({ORDINAIS}{SPACE}|{ORDINAIS}{SPACE}{EXT_ORDINAIS}{SPACE})?{DATA}{POS_DATA}?		{printf("\n\t> Data: %s END\n", yytext);}	
-{FABRICANTE}{SPACE}+({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*		{printf("\n\t> Fabricante: %s END\n", yytext);}
+{FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*		{printf("\n\t> Fabricante: %s END\n", yytext);}
 
-" "([0-9])+(("."|",")([0-9])+)?"%"[^a-zA-Z0-9]				{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
-^([0-9])+(("."|",")([0-9])+)?"%"[^a-zA-Z0-9]				{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
-" "([0-9])+(("."|",")([0-9])+)?" porcento"[^a-zA-Z0-9]		{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
+([0-9])+(("."|",")([0-9])+)?"%"				{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
+([0-9])+(("."|",")([0-9])+)?" porcento"[^a-zA-Z0-9]		{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
+
+{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9])+(("."|",")([0-9]){0,2})?({SPACE}{VALOR_POS})?[^a-zA-Z0-9]	{printf("\n\t> Preco: %s END\n", yytext);}
+
+[ \t\n]	;
+
 %%
 
 char *increment(char *text, char *add){	
