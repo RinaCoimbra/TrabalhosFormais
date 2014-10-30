@@ -45,12 +45,13 @@ SPACE (" "|\t)
 (({PREP}|{PRE_DATA}|{NUM}|[0-9]{1,4}))*([^a-zA-Z0-9]{ORDINAIS}{SPACE}?)*([^a-zA-Z0-9]({DIA_SEM}{EXT_DIA}?|{P}|[0-9]{1,4}{SPACE}?{SEP}{SPACE}?[0-9]{1,2}{SPACE}?{SEP}{SPACE}?[0-9]{1,4}))+([^a-zA-Z0-9](({PREP}{SPACE})?({POS_DATA}|{P}|{ORDINAIS}|{SPACE}|[0-9]{1,4})))*[^a-zA-Z0-9]		{printf("\n\t> Período: %s END\n", yytext); return 2;}	
 {FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*								{printf("\n\t> Fabricante: %s END\n", yytext);}
 
-([0-9])+(("."|",")([0-9])+)?"%"																		{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
-([0-9])+(("."|",")([0-9])+)?" porcento"[^a-zA-Z0-9]													{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
 
-{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9])+(("."|",")([0-9]){1,2})?({SPACE}{VALOR_POS})?	{printf("\n\t> Preco: %s END\n", yytext);}
-{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})("."[0-9]{3})*((",")([0-9]){1,2})?({SPACE}{VALOR_POS})?	{printf("\n\t> Preco: %s END\n", yytext);}
-{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})(","[0-9]{3})*((".")([0-9]){1,2})?({SPACE}{VALOR_POS})?	{printf("\n\t> Preco: %s END\n", yytext);}
+([0-9])+(("."|",")([0-9])+)?"%"																							{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
+([0-9])+(("."|",")([0-9])+)?" porcento"[^a-zA-Z0-9]																		{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
+
+{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9])+((("."|",")([0-9]){2})?|(("."|",")([0-9]){1})?{SPACE}{VALOR_POS})				{printf("\n\t> Preco: %s END\n", yytext);}
+{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})("."[0-9]{3})*(((",")([0-9]){2})?|((",")([0-9]){1})?({SPACE}{VALOR_POS}))	{printf("\n\t> Preco: %s END\n", yytext);}
+{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})(","[0-9]{3})*(((".")([0-9]){2})?|((".")([0-9]){1})?({SPACE}{VALOR_POS}))	{printf("\n\t> Preco: %s END\n", yytext);}
 
 {DISPOSITIVO} {printf("\n\t> DISPOSITIVO: %s END\n", yytext);}
 %%
