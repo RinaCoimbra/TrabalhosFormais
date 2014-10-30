@@ -37,15 +37,15 @@ SPACE (" "|\t)
 
 %%
 
-({PRE_DATA}{SPACE})?({ORDINAIS}{SPACE}|{ORDINAIS}{SPACE}{EXT_ORDINAIS}{SPACE})?{DATA}{POS_DATA}?	{printf("\n\t> Data: %s END\n", yytext);}	
-{FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*								{printf("\n\t> Fabricante: %s END\n", yytext);}
+({PRE_DATA}{SPACE})?({ORDINAIS}{SPACE}|{ORDINAIS}{SPACE}{EXT_ORDINAIS}{SPACE})?{DATA}{POS_DATA}?						{printf("\n\t> Data: %s END\n", yytext);}	
+{FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*													{printf("\n\t> Fabricante: %s END\n", yytext);}
 
-([0-9])+(("."|",")([0-9])+)?"%"																		{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
-([0-9])+(("."|",")([0-9])+)?" porcento"[^a-zA-Z0-9]													{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
+([0-9])+(("."|",")([0-9])+)?"%"																							{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
+([0-9])+(("."|",")([0-9])+)?" porcento"[^a-zA-Z0-9]																		{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
 
-{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9])+(("."|",")([0-9]){1,2})?({SPACE}{VALOR_POS})?	{printf("\n\t> Preco: %s END\n", yytext);}
-{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})("."[0-9]{3})*((",")([0-9]){1,2})?({SPACE}{VALOR_POS})?	{printf("\n\t> Preco: %s END\n", yytext);}
-{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})(","[0-9]{3})*((".")([0-9]){1,2})?({SPACE}{VALOR_POS})?	{printf("\n\t> Preco: %s END\n", yytext);}
+{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9])+((("."|",")([0-9]){2})?|(("."|",")([0-9]){1})?{SPACE}{VALOR_POS})				{printf("\n\t> Preco: %s END\n", yytext);}
+{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})("."[0-9]{3})*(((",")([0-9]){2})?|((",")([0-9]){1})?({SPACE}{VALOR_POS}))	{printf("\n\t> Preco: %s END\n", yytext);}
+{SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})(","[0-9]{3})*(((".")([0-9]){2})?|((".")([0-9]){1})?({SPACE}{VALOR_POS}))	{printf("\n\t> Preco: %s END\n", yytext);}
 
 %%
 
