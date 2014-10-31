@@ -39,7 +39,7 @@ FRASE: O smartwatch roda sistema operacional Android Wear e ele oferece um displ
 ------------ Teste dispositivo ------------
 
 Retirado de: http://www.techtudo.com.br/noticias/noticia/2014/09/panasonic-lanca-no-brasil-tvs-mais-que-inteligentes-com-comando-de-voz.html
-A Panasonic lança três novas linhas de Smart TVs, da categoria Life+Screen, na Brasil.
+A Panasonic lança três novas linhas de Smart TVs, da categoria Life+Screen, na Brasil, sendo que o modelo de 32 polegadas HD custa R$ 1.199, o de 39 polegadas Full HD, R$ 1.699, e o maior, de 50 polegadas, também Full HD, é comercializado por R$ 3.199. 
 
 Retirado de: http://www.techtudo.com.br/noticias/noticia/2014/09/positivo-mostra-proximos-lancamentos-como-notebook-conversivel-de-r-999.html
 A empresa brasileira Positivo apresenta, na Eletrolar Show 2014, novidades de preço acessível, como notebook híbrido, desktop, tablet com Android e smartphone rival do Moto G.
