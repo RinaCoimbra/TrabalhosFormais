@@ -59,7 +59,6 @@ SPACE (" "|\t)
 
 %%
 char *increment(char *text, char *add){	
-	printf(" char: %c ", add);
 	int size = 0;
 	size = strlen(text)+strlen(add);
 	char *aux;
@@ -70,6 +69,7 @@ char *increment(char *text, char *add){
 	strcat(text,add);
 	return text;
 }
+
 int main(int argc, char *argv[])
 {
 	++argv, --argc; /* skip over program name */
@@ -85,7 +85,6 @@ int main(int argc, char *argv[])
 	while(val = yylex()) {
 		if(val==1){
 			text=increment(text,yytext);
-			/*printf(" >> yylex() retornou 1");*/
 		}
 		if(val==2){
 			FILE * fp;
