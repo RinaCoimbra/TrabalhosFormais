@@ -9,10 +9,10 @@
 #include <stdlib.h>
 
 %}
-ORDINAIS 1º|primeiro|2º|segundo|3º|terceiro|4º|quarto|5º|quinto|6º|sexto|7º|sétimo|8º|oitavo|9º|nono|10º|décimo|11º|décimo|12º|décimo|13º|14º|15º|primeira|segunda|terceira|quarta|quinta|sexta|sétima|oitava|nona|décima|décima|décima
+ORDINAIS (1º|primeiro|2º|segundo|3º|terceiro|4º|quarto|5º|quinto|6º|sexto|7º|sétimo|8º|oitavo|9º|nono|10º|décimo|11º|décimo|12º|décimo|13º|14º|15º|primeira|segunda|terceira|quarta|quinta|sexta|sétima|oitava|nona|décima|décima|décima)
 
 /*Definição de data (rel. a % de variação da venda)*/
-PRE_DATA corrente|presente|atual|último|Último|últimos|Últimos|última|Última|últimas|Últimas|desde|Desde|anterior|passado|passados|passada|passadas|próximo|próximos|próxima|durante|ao|longo|pré|Pré
+PRE_DATA (corrente|presente|atual|último|Último|últimos|Últimos|última|Última|últimas|Últimas|desde|Desde|anterior|passado|passados|passada|passadas|próximo|próximos|próxima|durante|ao|longo|pré|Pré)
    
 /*P: períodos:*/
 P (minuto|hora|Horas|dia|dias|quinzena|quinzenas|semana|semanas|mês|meses|semestre|semestres|trimestre|trimestres|quadrimestre|quadrimestres|período|períodos|metade|ano|anos|Janeiro|janeiro|Fevereiro|fevereiro|Março|março|Abril|abril|Maio|maio|Junho|junho|Julho|julho|Agosto|agosto|Setembro|setembro|Outubro|outubro|Novembro|novembro|Dezembro|dezembro)
@@ -26,7 +26,7 @@ PREP (a|A|o|O|os|Os|ao|Ao|à|À|aos|Aos|às|Às|de|De|do|Do|da|Da|dos|Dos|das|Da
 SEP (\/|do|de|-)
 
 /*Definição de Fabricante*/
-FABRICANTE (LG|Dazz|Positivo|Samsung|Alcatel-Lucent|ASUS|Canon|Alcatel|BenQ|BlackBerry|Blu|Ericsson|High|Huawei|IGB|Jolla|Kyocera|Lenovo|Microsoft|Motorola|Multilaser|NEC|Nokia|Palm|Pantech|Samsung|Sanyo|Sharp|Sony|Toshiba|Vertu|ZTE|HTC|Aple|Casio|CCE|Dynacom|GE|Semp|TCE|AOC|AUO|Chimei|Era|Great|Proton|Sinai|Tatung|Ultmost|Viewsonic|Vizio|Changhong|Funai|Haier|Hisense|Konka|Panda|Skyworth|TCL|TPV|Xoceco|JVC|Mitsubishi|Panasonic|Blaupunkt|Grundig|Loewe|Telefunken|Insignia|Westinghouse|Philips|Thomson|SIM2|Vestel)
+FABRICANTE (LG|Dazz|Positivo|Samsung|Alcatel-Lucent|ASUS|Canon|Alcatel|BenQ|BlackBerry|Blu|Ericsson|High|Huawei|IGB|Jolla|Kyocera|Lenovo|Microsoft|Motorola|Multilaser|NEC|Nokia|Palm|Pantech|Samsung|Sanyo|Sharp|Sony|Toshiba|Vertu|ZTE|HTC|Apple|Casio|CCE|Dynacom|GE|Semp|TCE|AOC|AUO|Chimei|Era|Great|Proton|Sinai|Tatung|Ultmost|Viewsonic|Vizio|Changhong|Funai|Haier|Hisense|Konka|Panda|Skyworth|TCL|TPV|Xoceco|JVC|Mitsubishi|Panasonic|Blaupunkt|Grundig|Loewe|Telefunken|Insignia|Westinghouse|Philips|Thomson|SIM2|Vestel)
 
 EXT_fABRICANTE (Electronics‎|Eletrônica|Mobile|Mobility|Corporation|Tech|Inc|Products|Curitel|Computer|Toshiba|Sun)
 
@@ -40,7 +40,6 @@ SPACE (" "|\t)
 %%
 [ \t\n]+	; 	/* eat up white space */
 
-
 (({PREP}|{PRE_DATA}|{NUM}|[0-9]{1,4}))*([^a-zA-Z0-9]{ORDINAIS}{SPACE}?)*([^a-zA-Z0-9]({DIA_SEM}{EXT_DIA}?|{P}|[0-9]{1,4}{SPACE}?{SEP}{SPACE}?[0-9]{1,2}{SPACE}?{SEP}{SPACE}?[0-9]{1,4}))+([^a-zA-Z0-9](({PREP}{SPACE})?({POS_DATA}|{P}|{ORDINAIS}|{SPACE}|[0-9]{1,4})))*[^a-zA-Z0-9]		{printf("\n\t> Período: %s END\n", yytext); return 2;}	
 {FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*													{printf("\n\t> Fabricante: %s END\n", yytext);}
 
@@ -50,8 +49,6 @@ SPACE (" "|\t)
 {SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9])+((("."|",")([0-9]){2})?|(("."|",")([0-9]){1})?{SPACE}{VALOR_POS})				{printf("\n\t> Preco: %s END\n", yytext);}
 {SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})("."[0-9]{3})*(((",")([0-9]){2})?|((",")([0-9]){1})?({SPACE}{VALOR_POS}))	{printf("\n\t> Preco: %s END\n", yytext);}
 {SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})(","[0-9]{3})*(((".")([0-9]){2})?|((".")([0-9]){1})?({SPACE}{VALOR_POS}))	{printf("\n\t> Preco: %s END\n", yytext);}
-
-
 
 %%
 char *increment(char *text, char *add){	
