@@ -1,3 +1,5 @@
+------------ Teste datas -------------
+
 O IDC prevê que as vendas de tablets devem superar a de notebooks ao longo de 2014.
 Vendas de tablets superarão as de computadores de mesa em 2013, diz estudo.
 No Brasil, a venda de tablets cresceu 171% em 2012, de acordo com estudo da IDC divulgado nesta terça-feira.
@@ -6,3 +8,38 @@ Só este ano, as vendas de smartphones da coreana Samsung ultrapassaram as da Ap
 A Google confirmou através de seu blog oficial que, além de seus novos tablets e smartphones, os dispositivos da geração anterior também estarão aptos a atualizar a versão de seu OS. Ainda não uma data específica, mas sabemos que acontecerá nas próximas semanas.
 Em 12 de dezembro de 2014 a Samsung lançará seu novo smartphone da linha Galaxy S, com isso a empresa espera aumentar as vendas em 34% no primeiro trimestre de 2015.
 Em 12/09/2014 a Sony lançou sua mais recente aposta em dispositivos móveis, porém quase três meses depois ainda não notou-se crescimento no faturamento da empresa no setor.
+
+------------ Teste preco -------------
+
+Precisa justificar no relatório que só usamos real e dolar porque não tem outra moeda nas notícias.
+
+Retirado de: http://gizmodo.uol.com.br/lenovo-yoga-tablet-2-pro-oficial/
+FRASE: O tablet roda Android 4.4 KitKat e custará US$ 499 quando for lançado no final de outubro.
+
+Retirado de: http://tecnologia.uol.com.br/noticias/redacao/2014/10/01/nokia-lanca-novos-lumia-por-a-partir-de-r-699-com-foco-em-selfies.htm
+FRASE: Os aparelhos têm como destaque as câmeras e chegam às lojas brasileiras por R$ 699 (Lumia 730), R$ 899 (Lumia 735) e R$ 1.199 (Lumia 830).
+
+Retirado de: http://www.techtudo.com.br/noticias/noticia/2014/09/panasonic-lanca-no-brasil-tvs-mais-que-inteligentes-com-comando-de-voz.html
+Adaptado de: A série AS700, top de linha, conta com dois modelos IPS LED Full HD, de 50 e 55 polegadas. Eles custam R$ 3.799 e R$ 5.499, respectivamente.
+FRASE: A série AS700, top de linha, conta com dois modelos IPS LED Full HD, que custam R$ 3.799 e R$ 5.499, respectivamente.
+
+Retirado de: http://www.techtudo.com.br/noticias/noticia/2014/09/canon-anuncia-powershot-sx60-camera-com-zoom-poderoso-de-65x.html
+Adaptado de: A Canon apresenta o modelo PowerShot SX60 [...] O modelo será lançado em outubro nos Estados Unidos pelo preço de US$ 549 (R$ 1,2 mil, em conversão direta).
+FRASE: A Canon apresenta o modelo PowerShot SX60, que será lançado em outubro nos Estados Unidos pelo preço de US$ 549 (R$ 1,2 mil, em conversão direta).
+
+------------ Teste tamanho ------------
+
+Retirado de: http://tecnologia.uol.com.br/noticias/redacao/2014/10/01/nokia-lanca-novos-lumia-por-a-partir-de-r-699-com-foco-em-selfies.htm
+O Lumia 830 possui sistema operacional Windows Phone 8.1, processador de quad-core de 1,2 GHz, 16 GB de memória interna, tela de 5 polegadas com Gorila Glass 3 e uma câmera PureView de 10 megapixels de resolução e estabilização óptica.
+
+Retirado de: http://www.techtudo.com.br/noticias/noticia/2014/09/moto-360-relogio-inteligente-da-motorola-ganha-preco-oficial.html
+Adaptado de: O smartwatch roda sistema operacional Android Wear e tem pulseiras em aço escovado ou em couro. Além disso, ele oferece um display LCD de 1,56 polegadas, com resolução de 320 x 290 pixels, e reforço da tecnologia Gorilla Glass 3.
+FRASE: O smartwatch roda sistema operacional Android Wear e ele oferece um display LCD de 1,56 polegadas, com resolução de 320 x 290 pixels, e reforço da tecnologia Gorilla Glass 3.
+
+------------ Teste dispositivo ------------
+
+Retirado de: http://www.techtudo.com.br/noticias/noticia/2014/09/panasonic-lanca-no-brasil-tvs-mais-que-inteligentes-com-comando-de-voz.html
+A Panasonic lança três novas linhas de Smart TVs, da categoria Life+Screen, na Brasil.
+
+Retirado de: http://www.techtudo.com.br/noticias/noticia/2014/09/positivo-mostra-proximos-lancamentos-como-notebook-conversivel-de-r-999.html
+A empresa brasileira Positivo apresenta, na Eletrolar Show 2014, novidades de preço acessível, como notebook híbrido, desktop, tablet com Android e smartphone rival do Moto G.

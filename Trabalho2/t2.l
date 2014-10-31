@@ -46,7 +46,7 @@ VALOR_POS (mil|milh(o|õ)es|milh(a|ã)o|bilh(o|õ)es|bilh(a|ã)o|trilh(o|õ)es|t
 
 /* ------------ Dispositivo ------------ */
 
-DISPOSITIVO (iPod(s)?|iPad(s)?|iPhone(s)?|(t|T)ablet(s)?|(s|S)martphone(s)?|(c|C)elular(es)?|TV(s)?|(s|S)martTV(s)?|(t|T)elevis(a|ã)o|(t|T)elevisor(es?)|(d|D)esktop(s)?|(c|C)omputador(es)?" "de" "mesa|(c|C)omputador(es?)" "port(a|á)t(il|eis)|(n|N)otebook(s)?|(l|L)aptop(s)?|(c|C)(a|â)mera(s)?(" "((d|D)igita(l|is)|(f|F)otogr(a|a)fica(s)?))?|goPro(s)?)
+DISPOSITIVO (iPod(s)?|iPad(s)?|iPhone(s)?|(t|T)ablet(s)?|(s|S)martwatch(es)?|(s|S)martphone(s)?|(c|C)elular(es)?|TV(s)?|(s|S)mart(" ")?TV(s)?|(t|T)elevis(a|ã)o|(t|T)elevisor(es?)|(d|D)esktop(s)?|(c|C)omputador(es)?" "de" "mesa|(c|C)omputador(es?)" "port(a|á)t(il|eis)|(n|N)otebook(s)?|(l|L)aptop(s)?|(c|C)(a|â)mera(s)?(" "((d|D)igita(l|is)|(f|F)otogr(a|a)fica(s)?))?|goPro(s)?)
 
 /* ------------- Auxiliares ------------ */
 
