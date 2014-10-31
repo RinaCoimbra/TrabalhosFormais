@@ -17,14 +17,14 @@ EXT_ORD (primeir(o|a)|segund(o|a)|terceir(o|a)|quart(o|a)|quint(o|a)|sext(o|a)|s
 PRE_DATA (corrente|presente|atual|último|Último|últimos|Últimos|última|Última|últimas|Últimas|desde|Desde|anterior|passado|passados|passada|passadas|próximo|próximos|próxima|durante|ao|longo|pré|Pré|final|(s|S)ó)
    
 /*P: períodos:*/
-P (minuto|hora|Horas|dia|dias|quinzena|quinzenas|semana|semanas|mês|meses|semestre|semestres|trimestre|trimestres|quadrimestre|quadrimestres|período|períodos|metade|ano|anos|Janeiro|janeiro|Fevereiro|fevereiro|Março|março|Abril|abril|Maio|maio|Junho|junho|Julho|julho|Agosto|agosto|Setembro|setembro|Outubro|outubro|Novembro|novembro|Dezembro|dezembro)
-POS_DATA (corrente|presente|atual|anterior|próximo|próxima|passado|passados|passada|passadas|último|Último|últimos|Últimos|última|Última|últimas|Últimas)
+P (minuto|hora|Horas|dia|dias|quinzena|quinzenas|semana|semanas|mês|meses|semestre|semestres|trimestre|trimestres|quadrimestre|quadrimestres|período|períodos|metade|ano|anos|Janeiro|janeiro|Fevereiro|fevereiro|Março|março|Abril|abril|Maio|maio|Junho|junho|Julho|julho|Agosto|agosto|Setembro|setembro|Outubro|outubro|Novembro|novembro|Dezembro|dezembro|(H|h)oje|(A|a)manhã|(O|o)ntem)
+POS_DATA (corrente|presente|atual|anterior|próximo|próxima|passado|passados|passada|passadas|último|Último|últimos|Últimos|última|Última|últimas|Últimas|vem)
 NUM (zero|um|dois|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze|treze|quatorze|catorze|quinze|dezesseis|dezessete|dezoito|dezenove|vinte|vinte|vinte|trinta|trinta)
 DIA_SEM (segunda|terça|quarta|quinta|sexta|sábado|domingo)
 EXT_DIA (-feira)
 
 /*Preposições*/
-PREP (a|A|o|O|os|Os|ao|Ao|à|À|aos|Aos|às|Às|de|De|do|Do|da|Da|dos|Dos|das|Das|deste|Deste|destes|Destes|em|Em|no|No|na|Na|nos|Nos|nas|Nas|nesta|Nesta|neste|Neste|num|Num|numa|Numa|nuns|Nuns|numas|Numas|por|Por|pelo|Pelo|pela|Pela|pelos|Pelos|pelas|Pelas)
+PREP (a|A|o|O|os|Os|ao|Ao|à|À|aos|Aos|às|Às|de|De|do|Do|da|Da|dos|Dos|das|Das|este|Este|deste|Deste|destes|Destes|em|Em|no|No|na|Na|nos|Nos|nas|Nas|nesta|Nesta|neste|Neste|num|Num|numa|Numa|nuns|Nuns|numas|Numas|por|Por|pelo|Pelo|pela|Pela|pelos|Pelos|pelas|Pelas|que)
 SEP (\/|do|de|-)
 
 /*Definição de Fabricante*/
