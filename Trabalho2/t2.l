@@ -58,6 +58,7 @@ PONTOS (.|,|;)
 
 {DISPOSITIVO} {printf("\n\t> DISPOSITIVO: %s END\n", yytext);}
 
+[0-9]+("."|",")[0-9]+("polegadas"|"''") {printf("\n\t> TAMANHO DA TELA: %s END\n", yytext);}
 %%
 char *increment(char *text, char *add){	
 	int size = 0;
@@ -107,5 +108,3 @@ int yywrap()
 {
 	return 1;
 }
-
-
