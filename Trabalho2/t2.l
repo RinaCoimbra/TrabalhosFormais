@@ -10,10 +10,11 @@
 
 %}
 
-ORDINAIS 1º|primeiro|2º|segundo|3º|terceiro|4º|quarto|5º|quinto|6º|sexto|7º|sétimo|8º|oitavo|9º|nono|10º|décimo|11º|décimo|12º|décimo|13º|14º|15º|primeira|segunda|terceira|quarta|quinta|sexta|sétima|oitava|nona|décima|décima|décima
+ORDINAIS (1º|primeiro|2º|segundo|3º|terceiro|4º|quarto|5º|quinto|6º|sexto|7º|sétimo|8º|oitavo|9º|nono|10º|décimo|11º|décimo|12º|décimo|13º|14º|15º|primeira|segunda|terceira|quarta|quinta|sexta|sétima|oitava|nona|décima|décima|décima)
+EXT_ORD (primeir(o|a)|segund(o|a)|terceir(o|a)|quart(o|a)|quint(o|a)|sext(o|a)|sétim(o|a)|oitav(o|a)|non(o|a))
 
 /*Definição de data (rel. a % de variação da venda)*/
-PRE_DATA (corrente|presente|atual|último|Último|últimos|Últimos|última|Última|últimas|Últimas|desde|Desde|anterior|passado|passados|passada|passadas|próximo|próximos|próxima|durante|ao|longo|pré|Pré|final)
+PRE_DATA (corrente|presente|atual|último|Último|últimos|Últimos|última|Última|últimas|Últimas|desde|Desde|anterior|passado|passados|passada|passadas|próximo|próximos|próxima|durante|ao|longo|pré|Pré|final|(s|S)ó)
    
 /*P: períodos:*/
 P (minuto|hora|Horas|dia|dias|quinzena|quinzenas|semana|semanas|mês|meses|semestre|semestres|trimestre|trimestres|quadrimestre|quadrimestres|período|períodos|metade|ano|anos|Janeiro|janeiro|Fevereiro|fevereiro|Março|março|Abril|abril|Maio|maio|Junho|junho|Julho|julho|Agosto|agosto|Setembro|setembro|Outubro|outubro|Novembro|novembro|Dezembro|dezembro)
@@ -45,7 +46,7 @@ PONTOS (.|,|;)
 
 %%
 
-(({PREP}|{PRE_DATA}|{NUM}|[0-9]{1,4}))*([^a-zA-Z0-9]{ORDINAIS}{SPACE}?)*([^a-zA-Z0-9]({DIA_SEM}{EXT_DIA}?|{P}|[0-9]{1,4}{SPACE}?{SEP}{SPACE}?[0-9]{1,2}{SPACE}?{SEP}{SPACE}?[0-9]{1,4}|(1|2)([0-9]){3}({PONTOS}|{SPACE})))+([^a-zA-Z0-9](({PREP}{SPACE})?({POS_DATA}|{P}|{ORDINAIS}|{SPACE}|[0-9]{1,4})))*[^a-zA-Z0-9]		{printf("\n\t> Período: %s END\n", yytext); return 2;}	
+(({PREP}|{PRE_DATA}|{NUM}|[0-9]{1,4})[^a-zA-Z0-9])*({ORDINAIS}({SPACE}{EXT_ORD})?[^a-zA-Z0-9])?(({DIA_SEM}{EXT_DIA}?|{P}|[0-9]{1,4}{SPACE}?{SEP}{SPACE}?[0-9]{1,2}{SPACE}?{SEP}{SPACE}?[0-9]{1,4}|(1|2)([0-9]){3}({PONTOS}|{SPACE}))[^a-zA-Z0-9])+((({PREP}{SPACE})?({POS_DATA}|{P}|{ORDINAIS}|{SPACE}|[0-9]{1,4}))[^a-zA-Z0-9])*		{printf("\n\t> Período: %s END\n", yytext); return 2;}	
 {FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*													{printf("\n\t> Fabricante: %s END\n", yytext);}
 
 
