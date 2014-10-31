@@ -18,7 +18,7 @@ PRE_DATA (corrente|presente|atual|último|Último|últimos|Últimos|última|Últ
    
 /*P: períodos:*/
 P (minuto|hora|Horas|dia|dias|quinzena|quinzenas|semana|semanas|mês|meses|semestre|semestres|trimestre|trimestres|quadrimestre|quadrimestres|período|períodos|metade|ano|anos|Janeiro|janeiro|Fevereiro|fevereiro|Março|março|Abril|abril|Maio|maio|Junho|junho|Julho|julho|Agosto|agosto|Setembro|setembro|Outubro|outubro|Novembro|novembro|Dezembro|dezembro|(H|h)oje|(A|a)manhã|(O|o)ntem)
-POS_DATA (corrente|presente|atual|anterior|próximo|próxima|passado|passados|passada|passadas|último|Último|últimos|Últimos|última|Última|últimas|Últimas|vem)
+DATA_POS (corrente|presente|atual|anterior|próximo|próxima|passado|passados|passada|passadas|último|Último|últimos|Últimos|última|Última|últimas|Últimas|vem)
 NUM (zero|um|dois|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze|treze|quatorze|catorze|quinze|dezesseis|dezessete|dezoito|dezenove|vinte|vinte|vinte|trinta|trinta)
 DIA_SEM (segunda|terça|quarta|quinta|sexta|sábado|domingo)
 EXT_DIA (-feira)
@@ -46,7 +46,7 @@ PONTOS (.|,|;)
 
 %%
 
-(({PREP}|{PRE_DATA}|{NUM}|[0-9]{1,4})[^a-zA-Z0-9])*({ORDINAIS}({SPACE}{EXT_ORD})?[^a-zA-Z0-9])?(({DIA_SEM}{EXT_DIA}?|{P}|[0-9]{1,4}{SPACE}?{SEP}{SPACE}?[0-9]{1,2}{SPACE}?{SEP}{SPACE}?[0-9]{1,4}|(1|2)([0-9]){3}({PONTOS}|{SPACE}))[^a-zA-Z0-9])+((({PREP}{SPACE})?({POS_DATA}|{P}|{ORDINAIS}|{SPACE}|[0-9]{1,4}))[^a-zA-Z0-9])*		{printf("\n\t> Período: %s END\n", yytext); return 2;}	
+(({PREP}|{PRE_DATA}|{NUM}|[0-9]{1,4})[^a-zA-Z0-9])*({ORDINAIS}({SPACE}{EXT_ORD})?[^a-zA-Z0-9])?(({DIA_SEM}{EXT_DIA}?|{P}|[0-9]{1,4}{SPACE}?{SEP}{SPACE}?[0-9]{1,2}{SPACE}?{SEP}{SPACE}?[0-9]{1,4}|(1|2)([0-9]){3}({PONTOS}|{SPACE}))[^a-zA-Z0-9])+((({PREP}{SPACE})?({DATA_POS}|{P}|{ORDINAIS}|{SPACE}|[0-9]{1,4}))[^a-zA-Z0-9])*		{printf("\n\t> Período: %s END\n", yytext); return 2;}	
 {FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*													{printf("\n\t> Fabricante: %s END\n", yytext);}
 
 
