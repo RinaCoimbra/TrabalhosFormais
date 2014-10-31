@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 %}
+
 ORDINAIS 1º|primeiro|2º|segundo|3º|terceiro|4º|quarto|5º|quinto|6º|sexto|7º|sétimo|8º|oitavo|9º|nono|10º|décimo|11º|décimo|12º|décimo|13º|14º|15º|primeira|segunda|terceira|quarta|quinta|sexta|sétima|oitava|nona|décima|décima|décima
 
 /*Definição de data (rel. a % de variação da venda)*/
@@ -36,16 +37,17 @@ SIMBOLOS_MONETARIOS_POS (reais|d(o|ó)lares)
 
 VALOR_POS (mil|milh(o|õ)es|milh(a|ã)o|bilh(o|õ)es|bilh(a|ã)o|trilh(o|õ)es|trilh(a|ã)o)
 
+DISPOSITIVO (iPod(s)?|iPad(s)?|iPhone(s)?|(t|T)ablet(s)?|(s|S)martphone(s)?|(c|C)elular(es)?|TV(s)?|(s|S)martTV(s)?|(t|T)elevisão|(t|T)elevisor(es?)|(d|D)esktop(s)?|(c|C)omputador(es)?" "de" "mesa|(c|C)omputador(es?)" "portát(il|eis)|(n|N)otebook(s)?|(l|L)aptop(s)?|(c|C)(a|â)mera(s)?(" "((d|D)igita(l|is)|(f|F)otogr(a|a)fica(s)?))?|goPro(s)?)
+
 SPACE (" "|\t)
 
 PONTOS (.|,|;)
 
 %%
 
-
-
 (({PREP}|{PRE_DATA}|{NUM}|[0-9]{1,4}))*([^a-zA-Z0-9]{ORDINAIS}{SPACE}?)*([^a-zA-Z0-9]({DIA_SEM}{EXT_DIA}?|{P}|[0-9]{1,4}{SPACE}?{SEP}{SPACE}?[0-9]{1,2}{SPACE}?{SEP}{SPACE}?[0-9]{1,4}|(1|2)([0-9]){3}({PONTOS}|{SPACE})))+([^a-zA-Z0-9](({PREP}{SPACE})?({POS_DATA}|{P}|{ORDINAIS}|{SPACE}|[0-9]{1,4})))*[^a-zA-Z0-9]		{printf("\n\t> Período: %s END\n", yytext); return 2;}	
 {FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*													{printf("\n\t> Fabricante: %s END\n", yytext);}
+
 
 ([0-9])+(("."|",")([0-9])+)?"%"																							{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
 ([0-9])+(("."|",")([0-9])+)?" porcento"[^a-zA-Z0-9]																		{printf("\n\tA OCORRÊNCIA: %s END\n", yytext);}
@@ -54,7 +56,7 @@ PONTOS (.|,|;)
 {SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})("."[0-9]{3})*(((",")([0-9]){2})?|((",")([0-9]){1})?({SPACE}{VALOR_POS}))	{printf("\n\t> Preco: %s END\n", yytext);}
 {SIMBOLOS_MONETARIOS_PRE}{SPACE}*([0-9]{1,3})(","[0-9]{3})*(((".")([0-9]){2})?|((".")([0-9]){1})?({SPACE}{VALOR_POS}))	{printf("\n\t> Preco: %s END\n", yytext);}
 
-
+{DISPOSITIVO} {printf("\n\t> DISPOSITIVO: %s END\n", yytext);}
 
 %%
 char *increment(char *text, char *add){	
