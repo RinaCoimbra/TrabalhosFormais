@@ -69,7 +69,7 @@ PONTOS (.|,|;)
 
 {DISPOSITIVO} {printf("\n\t> DISPOSITIVO: %s END\n", yytext);}
 
-[0-9]+("."|",")[0-9]+("polegadas"|"''") {printf("\n\t> TAMANHO DA TELA: %s END\n", yytext);}
+[0-9]+(("."|",")([0-9])*)?{SPACE}?("polegadas"|"''"|"\""|"'") {printf("\n\t> TAMANHO DA TELA: %s END\n", yytext);}
 
 %%
 
