@@ -1,3 +1,16 @@
+/*
+*							TRABALHO 2 
+*    EXTRACAO DE INFORMACOES DE SENTENCAS UTILIZANDO EXPRESSOES REGULARES 				
+*   			 SSC205 - TEORIA DA COMPUTACAO E LINGUAGENS FORMAIS			
+*					 
+*	PROFA:    Sandra Aluisio
+*
+*	TEMA:	  Lançamentos de smartphones/tablets/máquina fotográfica/gps/go pro/smart tv
+*
+*	GRUPO 20: Carlos Humberto S. Baqueta
+*			  Jaqueline M. Arai
+*			  Marina Coimbra
+**/
 %{
 	/* need this for the call to atof() below */
 #include <math.h>
@@ -7,7 +20,6 @@
 #include <string.h>	
 	/* need this for file manipulation */
 #include <stdlib.h>
-
 %}
 
 /* --------------- Data --------------- */
@@ -60,71 +72,91 @@ PONTOS (.|,|;)
 
 %%
 
-(({PREP}|{PRE_DATA}|{NUM}|[0-9]{1,4})[^a-zA-Z0-9])*({ORDINAIS}({SPACE}{EXT_ORD})?[^a-zA-Z0-9])?(({DIA_SEM}{EXT_DIA}?|{P}|[0-9]{1,4}{SPACE}?{SEP}{SPACE}?[0-9]{1,2}{SPACE}?{SEP}{SPACE}?[0-9]{1,4}|(1|2)([0-9]){3}({PONTOS}|{SPACE}))[^a-zA-Z0-9])+((({PREP}{SPACE})?({DATA_POS}|{P}|{ORDINAIS}|{SPACE}|[0-9]{1,4}))[^a-zA-Z0-9])*		{printf("\n\t> Período: %s END\n", yytext); return 2;}	
+(({PREP}|{PRE_DATA}|{NUM}|[0-9]{1,4})[^a-zA-Z0-9])*({ORDINAIS}({SPACE}{EXT_ORD})?[^a-zA-Z0-9])?(({DIA_SEM}{EXT_DIA}?|{P}|[0-9]{1,4}{SPACE}?{SEP}{SPACE}?[0-9]{1,2}{SPACE}?{SEP}{SPACE}?[0-9]{1,4}|(1|2)([0-9]){3}({PONTOS}|{SPACE}))[^a-zA-Z0-9])+((({PREP}{SPACE})?({DATA_POS}|{P}|{ORDINAIS}|{SPACE}|[0-9]{1,4}))[^a-zA-Z0-9])*		{return 1;}	
 
-{FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*	{printf("\n\t> Fabricante: %s END\n", yytext);}
+{FABRICANTE}([^a-zA-Z0-9])({EXT_fABRICANTE}|{EXT_fABRICANTE}{SPACE}+)*	{return 2;}
 
-((([0-9])+(("."|",")([0-9]){1,2})?)|(([0-9]{1,3})((("."[0-9]{3})*(","([0-9]){1,2})?)|((","[0-9]{3})*("."([0-9]){1,2})?))))({SPACE}{VALOR_POS})?({SPACE}{PREPOSICOES_MONETARIAS})?{SPACE}{SIMBOLOS_MONETARIOS_POS}	{printf("\n\t> Preco: %s END\n\n", yytext);}
-{SIMBOLOS_MONETARIOS_PRE}{SPACE}*((([0-9])+(("."|",")([0-9]){1,2})?)|((([0-9]{1,3})("."[0-9]{3})*(","([0-9]){1,2})?)|(([0-9]{1,3})(","[0-9]{3})*("."([0-9]){1,2})?)))({SPACE}{VALOR_POS})?							{printf("\n\t> Preco: %s END\n\n", yytext);}
+((([0-9])+(("."|",")([0-9]){1,2})?)|(([0-9]{1,3})((("."[0-9]{3})*(","([0-9]){1,2})?)|((","[0-9]{3})*("."([0-9]){1,2})?))))({SPACE}{VALOR_POS})?({SPACE}{PREPOSICOES_MONETARIAS})?{SPACE}{SIMBOLOS_MONETARIOS_POS}	{return 3;}
+{SIMBOLOS_MONETARIOS_PRE}{SPACE}*((([0-9])+(("."|",")([0-9]){1,2})?)|((([0-9]{1,3})("."[0-9]{3})*(","([0-9]){1,2})?)|(([0-9]{1,3})(","[0-9]{3})*("."([0-9]){1,2})?)))({SPACE}{VALOR_POS})?							{return 3;}
 
-{DISPOSITIVO} {printf("\n\t> DISPOSITIVO: %s END\n", yytext);}
+{DISPOSITIVO} {return 4;}
 
-[0-9]+(("."|",")([0-9])*)?{SPACE}?("polegadas"|"''"|"\""|"'") {printf("\n\t> TAMANHO DA TELA: %s END\n", yytext);}
+[0-9]+(("."|",")([0-9])*)?{SPACE}?("polegadas"|"''"|"\""|"'"|"″")	{return 5;}
 
 %%
 
-char *increment(char *text, char *add){	
-	int size = 0;
-	size = strlen(text)+strlen(add);
-	char *aux;
-	aux = malloc( (strlen(text)+1) * sizeof (char));
-	strcpy(aux,text);
-	text = malloc( (size+1) * sizeof (char));
-	strcpy(text,aux);
-	strcat(text,add);
-	return text;
-}
-
 int main(int argc, char *argv[])
 {
-	++argv, --argc; /* skip over program name */
-
-	if (argc > 0)
-		yyin = fopen(argv[0], "r");
-	else
-		yyin = stdin;
-
+	FILE *fp;
+	FILE *fp_in;
+	FILE *fp_trash;
 	int val = 0;
-	int arg = 1;	
-	char *text;
-	text = malloc( 1 * sizeof (char));
-	text[0] = '\0';
+	int len = 0;	
+	int num_exp=0;
+	char text[100];
+	char periodo[] = {'P', 'e', 'r', 'i', 'o', 'd', 'o', 0};
+	char fabricante[] = {'F', 'a', 'b', 'r', 'i', 'c', 'a', 'n', 't', 'e', 0};
+	char preco[] = {'P', 'r', 'e', 'c', 'o', 0};
+	char dispositivo[] = {'D', 'i', 's', 'p', 'o', 's', 'i', 't', 'i', 'v', 'o', 0};
+	char tam_tela[] = {'T', 'a', 'm', 'a', 'n', 'h', 'o', ' ', 'd', 'a', ' ', 't', 'e', 'l', 'a', 0};
+	char str[100];
+
+	++argv, --argc; /* skip over program name */
+	if (argc > 1){
+		num_exp = atoi(argv[0]); // Numero do experimento/teste
+		fp_in = fopen(argv[1], "r");
+	} else {
+		// imprime algum erro ...
+	}
+
+	fp = fopen ("extraction.out", "a+");
+	fprintf(fp, "\n__________________________________________________________________________________");
+	fprintf(fp, "\n > Teste %d\n", num_exp);
+	fprintf(fp, "\tSentença:\n\n\t");
+
+	while( (fscanf (fp_in, "%s", str)) != EOF){
+		fprintf(fp, " %s", str);
+	}
+	fprintf(fp, "\n\n\tExtração:\n");
+
+	rewind(fp_in);
+	yyin = fp_in;
+
+	/* Manda a saida do flex para o arquivo trash.out a fim de evitar imprimir lixo na tela */
+	fp_trash = fopen ("trash.out", "w+");
+	yyout = fp_trash;
+
+	if(num_exp == 1)
+		printf("\n Extraindo dados....\n");
+
 
 	while(val = yylex()) {
+		if(val == 1){ // Casou com o padrão de data
+			strncpy(text, yytext, 100);
+			len = strlen(text);
+			text[len-1] = '\0';
+			fprintf(fp, "\n\t %s: %s", periodo, text);
+		} else if(val == 2){ // Casou com o padrão de fabricante
+			fprintf(fp, "\n\t %s: %s", fabricante, yytext);
+		} else if(val == 3){ // Casou com o padrão de preco
+			fprintf(fp, "\n\t %s: %s", preco, yytext);
+		} else if(val == 4){ // Casou com o padrão de dispositivo
+			fprintf(fp, "\n\t %s: %s", dispositivo, yytext);
+		} else if(val == 5){ // Casou com o padrão de tamanho de tela
+			fprintf(fp, "\n\t %s: %s", tam_tela, yytext);
+		} 			 		
+	}
 
-		if(val==1){
-			text=increment(text,yytext);
-		}
+	if(num_exp == 12){
+		fprintf(fp, "\n\n");
+		printf("\n Terminado.\n");
+		printf("\n Digite \"make showresults\" ou acesse o arquivo extraction.out para ver os resultados da extração.\n\n");
+	}
 
-		if(val==2){
-			FILE * fp;
-			
-			if(arg==1){
-				fp = fopen ("extraction.txt", "w+");
-			}
-
-			else{
-				fp = fopen ("extraction.txt", "a");
-			}							
-			
-			fprintf(fp, "Argument %d: %s\n", arg, text);
-			fclose(fp);			
-			printf("Argument %d: %s", arg, text);
-			arg++;
-			text = malloc( 1 * sizeof (char));
-			text[0] = '\0';
-		}				 		
-	}	 
+	fclose(fp); 
+	fclose(fp_in); 
+	fclose(fp_trash); 
+	return 0;
 }
 
 int yywrap()
