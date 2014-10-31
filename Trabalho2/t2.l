@@ -14,7 +14,7 @@ ORDINAIS (1º|primeiro|2º|segundo|3º|terceiro|4º|quarto|5º|quinto|6º|sexto|
 EXT_ORD (primeir(o|a)|segund(o|a)|terceir(o|a)|quart(o|a)|quint(o|a)|sext(o|a)|sétim(o|a)|oitav(o|a)|non(o|a))
 
 /*Definição de data (rel. a % de variação da venda)*/
-PRE_DATA (corrente|presente|atual|último|Último|últimos|Últimos|última|Última|últimas|Últimas|desde|Desde|anterior|passado|passados|passada|passadas|próximo|próximos|próxima|durante|ao|longo|pré|Pré|final|(s|S)ó)
+PRE_DATA (corrente|presente|atual|último|Último|últimos|Últimos|última|Última|últimas|Últimas|desde|Desde|anterior|passado|passados|passada|passadas|próximo|próximos|próxima|próximas|durante|ao|longo|pré|Pré|final|(s|S)ó)
    
 /*P: períodos:*/
 P (minuto|hora|Horas|dia|dias|quinzena|quinzenas|semana|semanas|mês|meses|semestre|semestres|trimestre|trimestres|quadrimestre|quadrimestres|período|períodos|metade|ano|anos|Janeiro|janeiro|Fevereiro|fevereiro|Março|março|Abril|abril|Maio|maio|Junho|junho|Julho|julho|Agosto|agosto|Setembro|setembro|Outubro|outubro|Novembro|novembro|Dezembro|dezembro|(H|h)oje|(A|a)manhã|(O|o)ntem)
@@ -28,7 +28,7 @@ PREP (a|A|o|O|os|Os|ao|Ao|à|À|aos|Aos|às|Às|de|De|do|Do|da|Da|dos|Dos|das|Da
 SEP (\/|do|de|-)
 
 /*Definição de Fabricante*/
-FABRICANTE (LG|Dazz|Positivo|Samsung|Alcatel-Lucent|ASUS|Canon|Alcatel|BenQ|BlackBerry|Blu|Ericsson|High|Huawei|IGB|Jolla|Kyocera|Lenovo|Microsoft|Motorola|Multilaser|NEC|Nokia|Palm|Pantech|Samsung|Sanyo|Sharp|Sony|Toshiba|Vertu|ZTE|HTC|Apple|Casio|CCE|Dynacom|GE|Semp|TCE|AOC|AUO|Chimei|Era|Great|Proton|Sinai|Tatung|Ultmost|Viewsonic|Vizio|Changhong|Funai|Haier|Hisense|Konka|Panda|Skyworth|TCL|TPV|Xoceco|JVC|Mitsubishi|Panasonic|Blaupunkt|Grundig|Loewe|Telefunken|Insignia|Westinghouse|Philips|Thomson|SIM2|Vestel)
+FABRICANTE (LG|Dazz|Positivo|Samsung|Google|Alcatel-Lucent|ASUS|Canon|Alcatel|BenQ|BlackBerry|Blu|Ericsson|High|Huawei|IGB|Jolla|Kyocera|Lenovo|Microsoft|Motorola|Multilaser|NEC|Nokia|Palm|Pantech|Samsung|Sanyo|Sharp|Sony|Toshiba|Vertu|ZTE|HTC|Apple|Casio|CCE|Dynacom|GE|Semp|TCE|AOC|AUO|Chimei|Era|Great|Proton|Sinai|Tatung|Ultmost|Viewsonic|Vizio|Changhong|Funai|Haier|Hisense|Konka|Panda|Skyworth|TCL|TPV|Xoceco|JVC|Mitsubishi|Panasonic|Blaupunkt|Grundig|Loewe|Telefunken|Insignia|Westinghouse|Philips|Thomson|SIM2|Vestel)
 
 EXT_fABRICANTE (Electronics‎|Eletrônica|Mobile|Mobility|Corporation|Tech|Inc|Products|Curitel|Computer|Toshiba|Sun|Inc.)
 
